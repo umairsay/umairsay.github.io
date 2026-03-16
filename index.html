@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Umair Sayeed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:     #F6F4F0;
+      --ink:    #1C1A17;
+      --mid:    #6B6760;
+      --rule:   #D8D4CC;
+      --accent: #2E3A59;
+      --card:   #EFECE6;
+      --serif:  'DM Serif Display', serif;
+      --mono:   'DM Mono', monospace;
+      --sans:   'DM Sans', sans-serif;
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 300; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+    header { padding: 5.5rem 0 3.5rem; border-bottom: 1px solid var(--rule); animation: fadeUp .55s ease both; }
+    .header-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+    .eyebrow { font-family: var(--mono); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .9rem; }
+    h1 { font-family: var(--serif); font-size: clamp(3rem,7vw,5rem); font-weight: 400; line-height: 1.0; letter-spacing: -.02em; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .tagline { margin-top: 1.1rem; font-size: .95rem; color: var(--mid); max-width: 420px; line-height: 1.75; }
+    .header-links { font-family: var(--mono); font-size: .7rem; line-height: 2.2; text-align: right; flex-shrink: 0; }
+    .header-links a { display: block; text-decoration: none; color: var(--mid); transition: color .2s; }
+    .header-links a:hover { color: var(--accent); }
+    nav { padding: 1.3rem 0; border-bottom: 1px solid var(--rule); animation: fadeUp .55s .08s ease both; }
+    nav ul { display: flex; gap: 2.5rem; list-style: none; }
+    nav a { font-family: var(--mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .2s; }
+    nav a:hover { color: var(--ink); }
+    .section { padding: 5rem 0; border-bottom: 1px solid var(--rule); animation: fadeUp .55s .14s ease both; }
+    .section:last-of-type { border-bottom: none; }
+    .section-label { font-family: var(--mono); font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); margin-bottom: 3rem; display: flex; align-items: center; gap: 1.2rem; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+    .project-card { background: var(--card); border: 1px solid var(--rule); padding: 2.8rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; transition: box-shadow .25s, transform .25s; }
+    .project-card::after { content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 100%; background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform .3s ease; }
+    .project-card:hover::after { transform: scaleY(1); }
+    .project-card:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(46,58,89,.1); }
+    .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: .5rem; }
+    .card-tag { font-family: var(--mono); font-size: .63rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); background: rgba(46,58,89,.08); padding: .22rem .6rem; border-radius: 2px; }
+    .card-year { font-family: var(--mono); font-size: .66rem; color: var(--mid); }
+    .project-title { font-family: var(--serif); font-size: 1.65rem; font-weight: 400; letter-spacing: -.01em; line-height: 1.15; margin-bottom: .5rem; }
+    .callout { border-left: 2px solid var(--accent); padding: .9rem 1.4rem; margin: 1.4rem 0; background: rgba(46,58,89,.05); }
+    .callout p { font-size: .93rem; line-height: 1.7; }
+    .chart-grid { display: grid; gap: 1rem; margin: 2rem 0; }
+    .cols-2 { grid-template-columns: 1fr 1fr; }
+    .cols-1 { grid-template-columns: 1fr; }
+    .chart-item { cursor: zoom-in; overflow: hidden; background: var(--bg); border: 1px solid var(--rule); }
+    .chart-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+    .chart-item img.contain { object-fit: contain; background: var(--bg); }
+    .chart-item.full-width { max-height: 440px; }
+    .chart-item:hover img { transform: scale(1.03); }
+    .chart-caption { font-family: var(--mono); font-size: .62rem; letter-spacing: .06em; color: var(--mid); text-transform: uppercase; padding: .5rem .7rem; background: var(--card); border-top: 1px solid var(--rule); }
+    .finding-line { font-size: .88rem; color: var(--mid); font-style: italic; line-height: 1.6; margin: .5rem 0 0; }
+    .stack { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1.8rem 0 1.2rem; }
+    .stack span { font-family: var(--mono); font-size: .62rem; letter-spacing: .07em; color: var(--mid); border: 1px solid var(--rule); padding: .18rem .5rem; border-radius: 2px; }
+    .card-links { display: flex; gap: 1.5rem; align-items: center; }
+    .link-main { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .link-main:hover { color: var(--accent); border-color: var(--accent); }
+    .soon-card { border: 1px dashed var(--rule); padding: 1.8rem 2.8rem; margin-bottom: 1.5rem; opacity: .5; }
+    .soon-label { font-family: var(--mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mid); margin-bottom: .3rem; }
+    .soon-title { font-family: var(--serif); font-size: 1.3rem; color: var(--mid); }
+    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { font-size: .95rem; color: var(--mid); line-height: 1.85; margin-bottom: 1rem; }
+    .about-text p strong { color: var(--ink); font-weight: 500; }
+    .fact-table { font-family: var(--mono); font-size: .7rem; }
+    .fact-row { display: flex; justify-content: space-between; gap: 1rem; padding: .75rem 0; border-bottom: 1px solid var(--rule); }
+    .fact-row:first-child { border-top: 1px solid var(--rule); }
+    .fact-label { color: var(--mid); text-transform: uppercase; letter-spacing: .1em; }
+    .fact-value { color: var(--ink); text-align: right; }
+    footer { padding: 3rem 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-family: var(--mono); font-size: .66rem; color: var(--mid); }
+    .footer-links { display: flex; gap: 1.8rem; }
+    .footer-links a { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--ink); }
+    #lightbox { display: none; position: fixed; inset: 0; background: rgba(28,26,23,.93); z-index: 999; align-items: center; justify-content: center; cursor: zoom-out; padding: 2rem; }
+    #lightbox.open { display: flex; }
+    #lightbox img { max-width: 92vw; max-height: 90vh; object-fit: contain; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width: 660px) {
+      .header-row { flex-direction: column; align-items: flex-start; }
+      .header-links { text-align: left; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cols-2 { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="header-row">
+      <div>
+        <p class="eyebrow">Portfolio</p>
+        <h1>Umair<br><em>Sayeed</em></h1>
+        <p class="tagline">my sandbox.</p>
+      </div>
+      <div class="header-links">
+        <a href="mailto:umair.sayeed.051@gmail.com">umair.sayeed.051@gmail.com</a>
+        <a href="https://github.com/umairsay" target="_blank">github.com/umairsay</a>
+        <a href="CV.pdf" target="_blank">CV ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="mailto:umair.sayeed.051@gmail.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="section" id="work">
+    <p class="section-label">Work</p>
+    <div id="projects-container"></div>
+    <div class="soon-card">
+      <p class="soon-label">Coming soon</p>
+      <p class="soon-title">MLS Player Valuation Tool</p>
+    </div>
+    <div class="soon-card">
+      <p class="soon-label">Coming soon</p>
+      <p class="soon-title">Next build</p>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <p class="section-label">About</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Mostly interested in football, but really anything with a cool question and an interesting method. Open to roles in <strong>sports analytics, data science, applied economics</strong>.</p>
+      </div>
+      <div class="fact-table">
+        <div class="fact-row"><span class="fact-label">Education</span><span class="fact-value">St Andrews · Drew University</span></div>
+        <div class="fact-row"><span class="fact-label">Background</span><span class="fact-value">Econ · Maths · Football</span></div>
+        <div class="fact-row"><span class="fact-label">Languages</span><span class="fact-value">English · Bengali · Spanish</span></div>
+        <div class="fact-row"><span class="fact-label">Tools</span><span class="fact-value">Python · R · SQL · Tableau</span></div>
+        <div class="fact-row"><span class="fact-label">Status</span><span class="fact-value">Building · Open to work</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="footer-copy">© 2026 Umair Sayeed</p>
+    <div class="footer-links">
+      <a href="https://github.com/umairsay" target="_blank">GitHub</a>
+      <a href="mailto:umair.sayeed.051@gmail.com">Email</a>
+      <a href="CV.pdf" target="_blank">CV</a>
+    </div>
+  </footer>
+
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="" />
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+
+  // ═══════════════════════════════════════════════════════
+  // ADD / EDIT PROJECTS HERE — copy a block to add one
+  // ═══════════════════════════════════════════════════════
+  var PROJECTS = [
+    {
+      tag: "Economics · Sports Analytics",
+      year: "2024 – 25",
+      title: "Visible Value: Wage Determination in MLS",
+      callout: "MLS doesn't pay defenders. Across every position, better defensive output is associated with <strong>lower</strong> wages. Attack and progression are rewarded. Defense is invisible to the market.",
+      description: "440 outfield players, 2024 MLS season. FBref performance data, MLSPA salaries, Google Trends popularity. Fixed-effects panel regressions with clustered standard errors.",
+      charts: [
+        { cols: 2, items: [
+          { file: "logs.png", alt: "Log Salary by Roster Designation", caption: "Salary by roster designation", finding: "Label precedes labor. Designated Players earn ~4x a regular roster player before a single action is counted." },
+          { file: "perf.png", alt: "Performance Components vs Log Salary", caption: "Performance components vs salary", finding: "Four components slope up. One slopes down." }
+        ]},
+        { cols: 2, items: [
+          { file: "def.png", alt: "Defense Score vs Log Salary by Position", caption: "Defense score vs salary — by position", finding: "Five positions. Five negative slopes. No exceptions. Defend more, earn less(?!)" },
+          { file: "overall.png", alt: "Overall Performance vs Log Salary", caption: "Overall performance vs salary", finding: "Messi top right, Afrifa bottom right. Busquets top left. The gap between the line and where players sit is the market's mispricing." }
+        ]},
+        { cols: 2, items: [
+          { file: "pop.png", alt: "Popularity vs Log Salary by Roster Designation", caption: "Popularity vs salary — by designation", finding: "Fame pays — but only for Designated Players. For everyone else, more Google searches barely moves the needle." },
+          { file: "marginal.png", alt: "Marginal Effect of Popularity across Performance", caption: "Marginal effect of fame across performance levels", finding: "Below-average performer? Being popular hurts your wage. Above-average? Fame amplifies it. The market pays for celebrity on top of output — not instead of it." }
+        ]},
+        { cols: 1, items: [
+          { file: "m3.png", alt: "Club Fixed Effects relative to League Average", caption: "Club wage premium / discount — relative to league average", finding: "Red Bulls and Inter Miami pay the most above market. Houston and Charlotte the most below. Controlling for who they signed — this is front-office philosophy, made visible.", contain: true }
+        ]}
+      ],
+      stack: ["Python", "R", "ggplot2", "fixest", "Panel Regression", "FBref", "MLSPA Data", "Google Trends"],
+      links: [{ label: "Code on GitHub →", url: "https://github.com/umairsay" }]
+    }
+  ];
+
+  var container = document.getElementById('projects-container');
+
+  PROJECTS.forEach(function(p) {
+    var chartsHTML = '';
+    p.charts.forEach(function(row) {
+      var colClass = row.cols === 2 ? 'cols-2' : 'cols-1';
+      var itemsHTML = row.items.map(function(item) {
+        var fullWidth = row.cols === 1 ? ' full-width' : '';
+        var imgClass = item.contain ? ' class="contain"' : '';
+        return '<div>' +
+          '<div class="chart-item' + fullWidth + '" onclick="openLightbox(\'' + item.file + '\')">' +
+          '<img src="' + item.file + '" alt="' + item.alt + '"' + imgClass + ' />' +
+          '</div>' +
+          '<p class="chart-caption">' + item.caption + '</p>' +
+          (item.finding ? '<p class="finding-line">' + item.finding + '</p>' : '') +
+          '</div>';
+      }).join('');
+      chartsHTML += '<div class="chart-grid ' + colClass + '">' + itemsHTML + '</div>';
+    });
+
+    var stackHTML = '<div class="stack">' + p.stack.map(function(s) { return '<span>' + s + '</span>'; }).join('') + '</div>';
+    var linksHTML = '<div class="card-links">' + p.links.map(function(l) { return '<a href="' + l.url + '" class="link-main" target="_blank">' + l.label + '</a>'; }).join('') + '</div>';
+
+    var card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML =
+      '<div class="card-meta"><span class="card-tag">' + p.tag + '</span><span class="card-year">' + p.year + '</span></div>' +
+      '<h2 class="project-title">' + p.title + '</h2>' +
+      (p.callout ? '<div class="callout"><p>' + p.callout + '</p></div>' : '') +
+      (p.description ? '<p style="font-size:.93rem;color:var(--mid);line-height:1.75;margin-bottom:1.5rem;">' + p.description + '</p>' : '') +
+      chartsHTML + stackHTML + linksHTML;
+
+    container.appendChild(card);
+  });
+</script>
+</body>
+</html>
