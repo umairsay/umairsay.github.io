@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visible Value — Umair Sayeed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header injected from header.html -->
+  <div id="site-header"></div>
+
+  <!-- ═══════════════════════════════════════════
+       PROJECT PAGE: mls-wages.html
+       Edit the content below. Don't touch the
+       header/footer divs — those come from
+       header.html and footer.html automatically.
+  ════════════════════════════════════════════ -->
+
+  <div class="project-hero">
+    <a class="back-link" href="/">← Back</a>
+    <p class="eyebrow">Economics · Sports Analytics</p>
+    <h1>Visible Value:<br><em>Wage Determination in MLS</em></h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Year</strong>2024 – 25</div>
+      <div class="hero-meta-item"><strong>Data</strong>440 outfield players, 2024 MLS season</div>
+      <div class="hero-meta-item"><strong>Methods</strong>Fixed-effects panel regression</div>
+      <div class="hero-meta-item"><strong>Sources</strong>FBref · MLSPA · Google Trends</div>
+    </div>
+  </div>
+
+  <section class="section">
+
+    <div class="prose">
+      <p>Watch enough MLS and you'll notice something. Goals, end-to-end attacks, highlight-reel moments. The defense? Almost an afterthought. I wanted to know if the wage structure reflects that — and it does, more than I expected.</p>
+      <p>The question was simple: <strong>are players paid for how they play?</strong> The answer is yes — but only for certain kinds of play. I built a dataset combining FBref performance metrics, official MLSPA salary data, and Google Trends search volume as a proxy for public visibility. Then ran fixed-effects panel regressions to isolate what actually drives wages, controlling for age, position, experience, and club.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 1 -->
+    <div class="chart-block">
+      <h3>First, the structure</h3>
+      <div class="chart-item" onclick="openLightbox('/logs.png')">
+        <img src="/logs.png" alt="Log Salary by Roster Designation" />
+      </div>
+      <p class="chart-caption">Log salary by roster designation</p>
+      <div class="prose">
+        <p class="chart-note">Before you can understand wages in MLS, you have to understand how the league is built. It's a single-entity system — the league owns all contracts and runs a salary cap. But there are carve-outs. Designated Players are exempt from the cap entirely; clubs can sign up to three at any price. TAM and U22 slots sit in between. Regular roster players are capped regardless of how well they play.</p>
+        <p class="chart-note">The result: a DP earns roughly 4× a regular roster player before a single game is played. Designation precedes performance. That's the context everything else sits inside.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 2 -->
+    <div class="chart-block">
+      <h3>Four things the market rewards. One it doesn't.</h3>
+      <div class="chart-item" onclick="openLightbox('/perf.png')">
+        <img src="/perf.png" alt="Performance Components vs Log Salary" />
+      </div>
+      <p class="chart-caption">Performance components vs salary</p>
+      <div class="prose">
+        <p class="chart-note">Attack, creation, dribbling, progression — all slope upward. Better output, higher wage. That's what you'd expect. Then there's the defense panel. It slopes the other way. Not flat, not weak — actually negative in most specifications. Defend better, earn less. That result held across every model.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 3 — the finding -->
+    <div class="chart-block">
+      <h3>Five positions. Five negative slopes.</h3>
+      <div class="chart-item" onclick="openLightbox('/def.png')">
+        <img src="/def.png" alt="Defense Score vs Log Salary by Position" />
+      </div>
+      <p class="chart-caption">Defense score vs salary — by position</p>
+      <div class="callout">
+        <p>This is the finding. It doesn't matter what position you play. Defenders, midfielders, forwards — across all five groups, the slope is negative. The market doesn't just ignore defensive contribution. It actively discounts it.</p>
+      </div>
+      <div class="prose">
+        <p class="chart-note">It makes sense when you think about how MLS is designed. DP slots go to attackers with marquee names — Messi, Insigne, Benteke. The wage structure reflects what the league is trying to do right now, which is build a fanbase. Defense doesn't fill seats. Goals do.</p>
+        <p class="chart-note">Vicente del Bosque, who coached Sergio Busquets for Spain, once said: <em>"You watch the game, you don't see Busquets. But if you watch Busquets, you see the whole game."</em> That archetype — the defensive midfielder who orchestrates without being seen — is instrumental in the best leagues. In MLS, it earns less than average.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 4 -->
+    <div class="chart-block">
+      <h3>The names tell the story better than the numbers</h3>
+      <div class="chart-item" onclick="openLightbox('/overall.png')">
+        <img src="/overall.png" alt="Overall Performance vs Log Salary" />
+      </div>
+      <p class="chart-caption">Overall performance vs salary — red = overpaid relative to performance, blue = underpaid</p>
+      <div class="prose">
+        <p class="chart-note">Messi top right — high performance, high salary, right where you'd expect. Sergio Busquets top left — low performance score (defense-heavy player; remember the negative coefficient), enormous salary. Stephen Afrifa bottom right — one of the league's highest-performing players in 2024 on a league-minimum contract.</p>
+        <p class="chart-note">The gap between where players sit and the regression line is the market's mispricing, made visible without a single equation. Afrifa was outperforming Designated Players earning 40× his wage.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHARTS 5 + 6 -->
+    <div class="chart-block">
+      <h3>Fame pays — but only if you're already in the right tier</h3>
+      <div class="chart-grid-2">
+        <div>
+          <div class="chart-item" onclick="openLightbox('/pop.png')">
+            <img src="/pop.png" alt="Popularity vs Log Salary by Roster Designation" />
+          </div>
+          <p class="chart-caption">Popularity vs salary — by designation</p>
+        </div>
+        <div>
+          <div class="chart-item" onclick="openLightbox('/marginal.png')">
+            <img src="/marginal.png" alt="Marginal Effect of Popularity across Performance" />
+          </div>
+          <p class="chart-caption">Marginal effect of fame across performance levels</p>
+        </div>
+      </div>
+      <div class="prose">
+        <p class="chart-note">For regular roster players, Google search volume barely moves wages. For Designated Players, it compounds the premium significantly. The second chart goes further: for below-average performers, being popular actually <em>hurts</em> your salary in the model. For high performers, fame amplifies what you earn. The market doesn't pay for celebrity — it pays for celebrity on top of output.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 7 -->
+    <div class="chart-block">
+      <h3>Which clubs overpay — and which don't</h3>
+      <div class="chart-item contain" onclick="openLightbox('/m3.png')" style="max-height:460px;">
+        <img src="/m3.png" alt="Club Fixed Effects relative to League Average" />
+      </div>
+      <p class="chart-caption">Club wage premium / discount — relative to league average, controlling for squad composition</p>
+      <div class="prose">
+        <p class="chart-note">After controlling for who each club signed — performance, position, age, designation — some clubs still pay consistently above market and others below. Red Bulls and Inter Miami pay the most above. Houston and Charlotte the most below.</p>
+        <p class="chart-note">This isn't about squad quality. It's front-office philosophy baked into the numbers. Vancouver, a below-market payer, reached the Conference Final. They built on defensive organization and tactical discipline — exactly what the wage structure undervalues. The gap between market price and actual value is an opportunity for clubs willing to exploit it.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CLOSING -->
+    <div class="prose">
+      <h2>What it means</h2>
+      <p>The wage patterns in MLS aren't a market failure. They're the system working exactly as intended. MLS is young, competing against the NFL, NBA, and MLB for attention in a country that didn't grow up with the game. Before it can be world-class it needs to survive, and survival means filling stadiums. Spectacle sells. The roster rules reflect that bet.</p>
+      <p>The bet is working — new stadiums, bigger broadcast deals, record attendance. The question now is whether the league can shift from building demand to building quality. The best leagues balance elite attacking talent with strong defensive structure. MLS has the former. It systematically underinvests in the latter.</p>
+      <p>The exceptions — Vancouver, players like Sebastian Berhalter — show another path exists. Clubs that recognize value where the market doesn't are already exploiting the gap. As the league matures, more will follow. It's a matter of when, not if.</p>
+      <p>The code, data pipeline, and full regression output are on GitHub.</p>
+    </div>
+
+    <div style="margin-top:2.5rem; padding-bottom: 1rem;">
+      <a href="https://github.com/umairsay" class="link-main" target="_blank">View code on GitHub →</a>
+    </div>
+
+  </section>
+
+  <!-- Footer injected from footer.html -->
+  <div id="site-footer"></div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="" />
+</div>
+
+<script src="../includes.js"></script>
+<script>
+  function openLightbox(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
