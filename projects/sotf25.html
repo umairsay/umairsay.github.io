@@ -51,7 +51,7 @@
       <div class="prose">
         <p class="chart-note">The first thing worth testing is the assumption that these two leagues are tactically diverging. On most dimensions they are not. Possession, territory, defensive line height, and outcome quality all produce distributions that overlap so closely you could almost mistake one league for the other. The convergence is real, and it runs deeper than most commentary acknowledges.</p>
         <p class="chart-note">Two variables tell a different story. How efficiently teams progress the ball from their own half varies nearly twice as much in La Liga as in the Prem, meaning there is a much wider range of approaches to building out of the back. And where a team's defensive block sits without the ball is the only variable with a statistically significant difference between the leagues (Levene's test, p = 0.048). The Prem's spread here is striking, from Arsenal sitting at 15.1 to Crystal Palace at 27.8, a gap that reflects just how differently Prem clubs have chosen to defend.</p>
-        <p class="chart-note">So the picture is more nuanced than the simple narrative. On most dimensions the leagues are alike. Where they differ, it tends to be in how teams handle the ball under pressure and how they defend without it. Those differences turn out to matter a great deal for the individual players within each system.</p>
+        <p class="chart-note">On most dimensions the leagues are alike. Where they differ, it tends to be in how teams handle the ball under pressure and how they defend without it. Those differences turn out to matter a great deal for the individual players within each system.</p>
       </div>
     </div>
 
@@ -83,7 +83,7 @@
         <p>Barcelona and Arsenal share a cluster. Spatially they are pulling apart. Same destination, completely different journeys. That gap is where the interesting questions live.</p>
       </div>
       <div class="prose">
-        <p class="chart-note">The first principal component captures 66% of total variance and maps cleanly onto tactical dominance: possession, territory, line height, buildup quality. Barcelona sits furthest left of any team in both leagues. Man City, Arsenal, Liverpool, and Real Madrid follow at some distance. The Prem's bottom half clusters tightly toward the right, similar enough in profile to suggest that whatever is driving results there, it is not tactical differentiation.</p>
+        <p class="chart-note">The first principal component captures 66% of total variance and maps cleanly onto tactical dominance: possession, territory, line height, buildup quality. Moving left means more dominant. Barcelona sits furthest left of any team in both leagues. Man City, Arsenal, Liverpool, and Real Madrid follow at some distance. The Prem's bottom half clusters tightly toward the right, similar enough in profile to suggest that whatever is driving results there, it is not tactical differentiation.</p>
         <p class="chart-note">The second component captures shape variance, the texture of how a team plays rather than how dominant it is. Arsenal and Barcelona occupy the same cluster on PC1 but drift apart on PC2. Arsenal have an extremely low danger possession rate and high pressing metrics, a team built to win territory through intensity. Barcelona have higher possession and buildup quality, a team that wins territory through control. Both approaches produce dominance. They do not produce the same football.</p>
       </div>
     </div>
@@ -135,8 +135,59 @@
       </div>
       <p class="chart-caption">Creativity score distribution — midfielders only, both leagues</p>
       <div class="prose">
-        <p class="chart-note">Isolate midfielders and compare the two leagues on creativity and the distributional difference becomes visible. The Prem distribution is tighter and more concentrated near zero. La Liga's is wider and flatter, with a more meaningful tail extending to the right. Five La Liga midfielders reach a threshold that only two Prem midfielders match. It is a gap in frequency rather than possibility, the Prem has the players, but it does not consistently produce the conditions for them to operate this way.</p>
+        <p class="chart-note">Isolate midfielders and compare the two leagues on creativity and the distributional difference becomes visible. The Prem distribution is tighter and more concentrated near zero. La Liga's is wider and flatter, with a more meaningful tail extending to the right. La Liga dominates the upper tail of the distribution. The gap is not in the number of players who reach the elite tier but in how far the best ones go. The four La Liga midfielders in that tail sit significantly higher than their Prem counterparts. It is a gap in ceiling rather than frequency, and ceilings are set by systems as much as by individuals.</p>
         <p class="chart-note">Tom Cairney appearing at the edge of the Prem's tail is one of the quieter surprises in the data. He is not a name that comes up in conversations about elite creative midfielders, but the numbers place him there. Fulham under Marco Silva have consistently built a system that rewards exactly the kind of passing quality and positional intelligence this score captures.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 7: Positional Fluidity -->
+    <div class="chart-block">
+      <h3>Positions are suggestions</h3>
+      <div class="chart-item" onclick="openLightbox('../dom.png')">
+        <img src="../dom.png" alt="Positional Fluidity vs Territorial Dominance" />
+      </div>
+      <p class="chart-caption">Squad fluidity (% of players operating outside their positional archetype) vs territorial dominance — r = 0.796</p>
+      <div class="callout">
+        <p>The strongest correlation in the entire dataset. Squads where players regularly break positional conventions are the squads that dominate the pitch.</p>
+      </div>
+      <div class="prose">
+        <p class="chart-note">This finding came from looking at the data without a thesis in mind. Positional fluidity, measured as the share of players in a squad who regularly operate outside what their listed position would predict, correlates with territorial dominance at r = 0.796 and with outcome quality at r = 0.678. Barcelona are the most fluid squad in both leagues. Man City second. Liverpool third. Ipswich and Leicester anchor the other end.</p>
+        <p class="chart-note">Arsenal are the interesting outlier, sitting well above the trendline. They achieve significant territorial dominance with relatively low positional fluidity, every player doing a clearly defined job within a tightly organised system. That is the machine story made visible in a single dot. High output, low chaos, maximum coherence.</p>
+        <p class="chart-note">The implication is that positional rigidity is increasingly a liability at the top level. The teams that dominate are the ones that have given players permission, and the technical quality, to go beyond what their position nominally requires.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 8: The Complete Player -->
+    <div class="chart-block">
+      <h3>Two different ideas of what a footballer is</h3>
+      <div class="chart-item" onclick="openLightbox('../cpc.png')">
+        <img src="../cpc.png" alt="The Complete Player: Prem vs La Liga" />
+      </div>
+      <p class="chart-caption">Create + press + carry — z-scored within position. Three panels, three positions, same story.</p>
+      <div class="prose">
+        <p class="chart-note">The Prem produces more complete players, those who create, press, and carry the ball in combination, across all three positions. La Liga produces more specialized ones, players who do their primary role at an exceptional level without necessarily doing much else. The difference in means is small but the direction is consistent: ATT, DEF, MID all shift right for Prem players on the complete score.</p>
+        <p class="chart-note">This is not the story most people tell about the two leagues. The Prem's reputation is physicality and directness. La Liga's is technical elegance. What the data suggests is more nuanced: the Prem demands more from each player across multiple dimensions simultaneously. La Liga allows, and perhaps encourages, a purer form of positional specialization. Both are valid philosophies. They produce genuinely different footballers.</p>
+        <p class="chart-note">The MID panel is the most revealing. La Liga has a much longer right tail, driven by the handful of elite creative midfielders the previous chart identified. But the Prem's main distribution sits slightly further right of La Liga's main body. The typical Prem midfielder does more things adequately. The typical La Liga midfielder does fewer things, but sometimes one of those things is extraordinary.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 9: The Complete Midfielder -->
+    <div class="chart-block">
+      <h3>The complete midfielder</h3>
+      <div class="chart-item" onclick="openLightbox('../cmp.png')">
+        <img src="../cmp.png" alt="The Complete Midfielder: Create, Press, Carry" />
+      </div>
+      <p class="chart-caption">Top 18 midfielders by combined create + press + carry z-score — both leagues</p>
+      <div class="prose">
+        <p class="chart-note">Four La Liga players at the top, then mostly Prem. Pedri leads by a distance on a metric that combines passing threat, pressing in the opponent's half, and progressive carrying, which means he is not only the most creative midfielder in both leagues but also the most complete. The ghost who conducts play is also the workhorse nobody notices working.</p>
+        <p class="chart-note">From position five downward the list becomes overwhelmingly blue. Maddison, Ødegaard, Kulusevski, Kovacic, Bruno Guimarães, Bernardo Silva. The Prem is not short of complete midfielders. It just does not produce the elite tier of pure creative output that La Liga does at the very top. The distributions from the previous chart explain why: the Prem builds players who do everything adequately. La Liga occasionally builds someone who does one thing at a level that makes everything else feel secondary.</p>
+        <p class="chart-note">Alex Scott at Bournemouth sitting tenth on this list is the kind of thing that only shows up when you stop looking for the names you expect. He presses more than almost any midfielder in the dataset while maintaining above-average creative and carrying output. A complete player at a club nobody is writing essays about.</p>
       </div>
     </div>
 
@@ -153,7 +204,7 @@
     </div>
 
     <div style="margin-top:2.5rem; padding-bottom: 1rem;">
-      <a href="https://github.com/umairsay/solved" class="link-main" target="_blank">View code on GitHub →</a>
+      <a href="https://github.com/umairsay/sotf25" class="link-main" target="_blank">View code on GitHub →</a>
     </div>
 
   </section>
