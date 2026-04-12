@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>State of the Football 2025</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .trow { border-bottom: 1px solid var(--rule); transition: background .15s; }
+    .trow:hover { background: rgba(46,58,89,.06); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="site-header"></div>
+
+  <div class="project-hero">
+    <a class="back-link" href="/">← Back</a>
+    <p class="eyebrow">Football Analytics · Tactical Analysis</p>
+    <h1>State of the Football 2025</h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Year</strong>2024 – 25</div>
+      <div class="hero-meta-item"><strong>Data</strong>40 teams · 689 players · La Liga & Premier League</div>
+      <div class="hero-meta-item"><strong>Methods</strong>PCA · Hierarchical clustering · Z-score profiling</div>
+      <div class="hero-meta-item"><strong>Tools</strong>R · tidyverse · factoextra</div>
+    </div>
+  </div>
+
+  <section class="section">
+
+    <div class="prose">
+      <p>The Premier League is the most watched football league in the world, and most people who follow it closely will admit it has become harder to love. It is fiercely competitive, relentlessly physical, and increasingly shaped by a kind of tactical arms race where the prize goes to whoever can press harder and concede less ground. That is not a criticism so much as an observation about what hyper-competition does to a sport over time.</p>
+      <p>La Liga moves differently. Less uniform, more unpredictable in its character, and home to FC Barcelona, a club that has spent the better part of a century insisting that winning and playing beautifully are not separate goals. Whether that idea still holds up under scrutiny is part of what this project set out to examine, using a full season of advanced team and player data across both leagues.</p>
+      <p>The question underneath all of it: <strong>what does elite football actually look like right now, and where is the beauty in it?</strong></p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 1: Tactical Distributions -->
+    <div class="chart-block">
+      <h3>Are the leagues converging?</h3>
+      <div class="chart-item" onclick="openLightbox('../tactical_distributions.png')">
+        <img src="../tactical_distributions.png" alt="Tactical Distribution: La Liga vs Premier League" />
+      </div>
+      <p class="chart-caption">Tactical distributions across key variables — La Liga vs Premier League 24/25</p>
+      <div class="prose">
+        <p class="chart-note">The first thing worth testing is the assumption that these two leagues are tactically diverging. On most dimensions they are not. Possession, territory, defensive line height, and outcome quality all produce distributions that overlap so closely you could almost mistake one league for the other. The convergence is real, and it runs deeper than most commentary acknowledges.</p>
+        <p class="chart-note">Two variables tell a different story. How efficiently teams progress the ball from their own half varies nearly twice as much in La Liga as in the Prem, meaning there is a much wider range of approaches to building out of the back. And where a team's defensive block sits without the ball is the only variable with a statistically significant difference between the leagues (Levene's test, p = 0.048). The Prem's spread here is striking, from Arsenal sitting at 15.1 to Crystal Palace at 27.8, a gap that reflects just how differently Prem clubs have chosen to defend.</p>
+        <p class="chart-note">So the picture is more nuanced than the simple narrative. On most dimensions the leagues are alike. Where they differ, it tends to be in how teams handle the ball under pressure and how they defend without it. Those differences turn out to matter a great deal for the individual players within each system.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 2: Dendrogram -->
+    <div class="chart-block">
+      <h3>Four tactical tribes</h3>
+      <div class="chart-item" onclick="openLightbox('../team_clusters.png')">
+        <img src="../team_clusters.png" alt="Team Tactical Clusters" />
+      </div>
+      <p class="chart-caption">Hierarchical clustering on field tilt, outcome quality, defensive line, press resistance, buildup quality — ward.D2</p>
+      <div class="prose">
+        <p class="chart-note">Clustering all 40 teams on their tactical fingerprints produces four groups, and the distances between them are as informative as the groups themselves. The dominant possession clubs separate from everyone else early and cleanly. Below them, a large mid-table cluster spans both leagues, mixing English and Spanish sides in roughly equal measure. Below that, a lower-table cluster that skews heavily Prem. And then there is Getafe, sitting alone.</p>
+        <p class="chart-note">Getafe are worth pausing on. High defensive line, low possession, maximum aerial duels contested. They press aggressively, absorb chaos, and win more than the model would predict. There is something almost perversely principled about it. They have built a coherent identity out of a style that most clubs would consider a last resort.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 3: PCA Biplot -->
+    <div class="chart-block">
+      <h3>Where 40 teams actually live</h3>
+      <div class="chart-item" onclick="openLightbox('../team_fingerprints.png')">
+        <img src="../team_fingerprints.png" alt="Tactical Fingerprints PCA Biplot" />
+      </div>
+      <p class="chart-caption">PCA biplot — 66% of variance captured in PC1 alone</p>
+      <div class="callout">
+        <p>Barcelona and Arsenal share a cluster. Spatially they are pulling apart. Same destination, completely different journeys. That gap is where the interesting questions live.</p>
+      </div>
+      <div class="prose">
+        <p class="chart-note">The first principal component captures 66% of total variance and maps cleanly onto tactical dominance: possession, territory, line height, buildup quality. Barcelona sits furthest left of any team in both leagues. Man City, Arsenal, Liverpool, and Real Madrid follow at some distance. The Prem's bottom half clusters tightly toward the right, similar enough in profile to suggest that whatever is driving results there, it is not tactical differentiation.</p>
+        <p class="chart-note">The second component captures shape variance, the texture of how a team plays rather than how dominant it is. Arsenal and Barcelona occupy the same cluster on PC1 but drift apart on PC2. Arsenal have an extremely low danger possession rate and high pressing metrics, a team built to win territory through intensity. Barcelona have higher possession and buildup quality, a team that wins territory through control. Both approaches produce dominance. They do not produce the same football.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 4: Player Archetypes -->
+    <div class="chart-block">
+      <h3>Who is actually doing what</h3>
+      <div class="chart-item" onclick="openLightbox('../player_archetypes.png')">
+        <img src="../player_archetypes.png" alt="Player Archetypes: Creativity vs Threat Creation" />
+      </div>
+      <p class="chart-caption">Position-adjusted z-scores — creativity (pass threat + forward pass receipt + technical quality) vs threat creation (passing/crossing threat + progressive carries)</p>
+      <div class="prose">
+        <p class="chart-note">Plot every player in both leagues on creativity against threat creation, z-scored within position so comparisons hold across roles, and the top right fills up with yellow. La Liga players dominate the space where both scores are high simultaneously. Pedri sits alone at the summit with the highest creativity score of any midfielder in both leagues and a threat creation score that puts him in the top three at his position as well. What makes him unusual is not that he leads any single metric, it is that he leads in the combination. That is genuinely hard to find.</p>
+        <p class="chart-note">The best Prem midfielders are present. Ødegaard, Maddison, De Bruyne are all visible in the upper half. De Bruyne scores closest to the La Liga elite, which is perhaps unsurprising given the team he plays for. But the gap in density between the two leagues in that top-right quadrant is real and consistent, not a matter of a few exceptional individuals.</p>
+        <p class="chart-note">Trent Alexander-Arnold registers as something the position labels cannot contain. A defender competing with elite midfielders on both axes, which is either a classification problem or a testament to how genuinely unusual his profile is. Probably both. Doku is the pure threat creation outlier on the far right, a different kind of weapon entirely, one built around carrying the ball into dangerous spaces rather than finding the right pass at the right moment.</p>
+        <p class="chart-note">For the record, Elliot Anderson sits just below zero on both axes.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 5: System vs Player -->
+    <div class="chart-block">
+      <h3>Does the system produce the player?</h3>
+      <div class="chart-item" onclick="openLightbox('../system_vs_player.png')">
+        <img src="../system_vs_player.png" alt="Does the System Produce the Player?" />
+      </div>
+      <p class="chart-caption">Team territorial dominance (field tilt) vs individual creativity score — by position</p>
+      <div class="callout">
+        <p>The slope is positive across all three positions. p &lt; 0.001 in each case. The system is not neutral. It lifts players, or it suppresses them.</p>
+      </div>
+      <div class="prose">
+        <p class="chart-note">This is where the analysis gets most interesting. Team context predicts individual creativity across attackers, defenders, and midfielders, and the relationship is statistically robust in all three cases. Play for a dominant, territory-controlling side and your creativity score rises. Play for a low-field-tilt team and it falls. The gap between the elite cluster and the bottom cluster is not marginal. Players in the top group average a creativity score of 2.54. Players in the bottom group average -1.21. The same player in a different system would likely look like a different player.</p>
+        <p class="chart-note">Pedri and Frenkie de Jong both sit well above the trendline even after accounting for Barcelona's territorial dominance. The system elevates them, and they still exceed what the system alone would predict. Both things are true at once, which is a more honest answer than most debates about individual versus system credit tend to arrive at.</p>
+        <p class="chart-note">Arsenal's squad sits close to where the model predicts for a team with their field tilt. Ødegaard is the clearest exception. That reading does not diminish what Arsenal have built; a system that consistently produces results from its inputs is genuinely impressive. It just suggests a different kind of achievement than what Barcelona are doing.</p>
+        <p class="chart-note">Worth noting: the players who appear creative despite playing in non-dominant systems are some of the most interesting names in the data. Daley Blind at Girona. Bruno Guimarães at Newcastle. Players who carry something the model did not give them.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CHART 6: Creative Midfielders -->
+    <div class="chart-block">
+      <h3>Creative midfielders by league</h3>
+      <div class="chart-item" onclick="openLightbox('../midf.png')">
+        <img src="../midf.png" alt="Creative Midfielders: La Liga vs Premier League" />
+      </div>
+      <p class="chart-caption">Creativity score distribution — midfielders only, both leagues</p>
+      <div class="prose">
+        <p class="chart-note">Isolate midfielders and compare the two leagues on creativity and the distributional difference becomes visible. The Prem distribution is tighter and more concentrated near zero. La Liga's is wider and flatter, with a more meaningful tail extending to the right. Five La Liga midfielders reach a threshold that only two Prem midfielders match. It is a gap in frequency rather than possibility, the Prem has the players, but it does not consistently produce the conditions for them to operate this way.</p>
+        <p class="chart-note">Tom Cairney appearing at the edge of the Prem's tail is one of the quieter surprises in the data. He is not a name that comes up in conversations about elite creative midfielders, but the numbers place him there. Fulham under Marco Silva have consistently built a system that rewards exactly the kind of passing quality and positional intelligence this score captures.</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- CLOSING -->
+    <div class="prose">
+      <h2>Where things stand</h2>
+      <p>When you look at both leagues through this data, what emerges is not a simple story about one league being better or worse than another. It is a picture of two different bets. The Premier League has optimized for competitiveness and delivered exactly that, a league where anyone can beat anyone and where the margins at the top are genuinely small. La Liga has tolerated more tactical diversity, produced more of a specific kind of player, and at the top end is home to a club that has been making the same argument about football for decades and keeps winning with it.</p>
+      <p>But those two options, Barcelona's beauty or Arsenal's machine, are not the only choices available. The more interesting question for most clubs is what you do when neither path is realistic. You are not building a generational academy. You are not assembling a high-press system with world-class athleticism across every line. What then?</p>
+      <p>Getafe are the answer the data did not expect. They play a high defensive line with almost no possession, contest more aerial duels than anyone, and have built something coherent and competitive out of a style that most coaches would consider a last resort. Their statistical profile is so distinct that no clustering algorithm knows what to do with them. They sit alone in the spatial map, separated from every other team in both leagues. That is, in its own way, a form of identity. In a landscape where most clubs are converging toward the same solution, full commitment to being genuinely different is its own kind of advantage.</p>
+      <p>There is room in football for more than one answer. Outliers exist at the team level and at the player level. Systems do not fully explain individuals. Some players carry something that transcends their context, and some clubs find ways to compete that the prevailing logic would rule out before they tried. The game has not finished surprising people, and the data, for all that it captures, does not close that door.</p>
+      <p>The Prem proves football can be solved. Barca proves it shouldn't be.</p>
+    </div>
+
+    <div style="margin-top:2.5rem; padding-bottom: 1rem;">
+      <a href="https://github.com/umairsay/solved" class="link-main" target="_blank">View code on GitHub →</a>
+    </div>
+
+  </section>
+
+  <div id="site-footer"></div>
+
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="" />
+</div>
+
+<script src="../includes.js"></script>
+<script>
+  function openLightbox(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
