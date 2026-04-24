@@ -63,8 +63,8 @@ header {
 
 h1 {
   font-family: var(--serif);
-  font-size: clamp(3rem, 7vw, 5rem);
-  font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  font-weight: 500;
   line-height: 1.0;
   letter-spacing: -.02em;
 }
@@ -73,7 +73,9 @@ h1 em { font-style: italic; color: var(--accent); }
 
 .tagline {
   margin-top: 1.1rem;
-  font-size: .95rem;
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 300;
   color: var(--mid);
   max-width: 420px;
   line-height: 1.75;
@@ -205,8 +207,8 @@ nav a:hover { color: var(--ink); }
 
 .project-title {
   font-family: var(--serif);
-  font-size: 1.65rem;
-  font-weight: 400;
+  font-size: 1.35rem;
+  font-weight: 500;
   letter-spacing: -.01em;
   line-height: 1.15;
   margin-bottom: .6rem;
@@ -295,7 +297,9 @@ nav a:hover { color: var(--ink); }
 }
 
 .about-text p {
-  font-size: .95rem;
+  font-family: var(--mono);
+  font-size: .75rem;
+  font-weight: 300;
   color: var(--mid);
   line-height: 1.85;
   margin-bottom: 1rem;
