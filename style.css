@@ -13,7 +13,7 @@
   --rule:   #D8D4CC;
   --accent: #2E3A59;
   --card:   #EFECE6;
-  --serif:  'DM Serif Display', serif;
+  --serif:  'Lora', serif;
   --mono:   'DM Mono', monospace;
   --sans:   'DM Sans', sans-serif;
 }
@@ -452,9 +452,7 @@ footer {
 }
 
 /* ── PROSE ── */
-.prose {
-  max-width: 680px;
-}
+.prose { max-width: 680px; }
 
 .prose p {
   font-size: .97rem;

@@ -7,42 +7,24 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
 <div class="wrap">
 
-  <!-- Header + nav injected from header.html — edit that file, not here -->
   <div id="site-header"></div>
 
-  <!-- ═══════════════════════════════════════════
-       WORK
-       To add a project: copy a .project-card
-       block, point href to your new project file,
-       swap the text and preview image src.
-  ════════════════════════════════════════════ -->
   <section class="section" id="work">
     <p class="section-label">Work</p>
 
     <a class="project-card" href="pppMLS/mls-wages.html">
-      <div class="card-meta">
-        <span class="card-tag">Economics · Sports Analytics</span>
-        <span class="card-year">2024 – 25</span>
-      </div>
-      <h2 class="project-title">Visible Value: Wage Determination in MLS</h2>
-      <p class="project-summary">MLS doesn't pay defenders. Across every position, better defensive output is associated with lower wages. I built the dataset and ran the numbers to find out why — and what it says about how the league actually works.</p>
       <div class="card-thumb">
         <img src="pppMLS/chart1_scatter.png" alt="Overall Performance vs Log Salary" />
       </div>
-      <div class="stack">
-        <span>Python</span><span>R</span><span>ggplot2</span><span>fixest</span>
-        <span>Panel Regression</span><span>FBref</span><span>MLSPA Data</span><span>Google Trends</span>
-      </div>
-      <span class="card-cta">Read more →</span>
+      <h2 class="project-title">Visible Value: Wage Determination in MLS</h2>
     </a>
 
-    <!-- COMING SOON — swap these out as you build new projects -->
     <div class="soon-card">
       <p class="soon-label">Coming soon</p>
       <p class="soon-title">MLS Player Valuation Tool</p>
@@ -54,9 +36,6 @@
 
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       ABOUT — edit bio text and fact rows here
-  ════════════════════════════════════════════ -->
   <section class="section" id="about">
     <p class="section-label">About</p>
     <div class="about-grid">
@@ -74,9 +53,6 @@
       </div>
     </div>
   </section>
-
-  <!-- Footer injected from footer.html — edit that file, not here -->
-  <div id="site-footer"></div>
 
 </div>
 <script src="/includes.js"></script>
