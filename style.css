@@ -370,14 +370,14 @@ footer {
 
 .project-hero h1 {
   font-family: var(--serif);
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 400;
+  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+  font-weight: 500;
   line-height: 1.08;
   letter-spacing: -.02em;
   margin-bottom: 1.2rem;
 }
 
-.project-hero h1 em { font-style: italic; color: var(--accent); }
+.project-hero h1 em { font-style: italic; color: inherit; }
 
 .hero-meta {
   display: flex;
@@ -459,6 +459,7 @@ footer {
 .prose { max-width: 680px; }
 
 .prose p {
+  font-family: var(--serif);
   font-size: .97rem;
   color: var(--mid);
   line-height: 1.85;
