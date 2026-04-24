@@ -377,7 +377,7 @@ footer {
   margin-bottom: 1.2rem;
 }
 
-.project-hero h1 em { font-style: italic; color: inherit; }
+.project-hero h1 em { font-style: italic; color: var(--accent); }
 
 .hero-meta {
   display: flex;
@@ -404,7 +404,7 @@ footer {
 
 .chart-block h3 {
   font-family: var(--serif);
-  font-size: 1.2rem;
+  font-size: 1.45rem;
   font-weight: 400;
   margin-bottom: .4rem;
 }
@@ -470,7 +470,7 @@ footer {
 
 .prose h2 {
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: 1.85rem;
   font-weight: 400;
   color: var(--ink);
   margin: 2.5rem 0 .8rem;
