@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visible Value — Umair Sayeed</title>
+  <title>Visible Value — umairsay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -20,125 +20,156 @@
 
   <div class="project-hero">
     <a class="back-link" href="/">← Back</a>
-    <p class="eyebrow">Economics · Sports Analytics</p>
-    <h1>Visible Value:<br><em>Wage Determination in MLS</em></h1>
-    <div class="hero-meta">
-      <div class="hero-meta-item"><strong>Year</strong>2024 – 25</div>
-      <div class="hero-meta-item"><strong>Data</strong>440 outfield players, 2024 MLS season</div>
-      <div class="hero-meta-item"><strong>Methods</strong>Fixed-effects regression · Quantile regression · Mediation analysis · Ordered logit</div>
-      <div class="hero-meta-item"><strong>Sources</strong>FBref · MLSPA · Google Trends</div>
-    </div>
+    <h1>Visible Value:<br><em>Performance, Popularity & Pay in MLS</em></h1>
   </div>
 
   <section class="section">
 
     <!-- INTRO -->
     <div class="prose">
-      <p>Wages in professional football are supposed to reflect performance. The more productive you are, the more you earn — as per standard economic theory. But MLS doesn't work that way.</p>
-      <p>I analyzed 440 outfield players for the 2024 season to answer a straightforward question: <strong>are players paid for how they play?</strong></p>
-      <p>To answer it, I built a dataset combining three sources: detailed performance metrics from FBref (powered by Opta — official data provider of the English Premier League), official MLS salary and roster designation data, and a proxy for public visibility using Google Trends search volume. I then ran multiple fixed-effects panel regressions to isolate which types of performance actually drive wages. When the results kept pointing back to one variable — roster designation — I followed the chain further.</p>
+      <p>Watch enough MLS and a pattern emerges: spectacular goals, end-to-end attacks, and highlight-reel moments– game after game. But the defending? Almost an afterthought.</p>
+      <p>In most labor markets, productivity drives pay. In top football leagues, this holds. The players most valuable to their team's success are priced accordingly– regardless of position.</p>
+      <p>MLS doesn't work that way. I analyzed 440 outfield players from the 2024 season to find out why.</p>
     </div>
 
     <hr class="divider" />
 
-    <!-- SHAPLEY -->
+    <!-- WHAT THE DATA SHOWS -->
+    <div class="prose">
+      <h2>What the data shows</h2>
+      <p>Performance metrics come from FBref on a per-90 basis, salary and roster designation data from official MLS filings, and Google Trends search volume as a proxy for popularity. Multiple fixed-effects regressions isolate what actually drives wages.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- DESIGNATION DOMINATES -->
     <div class="chart-block">
-      <h3>The problem</h3>
-      <div class="chart-item" onclick="openLightbox('chart6_shapley.png')">
-        <img src="chart6_shapley.png" alt="Shapley variance decomposition: what explains MLS wages" />
+      <h3>Designation dominates</h3>
+      <div class="chart-item" onclick="openLightbox('chart1_shapley.png')">
+        <img src="chart1_shapley.png" alt="Shapley variance decomposition: what explains MLS wages" />
       </div>
       <p class="chart-caption">Shapley decomposition of log salary variance — averaged across all variable orderings</p>
       <div class="prose">
-        <p class="chart-note">MLS operates under a salary cap and uses specific roster categories that determine earning potential. Regular roster players are capped at a maximum salary regardless of performance. Homegrown Players — developed through club academies — have similar caps. Designated Players (DPs) are exempt from the cap; clubs can sign up to three at any salary. TAM (Targeted Allocation Money) and U22 Initiative slots allow clubs to pay above the cap within limits. These create wage bands that shape who gets paid and how much.</p>
-        <p class="chart-note">Unlike European leagues where clubs negotiate wages in an open market, MLS operates as a single-entity system. The league owns all player contracts, and clubs are bound by a salary cap and a roster designation system that determines who can earn what. A defensive midfielder, for example, could play every minute of every game and anchor their team's entire structure, but their wage can't rise above the cap until their contract expires and they are re-designated into a more favorable one.</p>
-        <p class="chart-note">The chart makes this concrete. With roster designation controlled for, it absorbs 36.9% of wage variance — dwarfing everything else. Performance shrinks to under 10%. Remove the control, and performance nearly doubles. Popularity does the same. Performance and popularity partly determine which slot a player gets — and the slot determines the salary. The question becomes: what determines the slot?</p>
+        <p class="chart-note">Roster designation alone accounts for 37.6% of salary variance — more than performance, popularity, and club combined. The slot a player occupies is evidently the single strongest predictor of what they earn.</p>
+        <p class="chart-note">MLS is a unique market. It operates under a salary cap with roster categories that determine earning potential. Regular players are capped regardless of performance. Homegrown Players have similar limits. Designated Players are exempt from the cap; clubs can sign up to three at any salary. TAM and U22 Initiative slots allow clubs to pay above the cap within limits. This creates distinct wage bands.</p>
+      </div>
+    </div>
+
+    <!-- DESIGNATION ABSORBS -->
+    <div class="chart-block">
+      <div class="chart-item" onclick="openLightbox('chart2_before_after.png')">
+        <img src="chart2_before_after.png" alt="Wage returns before and after controlling for roster designation" />
+      </div>
+      <p class="chart-caption">Wage return per standard deviation improvement — before (red) and after (blue) controlling for roster designation</p>
+      <div class="prose">
+        <p class="chart-note">Each dot shows how much salary increases when a player improves by one standard deviation in a given area, roughly the difference between an average player and a notably strong one in that dimension. Red captures the total relationship. Blue shows what remains once roster tier is accounted for. The gap between them is what designation absorbs.</p>
+        <p class="chart-note">Attacking output is worth about 29% more in salary before the slot enters; after, 13%. Progression falls from 23% to 14%. Creation collapses to near zero. The slot absorbs roughly half of what attacking and progressive play would otherwise earn.</p>
+        <p class="chart-note">Popularity moves the other way: it strengthens slightly once designation is controlled for. Visibility doesn't pay directly. It gets a player into the tier that pays. Outside that tier, it earns almost nothing.</p>
+        <p class="chart-note">This is not a market failure. It is the market working as MLS designed it. The "visible" hand of the league's roster rules does precisely what a free market would not: decides in advance who can be paid, and how much.</p>
       </div>
     </div>
 
     <hr class="divider" />
 
-    <!-- DEFENSE -->
+    <!-- DEFENDING DOESN'T PAY -->
     <div class="chart-block">
-      <h3>What the data shows</h3>
+      <h3>Defending doesn't pay</h3>
       <div class="chart-item" onclick="openLightbox('chart3_defense.png')">
-        <img src="chart3_defense.png" alt="Defense Score vs Log Salary by Position" />
+        <img src="chart3_defense.png" alt="Wage returns by performance dimension" />
       </div>
-      <p class="chart-caption">Defense score vs salary — by position</p>
-      <div class="callout">
-        <p>MLS rewards what's visible and exciting. What's essential to success but harder to see gets ignored — but that is precisely what wins games in top leagues, and crucially, is rewarded. Just look at the English Premier League, or any of Europe's top 5 leagues for that matter.</p>
-      </div>
+      <p class="chart-caption">Wage return per standard deviation, by performance dimension — controlling for club fixed effects</p>
       <div class="prose">
-        <p class="chart-note">Attacking output matters… a lot. Goals, shots, expected goals — these showed consistent positive associations with salary. Players who score or create high-quality chances earn more, even after controlling for age, experience, position, club budget, etc. Progressive play matters too: carrying the ball forward, completing passes into dangerous areas, advancing play up the pitch all translated into higher wages.</p>
-        <p class="chart-note">Defensive work? No positive wage premium. Tackles, interceptions, blocks — the metrics that capture defensive contribution had no effect on salary. In some specifications, stronger defensive output was actually associated with lower wages. Five positions. Five negative slopes. No exceptions.</p>
-        <p class="chart-note">The behind-the-scenes midfielder is essential; as seen through the likes of Pedri (FC Barcelona), Elliot Anderson (Nottingham Forest), and Vitinha (Paris Saint-Germain). Quietly orchestrating play, collecting player-of-the-match awards, and being compensated accordingly. Before, there was Spain and FC Barcelona icon, Sergio Busquets — a founding father of this role. Former Spain manager, Vicente del Bosque, had famously said: <em>"You watch the game, you don't see Busquets. But if you watch Busquets, you see the whole game."</em> Bosque gave the defensive midfielder his debut for Spain in 2009. They would go on to win the World Cup the following year. Busquets "completed football" — winning every major trophy available to him at the club and international levels. Elliot Anderson, Pedri, and Vitinha are young with bright futures. It's clear that this archetype of player is instrumental to success — correlated at the very least. So what's happening in MLS?</p>
-        <p class="chart-note">The incentives are clear. To maximize earnings, players must focus on what gets noticed: goals, assists, progressive carries — moments that end up on social media. Defensive work — positioning, reading the game, covering for teammates — doesn't create visibility; but visibility is what unlocks better designations in MLS. The unsung heroes tend to remain just that.</p>
+        <p class="chart-note">Attack and progression carry consistent wage premiums. Creation is marginal. Dribbling and defense earn nothing, and in some specifications, stronger defensive output is associated with lower wages. Granted, defense is about discipline; anticipating and preventing threats before they occur. But still an unusual result. MLS rewards what's visible and exciting– the final, visible actions over the less legible work that makes them possible. What's essential to success but harder to see is precisely what wins games in top leagues, and crucially, is rewarded.</p>
+        <p class="chart-note">The behind-the-scenes player is essential; as seen through the likes of Pedri (FC Barcelona), Elliot Anderson (Nottingham Forest), and Vitinha (Paris Saint-Germain). Quietly orchestrating play, collecting player-of-the-match awards, and being compensated accordingly.</p>
+        <p class="chart-note">Before, there was Spain and FC Barcelona icon, Sergio Busquets — a founding father of this role. Former Spain manager Vicente del Bosque had famously said: <em>"You watch the game, you don't see Busquets. But if you watch Busquets, you see the whole game."</em> Del Bosque gave the defensive midfielder his international debut in 2009. They would go on to win the World Cup the following year. Spain's first.</p>
+        <p class="chart-note">Busquets "completed football," winning every major trophy available to him at the club and international levels. Elliot Anderson, Pedri, Vitinha are young with bright futures and are not the only ones of this class. It's clear that this archetype of player is instrumental to success, correlated at the very least. The scatter below shows where MLS currently prices them.</p>
       </div>
     </div>
 
     <hr class="divider" />
 
-    <!-- SCATTER -->
+    <!-- THE EXCEPTION AND THE RULE -->
     <div class="chart-block">
-      <h3>The names tell the story</h3>
-      <div class="chart-item" onclick="openLightbox('chart1_scatter.png')">
-        <img src="chart1_scatter.png" alt="Overall Performance vs Log Salary" />
+      <h3>The exception and the rule</h3>
+      <div class="chart-item" onclick="openLightbox('chart5_scatter.png')">
+        <img src="chart5_scatter.png" alt="Overall performance score vs log salary" />
       </div>
-      <p class="chart-caption">Overall performance vs salary — red = overpaid after full controls, blue = underpaid</p>
+      <p class="chart-caption">Overall performance vs salary. Red = paid above what the full model predicts, blue = paid below.</p>
       <div class="prose">
-        <p class="chart-note">Visibility matters independently of performance. Players with higher public attention — measured through search volume, verified by roster designation — earned more regardless of their on-field output. In fact, it was not uncommon for players in the highest designation tier to be outperformed by those in lower ones.</p>
-        <p class="chart-note">Designated Players are exempt from the cap — clubs can sign up to three at any salary. These slots go overwhelmingly to attacking players with marquee names. Lorenzo Insigne, Christian Benteke, Lionel Messi… all forwards who made their mark at the highest level before coming to MLS. The DP rule is about who sells tickets and jerseys.</p>
-        <p class="chart-note">Messi top right — high performance, high salary. Sergio Busquets top left — low performance score (defense-heavy player; the negative coefficient explains it), enormous salary. The bottom right is where it stings. Players outperforming Designated Players earning 40× their wage, stuck on minimum contracts because the roster structure never gave them a better slot. The gap between where players sit and the regression line is the market's mispricing, made visible without a single equation.</p>
+        <p class="chart-note">The regression line shows what MLS pays for performance.</p>
+        <p class="chart-note">Messi sits top right: the one case where reputation and output genuinely converge. The highest popularity score in the dataset by a distance, and the performance to match. He is the exception, not the rule.</p>
+        <p class="chart-note">The more instructive cases are elsewhere. Riqui Puig couldn't get a game at Barcelona. In MLS he has flourished; an attacking midfielder who threads play from deep, unlocks compact defenses, and covers ground most tens don't. One of the highest progression scores in the dataset, $5.1 million as a Designated Player, before an ACL ended his season in the playoffs. Briefly, the slot and the player were perfectly matched. Gabriel Pec tells a different story. A winger who cuts inside, scores, creates, and presses relentlessly — MLS Newcomer of the Year, 16 goals, 14 assists, half of Europe watching. As a U22 Initiative player, $1.68 million regardless of what he produced. One of the highest overall scores in the dataset, structurally capped by the slot. Same league, same club as Puig, opposite sides of the color scale.</p>
+        <p class="chart-note">The quieter cases make the same argument without the marquee names. Stephen Afrifa, a forward at Sporting Kansas City who makes things happen in tight spaces: $104,000 on a Regular contract, overall score of 1.56. Max Arfsten, a wing-back at Columbus Crew whose defensive discipline and transition play were central to one of the league's most tactically coherent sides: $350,000, Regular slot, producing well above what the wage structure returns. No transfer rumors. No European pedigree. Just contribution the wage structure isn't paying for right now.</p>
+        <p class="chart-note">The red cluster tells the other side. Olivier Giroud, a centre-forward at LAFC who built a career on movement, hold-up play, and finishing when it mattered most. World Cup winner, Champions League winner, a career that belongs in any serious conversation about the best strikers of his generation. The 2024 output is ordinary. The wage is not.</p>
+        <p class="chart-note">Sergio Busquets is somewhere on this chart. $8.5 million, an overall score of 0.24; just above average by the model's measure. The gap between those two numbers is not an error. This piece made the case for what he represents. What the dot means, whether the market is paying for the career, the name, or something else entirely, is a question the data raises but doesn't answer. That tension is the point.</p>
+        <p class="chart-note">Right now the league prices what it needs to attract attention and build demand.</p>
       </div>
     </div>
 
     <hr class="divider" />
 
-    <!-- MARGINAL -->
+    <!-- WHAT DETERMINES THE SLOT -->
+    <div class="prose">
+      <h3>What determines the slot</h3>
+      <p>It's clear that designation drives pay. So then what drives designation? Are performance and visibility actually enough to get a player into the tier that pays?</p>
+    </div>
+
     <div class="chart-block">
-      <h3>Fame pays — but not how you'd think</h3>
-      <div class="chart-item" onclick="openLightbox('chart2_marginal.png')">
-        <img src="chart2_marginal.png" alt="Marginal Effect of Popularity across Performance" />
+      <div class="chart-item" onclick="openLightbox('chart4_archetypes.png')">
+        <img src="chart4_archetypes.png" alt="Predicted probability of Designated Player slot by performance and visibility" />
       </div>
-      <p class="chart-caption">Marginal effect of fame across performance levels</p>
+      <p class="chart-caption">Predicted probability of a Designated Player contract — by performance tier and public visibility</p>
       <div class="prose">
-        <p class="chart-note">TAM and U22 Initiative slots sit in between; allowing clubs to raise certain wages above the cap within limits. Even here, the slots tend to go to attackers and creative midfielders — players whose contributions are very visible.</p>
-        <p class="chart-note">Popularity's wage premium only kicks in for above-average performers. Below that threshold, it barely registers. The market doesn't pay for celebrity alone — it pays for celebrity on top of output. And 74% of popularity's total wage effect flows through roster designation. Fame doesn't pay you directly. It gets you the DP slot, and the slot pays you.</p>
+        <p class="chart-note">An average player with average visibility has an 8% chance of a Designated Player contract. A top performer with low visibility: 39%. An average performer with high visibility: 11%. A top performer with high visibility: 48%. Performance matters more than visibility for getting the slot, but neither alone is sufficient, and both together barely cross the threshold. To put these numbers in context: "top performer" here means two standard deviations above the league average, roughly the level of a Luciano Acosta or a Carles Gil. "High visibility" means similarly elevated public attention, but well short of Messi territory. Even at those levels, fewer than half of players land a Designated Player contract.</p>
+        <p class="chart-note">Age and position shape the outcome further, and this is where the analysis becomes most telling. The model peaks around 30 to 31; prime-age veterans are substantially more likely to land higher-tier slots than equally productive younger players. This reflects how MLS clubs actually think about designation: not purely as a reward for current output, but as a commercial decision. An established name at 31 sells tickets and drives broadcast interest in a way a 24-year-old with equivalent numbers typically does not.</p>
+        <p class="chart-note">Attackers and attacking midfielders are strongly favored for DP slots. Defenders are not, regardless of what their numbers say. A central defender who is among the best in the league at what they do, who wins duels, reads danger, anchors an entire structure, has a substantially lower probability of a DP contract than an attacker with comparable output scores. The designation system does not neutrally evaluate contribution. It reflects commercial priorities baked into the rulebook. Whether the league eventually revises those priorities will determine whether the tactical quality gap between MLS and the world's top leagues narrows.</p>
+        <p class="chart-note">Performance and visibility open the door. Age and position decide how wide.</p>
       </div>
     </div>
 
     <hr class="divider" />
 
-    <!-- COEFFICIENTS -->
-    <div class="chart-block">
-      <h3>The pattern holds everywhere you look</h3>
-      <div class="chart-item" onclick="openLightbox('chart5_coefficients.png')">
-        <img src="chart5_coefficients.png" alt="OLS vs Quantile Regression Coefficients" />
-      </div>
-      <p class="chart-caption">Coefficient estimates: OLS and quantile regressions at the 25th, 50th, 75th, and 90th percentiles</p>
-      <div class="prose">
-        <p class="chart-note">Attack and progression are the only performance dimensions that consistently pay. Defense sits at or below zero at every quantile — minimum salary players, median earners, top of the distribution. It doesn't matter where you look in the salary structure. What MLS values doesn't change.</p>
-      </div>
+    <!-- WHAT THIS MEANS -->
+    <div class="prose">
+      <h2>What this means</h2>
     </div>
 
     <hr class="divider" />
 
-    <!-- CLUB FE -->
+    <!-- THE COST OF THE DESIGN -->
+    <div class="prose">
+      <h3>The cost of the design</h3>
+      <p>MLS assumed a calculated risk: prioritize growth and entertainment to build demand first, and worry about quality later. The wage structure reflects that choice, rewarding visibility over productivity, attack over defense. It's working. The league is bigger, richer, and more visible than ever; and the rate of this growth has never been higher.</p>
+      <p>The side effect is systematic underpricing of what makes a team good. When wages are set by a visible hand rather than a free market, the distortions are deliberate. So are the consequences. Young defenders and midfielders find limited earning potential unless they leave for other leagues. Sticky wages create real opportunity cost; if players can't earn their market value, some of that talent goes elsewhere, and it compounds.</p>
+      <p>Some clubs have already worked out how to exploit the gap between what gets priced and what actually wins.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- THE GAP AS OPPORTUNITY -->
     <div class="chart-block">
-      <h3>The exceptions</h3>
-      <div class="chart-item contain" onclick="openLightbox('chart4_club_fe.png')" style="max-height:460px;">
-        <img src="chart4_club_fe.png" alt="Club Fixed Effects relative to League Average" />
-      </div>
-      <p class="chart-caption">Club wage premium / discount — relative to league average, controlling for squad composition</p>
+      <h3>The gap as opportunity</h3>
       <div class="prose">
-        <p class="chart-note">There's a silver lining though: some clubs have already been figuring out how to exploit the system's inefficiencies. The Vancouver Whitecaps, for example, operate with one of the league's smallest payrolls but remain competitive by doing what the wage structure disincentivizes: investing in defensive organization, tactical discipline, and the subtler aspects of the game. Instead of chasing high-profile attackers, they've built a backline and midfield that can absorb pressure, win second balls, and transition quickly. They develop young talent, use U22 and TAM slots strategically, and rely on structure over star power. It works, and it's efficient. Their fixed effect sits above average in the model — not because they overspend, but because they get more out of what they do spend.</p>
-        <p class="chart-note">Players like Sebastian Berhalter show that value exists where the market doesn't price. A defensive midfielder who reads the game, covers ground, and facilitates transitions. The 24 year old American has been vital for the Whitecaps but is not paid like a DP. That gap between performance, popularity, and pay actually presents an opportunity for clubs willing and able to capitalize on it. Perhaps an organic, self-enforcing, steady solution on its own.</p>
-        <p class="chart-note">The system is not perfectly efficient. There are cracks where strategy and discipline can outperform spending. Clubs that recognize defensive value and chemistry, develop it intelligently, and build tactically coherent systems can compete against bigger budgets. The smartest operators find value where others aren't looking.</p>
+        <p>The gap between what the wage structure prices and what actually wins games is not theoretical. Some clubs have already found it.</p>
+        <p>The chart below shows which clubs consistently pay above or below the league average for the same player profile: not a payroll ranking, but a measure of efficiency.</p>
+      </div>
+
+      <div class="chart-item contain" onclick="openLightbox('chart6_club_fe.png')" style="max-height:460px;">
+        <img src="chart6_club_fe.png" alt="Club fixed effects relative to league average" />
+      </div>
+      <p class="chart-caption">Club wage premium or discount, relative to league average — controlling for squad composition, not total payroll</p>
+
+      <div class="prose">
+        <p class="chart-note">The clubs on the left of that chart share something beyond wage discipline. They've built systems that win games through the things the wage structure doesn't price.</p>
+        <p class="chart-note">Vancouver built their 2024 season around a simple idea: win the ball in midfield, transition before the opposition can set, and let the attacking midfielder do damage in the space created. Berhalter sits at the base of that structure, not glamorous, not a name that moves merchandise, but the reason it functions. He wins duels, moves the ball simply, covers the ground that makes everything else possible.</p>
+        <p class="chart-note">Columbus Crew finished with the highest points total in the league. Their midfield controls tempo, wins the ball, and uses it; a deep-lying playmaker as the stabilizing force, a box-to-box midfielder providing energy on both sides of the ball, and Arfsten operating as a wing-back who drops into central midfield when the shape demands it. What makes Columbus hard to play against isn't any individual. It's that their players understand their role so completely that the system holds its shape even as it shifts.</p>
+        <p class="chart-note">These clubs aren't doing anything revolutionary. They're taking seriously the things the market has decided not to price: defensive organization, positional discipline, players who make the system work rather than players who work despite the system. The gap is real. For clubs willing to look where others aren't, it's an opportunity.</p>
       </div>
 
       <!-- STANDINGS TABLE -->
       <div style="margin-top:2rem;">
         <p style="font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:.8rem;">2024 MLS Regular Season — sorted by wage premium (chart above)</p>
-        <p style="font-size:.8rem;color:var(--mid);font-style:italic;margin-bottom:1.2rem;">Note: wage premium reflects salary change relative to league average from the wage growth model, controlling for squad composition — not total payroll.</p>
+        <p style="font-size:.8rem;color:var(--mid);font-style:italic;margin-bottom:1.2rem;">Note: wage premium reflects each club's fixed effect relative to league average, controlling for squad composition — not total payroll.</p>
         <div style="overflow-x:auto;">
           <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.7rem;">
             <thead>
@@ -155,27 +186,27 @@
             <tbody>
               <tr style="background:rgba(46,58,89,.04)"><td colspan="7" style="padding:.35rem .6rem;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);">▲ Above market</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">New York Red Bulls</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+high</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">47</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost MLS Cup Final</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Inter Miami</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+high</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">74</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">22</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">4</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">LA Galaxy</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+high</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">64</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">19</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">🏆 Won MLS Cup</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Seattle Sounders</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">57</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">16</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Final</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Seattle Sounders FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+high</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">57</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">16</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Final</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Inter Miami</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+high</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">74</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">22</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">4</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">New England Revolution</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">31</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">21</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">4</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Vancouver Whitecaps</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">47</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Vancouver Whitecaps FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">47</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Los Angeles FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">64</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">19</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Semi</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Chicago Fire</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">30</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">18</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Minnesota United</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">52</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">15</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">12</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Semi</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Los Angeles FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">64</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">19</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Semi</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Philadelphia Union</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">37</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">15</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">10</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Austin FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">42</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">New York City FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">50</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">12</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Semi</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Colorado Rapids</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">50</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">15</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">5</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">FC Cincinnati</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">59</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">18</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">5</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Portland Timbers</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">47</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">12</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Wild Card</td></tr>
-              <tr style="background:rgba(46,58,89,.04)"><td colspan="7" style="padding:.35rem .6rem;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);">▼ Below market</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Toronto FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">37</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">19</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">4</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Portland Timbers</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">+low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">44</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">12</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
+              <tr style="background:rgba(46,58,89,.04)"><td colspan="7" style="padding:.35rem .6rem;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);">▼ Below market</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Toronto FC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">34</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">18</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Columbus Crew</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">66</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">19</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">6</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">CF Montréal</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">43</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">10</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Wild Card</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">San Jose Earthquakes</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">21</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">6</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">25</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">3</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Real Salt Lake</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">59</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">16</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
-              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">D.C. United</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">40</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">10</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">10</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">CF Montréal</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">44</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">San Jose Earthquakes</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−low</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">26</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">21</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">6</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Real Salt Lake</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">59</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">16</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">11</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost First Round</td></tr>
+              <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">D.C. United</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">35</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">18</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">7</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">St. Louis City SC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">37</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">8</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">13</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Nashville SC</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">36</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">16</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">9</td><td style="padding:.45rem .6rem;color:var(--mid);">Missed playoffs</td></tr>
               <tr class="trow"><td style="padding:.45rem .6rem;color:var(--ink);">Atlanta United</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">−mid</td><td style="text-align:center;padding:.45rem .6rem;color:var(--ink);font-weight:500;">40</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">10</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">14</td><td style="text-align:center;padding:.45rem .6rem;color:var(--mid);">10</td><td style="padding:.45rem .6rem;color:var(--mid);">Lost Conference Semi</td></tr>
@@ -192,19 +223,11 @@
 
     <hr class="divider" />
 
-    <!-- CLOSING -->
+    <!-- WHAT COMES NEXT -->
     <div class="prose">
-      <h2>Why it happens</h2>
-      <p>The patterns observed between performance, popularity, and pay is just how MLS is designed. But there's a reason for that.</p>
-      <p>An ordered logit model on roster designation itself completes the picture. Performance predicts your slot. Popularity predicts your slot. But being a foreign import predicts it more than either. An average-performing import with high popularity has a 21% chance of landing a DP slot. The same profile with a U.S. passport: 7.8%. The league's roster machinery sorts players by origin and reputation at acquisition. Once sorted, the salary follows the slot.</p>
-      <p>MLS is the youngest major sport league in a country where it competes with the likes of NFL, NBA, and MLB for attention, and in a world where everyone has been playing the game for much longer. Before MLS can be world-class, it needs to survive. That means first creating demand: filling stadiums, generating revenue, building a fanbase. MLS recognized that spectacle sells and made a choice: prioritize entertainment and marketability over tactical depth… for now. The roster rules reflect just that. The wage patterns aren't market failures, but the system working as intended.</p>
-
-      <h2>What this means for MLS</h2>
-      <p>So far, the strategy is working. MLS has grown — new stadiums, bigger broadcast deals, global stars like Messi drawing attention. The league is building the demand. The question now is whether it can build supply.</p>
-      <p>MLS needs collective quality to be recognized at the highest level. This means rewarding contributions that don't show up in highlight reels: defensive organization, tactical discipline — the work that separates good teams from great ones. Right now, the wage structure doesn't incentivize that. Young defenders and midfielders see limited earning potential unless they move into more attacking roles or other leagues. And even then, attackers that are consistently productive and doing the "right" things have to wait some time before they are able to earn their worth — especially if they are not popular.</p>
-      <p>The best leagues balance elite attacking talent with strong defensive structures and cohesion alongside a unique identity that defines each club. MLS has the former but underinvests in the latter. The league has options: adjust roster rules to create pathways for high-performing, low-visibility players, shorten the lag between performance and wage recognition, introduce more nuanced performance bonuses. But doing so would mean acknowledging that what built the league might not be what takes it forward. Growth and quality don't always align. MLS bet on growth first. Whether it can shift toward quality without losing what made it grow will define its next chapter.</p>
-      <p>The exceptions — clubs like Vancouver, players like Berhalter — show another path exists. As the league matures, the question is whether more clubs follow that path, or whether the incentive to chase spectacle continues to dominate. The league's willingness and ability to adapt will define its future. But the future is bright; it is simply a matter of when — not if.</p>
-      <p>The code, data pipeline, and full regression output are on GitHub.</p>
+      <h3>What comes next</h3>
+      <p>Messi's arrival created genuine demand the league had been chasing for decades. Once it existed, clubs had to compete to retain it. Atlanta United beating the Supporters' Shield winners in the 2024 first round, 40 points and a disciplined defensive block, was a signal. Winning requires something the wage structure has not historically rewarded.</p>
+      <p>The exceptions, clubs like Vancouver and players like Berhalter, show another path exists. As the league matures, the question is whether more clubs follow that path, or whether the incentive to chase spectacle continues to dominate. The future is bright. It is simply a matter of when, not if.</p>
     </div>
 
     <div style="margin-top:2.5rem; padding-bottom: 1rem;">
