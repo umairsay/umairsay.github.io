@@ -11,6 +11,8 @@
   <style>
     .trow { border-bottom: 1px solid var(--rule); transition: background .15s; }
     .trow:hover { background: rgba(46,58,89,.06); }
+    .chart-item { cursor: default; }
+    .chart-item:hover img { transform: none; }
   </style>
 </head>
 <body>
@@ -45,7 +47,7 @@
     <!-- DESIGNATION DOMINATES -->
     <div class="chart-block">
       <h3>Designation dominates</h3>
-      <div class="chart-item" onclick="openLightbox('chart1_shapley.png')">
+      <div class="chart-item">
         <img src="chart1_shapley.png" alt="Shapley variance decomposition: what explains MLS wages" />
       </div>
       <p class="chart-caption">Shapley decomposition of log salary variance — averaged across all variable orderings</p>
@@ -59,7 +61,7 @@
 
     <!-- DESIGNATION ABSORBS -->
     <div class="chart-block">
-      <div class="chart-item" onclick="openLightbox('chart2_before_after.png')">
+      <div class="chart-item">
         <img src="chart2_before_after.png" alt="Wage returns before and after controlling for roster designation" />
       </div>
       <p class="chart-caption">Wage return per standard deviation improvement — before (red) and after (blue) controlling for roster designation</p>
@@ -76,7 +78,7 @@
     <!-- DEFENDING DOESN'T PAY -->
     <div class="chart-block">
       <h3>Defending doesn't pay</h3>
-      <div class="chart-item" onclick="openLightbox('chart3_defense.png')">
+      <div class="chart-item">
         <img src="chart3_defense.png" alt="Wage returns by performance dimension" />
       </div>
       <p class="chart-caption">Wage return per standard deviation, by performance dimension — controlling for club fixed effects</p>
@@ -93,7 +95,7 @@
     <!-- THE EXCEPTION AND THE RULE -->
     <div class="chart-block">
       <h3>The exception and the rule</h3>
-      <div class="chart-item" onclick="openLightbox('chart5_scatter.png')">
+      <div class="chart-item">
         <img src="chart5_scatter.png" alt="Overall performance score vs log salary" />
       </div>
       <p class="chart-caption">Overall performance vs salary. Red = paid above what the full model predicts, blue = paid below.</p>
@@ -117,7 +119,7 @@
     </div>
 
     <div class="chart-block">
-      <div class="chart-item" onclick="openLightbox('chart4_archetypes.png')">
+      <div class="chart-item">
         <img src="chart4_archetypes.png" alt="Predicted probability of Designated Player slot by performance and visibility" />
       </div>
       <p class="chart-caption">Predicted probability of a Designated Player contract — by performance tier and public visibility</p>
@@ -156,7 +158,7 @@
         <p>The chart below shows which clubs consistently pay above or below the league average for the same player profile: not a payroll ranking, but a measure of efficiency.</p>
       </div>
 
-      <div class="chart-item" onclick="openLightbox('chart6_club_fe.png')">
+      <div class="chart-item">
         <img src="chart6_club_fe.png" alt="Club fixed effects relative to league average" />
       </div>
       <p class="chart-caption">Club wage premium or discount, relative to league average — controlling for squad composition, not total payroll</p>
