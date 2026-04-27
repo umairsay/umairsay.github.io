@@ -1,0 +1,104 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" width="800" height="500">
+  <title>PCA tactical landscape — PC1 explains 66% of variance</title>
+
+  <rect width="800" height="500" fill="#F8F7F4"/>
+
+  <!-- Grid verticals (PC1 = -3,-2,-1,0,1,2,3,4,5) -->
+  <line x1="99"  y1="30" x2="99"  y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="177" y1="30" x2="177" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="254" y1="30" x2="254" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="332" y1="30" x2="332" y2="445" stroke="#D8D4CC" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="410" y1="30" x2="410" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="488" y1="30" x2="488" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="566" y1="30" x2="566" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="644" y1="30" x2="644" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="721" y1="30" x2="721" y2="445" stroke="#D8D4CC" stroke-width="0.5"/>
+
+  <!-- Grid horizontals (PC2 = 2,1,0,-1,-2,-3) -->
+  <line x1="60" y1="30"  x2="760" y2="30"  stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="60" y1="102" x2="760" y2="102" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="60" y1="173" x2="760" y2="173" stroke="#D8D4CC" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="60" y1="245" x2="760" y2="245" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="60" y1="317" x2="760" y2="317" stroke="#D8D4CC" stroke-width="0.5"/>
+  <line x1="60" y1="388" x2="760" y2="388" stroke="#D8D4CC" stroke-width="0.5"/>
+
+  <!-- Axis lines -->
+  <line x1="60" y1="30"  x2="60"  y2="445" stroke="#C8C4BC" stroke-width="0.5"/>
+  <line x1="60" y1="445" x2="760" y2="445" stroke="#C8C4BC" stroke-width="0.5"/>
+
+  <!-- Tick labels PC1 -->
+  <text x="332" y="460" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#6B6760">0</text>
+  <text x="750" y="460" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#6B6760">PC1 — dominance →</text>
+
+  <!-- La Liga unlabeled dots -->
+  <circle cx="327" cy="120" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="417" cy="201" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="402" cy="122" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="371" cy="171" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="373" cy="146" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="286" cy="150" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="295" cy="302" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="324" cy="199" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="234" cy="190" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="274" cy="166" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="344" cy="137" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="309" cy="267" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="149" cy="220" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="187" cy="264" r="4" fill="#9A6010" fill-opacity="0.65"/>
+  <circle cx="212" cy="164" r="4" fill="#9A6010" fill-opacity="0.65"/>
+
+  <!-- Premier League unlabeled dots -->
+  <circle cx="217" cy="116" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="212" cy="119" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="319" cy="74"  r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="278" cy="69"  r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="353" cy="110" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="272" cy="274" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="292" cy="169" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="342" cy="111" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+  <circle cx="200" cy="140" r="4" fill="#1A4A8A" fill-opacity="0.65"/>
+
+  <!-- La Liga labeled dots (non-featured) -->
+  <circle cx="391" cy="74"  r="4.5" fill="#9A6010" fill-opacity="0.65" stroke="#9A6010" stroke-width="1.2"/>
+  <circle cx="122" cy="181" r="4.5" fill="#9A6010" fill-opacity="0.65" stroke="#9A6010" stroke-width="1.2"/>
+  <circle cx="556" cy="145" r="4.5" fill="#9A6010" fill-opacity="0.65" stroke="#9A6010" stroke-width="1.2"/>
+
+  <!-- PL labeled dots (non-featured) -->
+  <circle cx="169" cy="116" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="187" cy="249" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="114" cy="115" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="149" cy="160" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="465" cy="135" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="460" cy="186" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="381" cy="229" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+  <circle cx="404" cy="167" r="4.5" fill="#1A4A8A" fill-opacity="0.65" stroke="#1A4A8A" stroke-width="1.2"/>
+
+  <!-- Featured dots with labels -->
+
+  <!-- Getafe — outlier -->
+  <circle cx="312" cy="409" r="5.5" fill="#9A6010" fill-opacity="0.70" stroke="#9A6010" stroke-width="1.5"/>
+  <text x="318" y="404" font-family="Georgia,serif" font-size="10.5" fill="#9A6010" font-style="italic">Getafe</text>
+
+  <!-- Liverpool -->
+  <circle cx="551" cy="157" r="5.5" fill="#1A4A8A" fill-opacity="0.70" stroke="#1A4A8A" stroke-width="1.5"/>
+  <text x="545" y="152" font-family="Georgia,serif" font-size="10.5" fill="#1A4A8A" font-style="italic" text-anchor="end">Liverpool</text>
+
+  <!-- Man City -->
+  <circle cx="652" cy="198" r="5.5" fill="#1A4A8A" fill-opacity="0.70" stroke="#1A4A8A" stroke-width="1.5"/>
+  <text x="652" y="191" font-family="Georgia,serif" font-size="10.5" fill="#1A4A8A" font-style="italic" text-anchor="middle">Man City</text>
+
+  <!-- Arsenal -->
+  <circle cx="645" cy="253" r="5.5" fill="#1A4A8A" fill-opacity="0.70" stroke="#1A4A8A" stroke-width="1.5"/>
+  <text x="638" y="264" font-family="Georgia,serif" font-size="10.5" fill="#1A4A8A" font-style="italic" text-anchor="end">Arsenal</text>
+
+  <!-- Barcelona — rightmost, La Liga star -->
+  <circle cx="684" cy="152" r="6" fill="#9A6010" fill-opacity="0.80" stroke="#9A6010" stroke-width="1.5"/>
+  <text x="677" y="147" font-family="Georgia,serif" font-size="10.5" fill="#9A6010" font-style="italic" text-anchor="end">Barcelona</text>
+
+  <!-- Legend -->
+  <circle cx="68" cy="19" r="4" fill="#9A6010" fill-opacity="0.70"/>
+  <text x="76" y="23" font-family="system-ui,sans-serif" font-size="10" fill="#6B6760" letter-spacing="0.06em">LA LIGA</text>
+  <circle cx="130" cy="19" r="4" fill="#1A4A8A" fill-opacity="0.70"/>
+  <text x="138" y="23" font-family="system-ui,sans-serif" font-size="10" fill="#6B6760" letter-spacing="0.06em">PREMIER LEAGUE</text>
+  <text x="738" y="23" font-family="system-ui,sans-serif" font-size="9.5" fill="#9A9590" text-anchor="end">size = xGDiff</text>
+</svg>

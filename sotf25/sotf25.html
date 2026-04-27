@@ -3,15 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>State of the Football 2025</title>
+  <title>State of the Football '25 — umairsay</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,700;1,400;1,500&family=DM+Mono:wght@300;400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
   <style>
-    .trow { border-bottom: 1px solid var(--rule); transition: background .15s; }
-    .trow:hover { background: rgba(46,58,89,.06); }
+    .stat-strip {
+      display: flex;
+      gap: 1px;
+      margin: 2rem 0;
+      background: var(--rule);
+    }
+    .stat-strip-item {
+      flex: 1;
+      background: var(--bg);
+      padding: 1.1rem 1.4rem;
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 500;
+      letter-spacing: -.02em;
+      line-height: 1;
+      margin-bottom: 5px;
+      color: var(--ink);
+    }
+    .stat-num.ll { color: #9A6010; }
+    .stat-num.pr { color: #1A4A8A; }
+    .stat-lbl {
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      line-height: 1.45;
+    }
+    .chart-canvas-wrap {
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      padding: 1.2rem 1rem .8rem;
+      margin: .8rem 0 0;
+      position: relative;
+    }
+    .chart-legend {
+      display: flex;
+      gap: 1.4rem;
+      font-family: var(--mono);
+      font-size: .62rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: .8rem;
+      align-items: center;
+    }
+    .legend-pip {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    @media (max-width: 560px) {
+      .stat-strip { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
@@ -20,163 +75,888 @@
   <div id="site-header"></div>
 
   <div class="project-hero">
-    <a class="back-link" href="/">← Back</a>
-    <p class="eyebrow">Football Analytics · Tactical Analysis</p>
-    <h1>State of the Football 2025</h1>
-    <div class="hero-meta">
-      <div class="hero-meta-item"><strong>Year</strong>2024 – 25</div>
-      <div class="hero-meta-item"><strong>Data</strong>40 teams · 689 players · La Liga & Premier League</div>
-      <div class="hero-meta-item"><strong>Methods</strong>PCA · Hierarchical clustering · Z-score profiling</div>
-      <div class="hero-meta-item"><strong>Tools</strong>R · tidyverse · factoextra</div>
+    <a href="/" class="back-link">← Back</a>
+    <h1>State of the Football <em>'25</em></h1>
+  </div>
+
+  <div class="section">
+    <div class="prose">
+      <p>Football does not have a unique solution. That is one of the many reasons it is known as the beautiful game. Each club tries to solve the same problem in their own way — different players, different funds, different history. That chaos is the feature.</p>
+      <p>But there has been a narrative emerging that says otherwise. That the game is converging on one right way to play. That data has cracked it, that the elite have found it, and everyone else is just behind. I looked at all 40 teams and 689 players across the top flight of English and Spanish football to find out if that is true.</p>
     </div>
   </div>
 
-  <section class="section">
+  <div class="section">
+    <div class="prose">
+      <h2>All roads...</h2>
+      <p>Run PCA across five tactical dimensions — territory, chance quality, defensive line, press resistance, buildup quality — and 66% of all tactical variance across 40 teams lands on a single axis. It measures how much a team owns a game. At the far right end: Barcelona, Real Madrid, Arsenal, Liverpool, Man City. The best teams in the world, in both leagues, all pointing in the same direction. That looks like convergence. Look at how they get there and it stops looking that way.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-legend">
+        <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+        <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+        <span>size = xGDiff magnitude</span>
+      </div>
+      <div class="chart-canvas-wrap" style="height:380px"><canvas id="c1" role="img" aria-label="PCA tactical landscape. PC1 dominance axis explains 66% of variance. Barcelona and Man City furthest right. Arsenal high PC1, negative PC2. Getafe extreme PC2 outlier."></canvas></div>
+      <p class="chart-caption">PCA of five tactical dimensions — field tilt, xGDiff, defensive line height, danger turnovers, buildup quality. PC1 explains 66% of all variance.</p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-strip-item"><div class="stat-num">66%</div><div class="stat-lbl">of all tactical variance on one axis</div></div>
+      <div class="stat-strip-item"><div class="stat-num ll">–5.1</div><div class="stat-lbl">Atletico press balance — elite xGDiff, zero fluidity</div></div>
+      <div class="stat-strip-item"><div class="stat-num ll">70.6%</div><div class="stat-lbl">Barcelona squad fluidity — seven in ten break position</div></div>
+    </div>
 
     <div class="prose">
-      <p>The Premier League is the most watched football league in the world, and most people who follow it closely will admit it has become harder to love. It is fiercely competitive, relentlessly physical, and increasingly shaped by a kind of tactical arms race where the prize goes to whoever can press harder and concede less ground. That is not a criticism so much as an observation about what hyper-competition does to a sport over time.</p>
-      <p>La Liga moves differently. Less uniform, more unpredictable in its character, and home to FC Barcelona, a club that has spent the better part of a century insisting that winning and playing beautifully are not separate goals. Whether that idea still holds up under scrutiny is part of what this project set out to examine, using a full season of advanced team and player data across both leagues.</p>
-      <p>The question underneath all of it: <strong>what does elite football actually look like right now, and where is the beauty in it?</strong></p>
+      <p>Arsenal's press balance measures the gap between turnovers they force high up the pitch and turnovers they concede near their own goal. That figure is +11.2, the highest in the dataset by a considerable distance. They win the ball back aggressively and rarely give it away in dangerous areas, and they do it through the sheer organisational discipline of the whole squad working in concert. Barcelona's press balance is +8.4, but the mechanism is entirely different: 70.6% of their squad regularly operates outside their nominal position, creating space and confusion through permanent positional movement. Atletico Madrid reach the same elite level of chance quality with a press balance of –5.1 and squad fluidity at just 25%, built on defensive structure, concentration, and transition.</p>
+      <p>The data does not reveal football converging on one answer. It reveals a game in which several answers work simultaneously, each one shaped by what a specific club has available.</p>
     </div>
+  </div>
 
-    <hr class="divider" />
-
-    <!-- CHART 1: Tactical Distributions -->
-    <div class="chart-block">
-      <h3>Are the leagues converging?</h3>
-      <div class="chart-item" onclick="openLightbox('../tactical_distributions.png')">
-        <img src="../tactical_distributions.png" alt="Tactical Distribution: La Liga vs Premier League" />
-      </div>
-      <p class="chart-caption">Tactical distributions across key variables — La Liga vs Premier League 24/25</p>
-      <div class="prose">
-        <p class="chart-note">The first thing worth testing is the assumption that these two leagues are tactically diverging. On most dimensions they are not. Possession, territory, defensive line height, and outcome quality all produce distributions that overlap so closely you could almost mistake one league for the other. The convergence is real, and it runs deeper than most commentary acknowledges.</p>
-        <p class="chart-note">Two variables tell a different story. How efficiently teams progress the ball from their own half varies nearly twice as much in La Liga as in the Prem, meaning there is a much wider range of approaches to building out of the back. And where a team's defensive block sits without the ball is the only variable with a statistically significant difference between the leagues (Levene's test, p = 0.048). The Prem's spread here is striking, from Arsenal sitting at 15.1 to Crystal Palace at 27.8, a gap that reflects just how differently Prem clubs have chosen to defend.</p>
-        <p class="chart-note">So the picture is more nuanced than the simple narrative. On most dimensions the leagues are alike. Where they differ, it tends to be in how teams handle the ball under pressure and how they defend without it. Those differences turn out to matter a great deal for the individual players within each system.</p>
-      </div>
-    </div>
-
-    <hr class="divider" />
-
-    <!-- CHART 2: Dendrogram -->
-    <div class="chart-block">
-      <h3>Four tactical tribes</h3>
-      <div class="chart-item" onclick="openLightbox('../team_clusters.png')">
-        <img src="../team_clusters.png" alt="Team Tactical Clusters" />
-      </div>
-      <p class="chart-caption">Hierarchical clustering on field tilt, outcome quality, defensive line, press resistance, buildup quality — ward.D2</p>
-      <div class="prose">
-        <p class="chart-note">Clustering all 40 teams on their tactical fingerprints produces four groups, and the distances between them are as informative as the groups themselves. The dominant possession clubs separate from everyone else early and cleanly. Below them, a large mid-table cluster spans both leagues, mixing English and Spanish sides in roughly equal measure. Below that, a lower-table cluster that skews heavily Prem. And then there is Getafe, sitting alone.</p>
-        <p class="chart-note">Getafe are worth pausing on. High defensive line, low possession, maximum aerial duels contested. They press aggressively, absorb chaos, and win more than the model would predict. There is something almost perversely principled about it. They have built a coherent identity out of a style that most clubs would consider a last resort.</p>
-      </div>
-    </div>
-
-    <hr class="divider" />
-
-    <!-- CHART 3: PCA Biplot -->
-    <div class="chart-block">
-      <h3>Where 40 teams actually live</h3>
-      <div class="chart-item" onclick="openLightbox('../team_fingerprints.png')">
-        <img src="../team_fingerprints.png" alt="Tactical Fingerprints PCA Biplot" />
-      </div>
-      <p class="chart-caption">PCA biplot — 66% of variance captured in PC1 alone</p>
-      <div class="callout">
-        <p>Barcelona and Arsenal share a cluster. Spatially they are pulling apart. Same destination, completely different journeys. That gap is where the interesting questions live.</p>
-      </div>
-      <div class="prose">
-        <p class="chart-note">The first principal component captures 66% of total variance and maps cleanly onto tactical dominance: possession, territory, line height, buildup quality. Barcelona sits furthest left of any team in both leagues. Man City, Arsenal, Liverpool, and Real Madrid follow at some distance. The Prem's bottom half clusters tightly toward the right, similar enough in profile to suggest that whatever is driving results there, it is not tactical differentiation.</p>
-        <p class="chart-note">The second component captures shape variance, the texture of how a team plays rather than how dominant it is. Arsenal and Barcelona occupy the same cluster on PC1 but drift apart on PC2. Arsenal have an extremely low danger possession rate and high pressing metrics, a team built to win territory through intensity. Barcelona have higher possession and buildup quality, a team that wins territory through control. Both approaches produce dominance. They do not produce the same football.</p>
-      </div>
-    </div>
-
-    <hr class="divider" />
-
-    <!-- CHART 4: Player Archetypes -->
-    <div class="chart-block">
-      <h3>Who is actually doing what</h3>
-      <div class="chart-item" onclick="openLightbox('../player_archetypes.png')">
-        <img src="../player_archetypes.png" alt="Player Archetypes: Creativity vs Threat Creation" />
-      </div>
-      <p class="chart-caption">Position-adjusted z-scores — creativity (pass threat + forward pass receipt + technical quality) vs threat creation (passing/crossing threat + progressive carries)</p>
-      <div class="prose">
-        <p class="chart-note">Plot every player in both leagues on creativity against threat creation, z-scored within position so comparisons hold across roles, and the top right fills up with yellow. La Liga players dominate the space where both scores are high simultaneously. Pedri sits alone at the summit with the highest creativity score of any midfielder in both leagues and a threat creation score that puts him in the top three at his position as well. What makes him unusual is not that he leads any single metric, it is that he leads in the combination. That is genuinely hard to find.</p>
-        <p class="chart-note">The best Prem midfielders are present. Ødegaard, Maddison, De Bruyne are all visible in the upper half. De Bruyne scores closest to the La Liga elite, which is perhaps unsurprising given the team he plays for. But the gap in density between the two leagues in that top-right quadrant is real and consistent, not a matter of a few exceptional individuals.</p>
-        <p class="chart-note">Trent Alexander-Arnold registers as something the position labels cannot contain. A defender competing with elite midfielders on both axes, which is either a classification problem or a testament to how genuinely unusual his profile is. Probably both. Doku is the pure threat creation outlier on the far right, a different kind of weapon entirely, one built around carrying the ball into dangerous spaces rather than finding the right pass at the right moment.</p>
-        <p class="chart-note">For the record, Elliot Anderson sits just below zero on both axes.</p>
-      </div>
-    </div>
-
-    <hr class="divider" />
-
-    <!-- CHART 5: System vs Player -->
-    <div class="chart-block">
-      <h3>Does the system produce the player?</h3>
-      <div class="chart-item" onclick="openLightbox('../system_vs_player.png')">
-        <img src="../system_vs_player.png" alt="Does the System Produce the Player?" />
-      </div>
-      <p class="chart-caption">Team territorial dominance (field tilt) vs individual creativity score — by position</p>
-      <div class="callout">
-        <p>The slope is positive across all three positions. p &lt; 0.001 in each case. The system is not neutral. It lifts players, or it suppresses them.</p>
-      </div>
-      <div class="prose">
-        <p class="chart-note">This is where the analysis gets most interesting. Team context predicts individual creativity across attackers, defenders, and midfielders, and the relationship is statistically robust in all three cases. Play for a dominant, territory-controlling side and your creativity score rises. Play for a low-field-tilt team and it falls. The gap between the elite cluster and the bottom cluster is not marginal. Players in the top group average a creativity score of 2.54. Players in the bottom group average -1.21. The same player in a different system would likely look like a different player.</p>
-        <p class="chart-note">Pedri and Frenkie de Jong both sit well above the trendline even after accounting for Barcelona's territorial dominance. The system elevates them, and they still exceed what the system alone would predict. Both things are true at once, which is a more honest answer than most debates about individual versus system credit tend to arrive at.</p>
-        <p class="chart-note">Arsenal's squad sits close to where the model predicts for a team with their field tilt. Ødegaard is the clearest exception. That reading does not diminish what Arsenal have built; a system that consistently produces results from its inputs is genuinely impressive. It just suggests a different kind of achievement than what Barcelona are doing.</p>
-        <p class="chart-note">Worth noting: the players who appear creative despite playing in non-dominant systems are some of the most interesting names in the data. Daley Blind at Girona. Bruno Guimarães at Newcastle. Players who carry something the model did not give them.</p>
-      </div>
-    </div>
-
-    <hr class="divider" />
-
-    <!-- CHART 6: Creative Midfielders -->
-    <div class="chart-block">
-      <h3>Creative midfielders by league</h3>
-      <div class="chart-item" onclick="openLightbox('../midf.png')">
-        <img src="../midf.png" alt="Creative Midfielders: La Liga vs Premier League" />
-      </div>
-      <p class="chart-caption">Creativity score distribution — midfielders only, both leagues</p>
-      <div class="prose">
-        <p class="chart-note">Isolate midfielders and compare the two leagues on creativity and the distributional difference becomes visible. The Prem distribution is tighter and more concentrated near zero. La Liga's is wider and flatter, with a more meaningful tail extending to the right. Five La Liga midfielders reach a threshold that only two Prem midfielders match. It is a gap in frequency rather than possibility, the Prem has the players, but it does not consistently produce the conditions for them to operate this way.</p>
-        <p class="chart-note">Tom Cairney appearing at the edge of the Prem's tail is one of the quieter surprises in the data. He is not a name that comes up in conversations about elite creative midfielders, but the numbers place him there. Fulham under Marco Silva have consistently built a system that rewards exactly the kind of passing quality and positional intelligence this score captures.</p>
-      </div>
-    </div>
-
-    <hr class="divider" />
-
-    <!-- CLOSING -->
+  <div class="section">
     <div class="prose">
-      <h2>Where things stand</h2>
-      <p>When you look at both leagues through this data, what emerges is not a simple story about one league being better or worse than another. It is a picture of two different bets. The Premier League has optimized for competitiveness and delivered exactly that, a league where anyone can beat anyone and where the margins at the top are genuinely small. La Liga has tolerated more tactical diversity, produced more of a specific kind of player, and at the top end is home to a club that has been making the same argument about football for decades and keeps winning with it.</p>
-      <p>But those two options, Barcelona's beauty or Arsenal's machine, are not the only choices available. The more interesting question for most clubs is what you do when neither path is realistic. You are not building a generational academy. You are not assembling a high-press system with world-class athleticism across every line. What then?</p>
-      <p>Getafe are the answer the data did not expect. They play a high defensive line with almost no possession, contest more aerial duels than anyone, and have built something coherent and competitive out of a style that most coaches would consider a last resort. Their statistical profile is so distinct that no clustering algorithm knows what to do with them. They sit alone in the spatial map, separated from every other team in both leagues. That is, in its own way, a form of identity. In a landscape where most clubs are converging toward the same solution, full commitment to being genuinely different is its own kind of advantage.</p>
-      <p>There is room in football for more than one answer. Outliers exist at the team level and at the player level. Systems do not fully explain individuals. Some players carry something that transcends their context, and some clubs find ways to compete that the prevailing logic would rule out before they tried. The game has not finished surprising people, and the data, for all that it captures, does not close that door.</p>
-      <p>The Prem proves football can be solved. Barca proves it shouldn't be.</p>
+      <h2>Positional fluidity</h2>
+      <p>The strongest relationship in the team-level dataset is not between pressing intensity and results, or buildup quality and results. It is between squad fluidity and territorial dominance. r = 0.771. Clubs where players routinely break their positional role own the pitch. The pattern holds across both leagues, across budgets, and across very different styles of play.</p>
     </div>
 
-    <div style="margin-top:2.5rem; padding-bottom: 1rem;">
-      <a href="https://github.com/umairsay/solved" class="link-main" target="_blank">View code on GitHub →</a>
+    <div class="chart-block">
+      <div class="chart-legend">
+        <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+        <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+      </div>
+      <div class="chart-canvas-wrap" style="height:360px"><canvas id="c2" role="img" aria-label="Fluidity vs field tilt scatter. r=0.771. Barcelona leads at 70.6% fluidity, 72.3 field tilt. Ipswich and Alaves at 0% near 37 field tilt."></canvas></div>
+      <p class="chart-caption">% of squad breaking positional convention vs field tilt. r = 0.771 — strongest team-level relationship in the dataset.</p>
     </div>
 
-  </section>
+    <div class="stat-strip">
+      <div class="stat-strip-item"><div class="stat-num ll">r = 0.771</div><div class="stat-lbl">fluidity → territorial dominance</div></div>
+      <div class="stat-strip-item"><div class="stat-num pr">57.1%</div><div class="stat-lbl">Newcastle fluidity — punching above their budget</div></div>
+      <div class="stat-strip-item"><div class="stat-num pr">0%</div><div class="stat-lbl">Ipswich &amp; Alaves — rigidly positional, below 37 field tilt</div></div>
+    </div>
+
+    <div class="prose">
+      <p>The positional question in football has shifted. It used to be: does a club have a number 10? Now it is whether the left back can operate as a midfielder, the striker press like one, the midfielder arrive in the box like a forward. The clubs who have solved that across a whole squad rather than in one player are the ones eating territory. Newcastle at 57% squad fluidity and an xGDiff of +0.31 are the clearest example of a non-superclub doing it deliberately. They have built a positionally flexible squad as an organisational principle, and it gives them territory that their budget would not otherwise buy.</p>
+      <p>The regression adds a useful finding. In the Premier League, buildup pass completion has a negative coefficient when predicting xGDiff. Patient, tidy passing out from the back does not win games in England. La Liga returns the same result. What the model rewards is dominance of territory and chance quality, not any particular method of achieving it. How each club gets there remains an open question.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="prose">
+      <h2>The midfield gap</h2>
+      <p>The creativity distribution is where the two leagues pull apart most visibly. The Premier League has excellent midfielders. Cairney at +4.55, Maddison at +4.23, Ødegaard at +3.84 are genuinely good numbers. In La Liga, those scores land somewhere in the mid-upper range of the distribution. Pedri scores +7.86, which puts him almost three full standard deviations above the next best midfielder in England. Luka Modric, aged 39, sits third across both leagues combined on the same metric: progressive passing received, carrying into the final third, and high defensive actions, z-scored against every other midfielder in the dataset. At 39, those numbers still place him among the best in European football.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-legend">
+        <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+        <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+      </div>
+      <div class="chart-canvas-wrap" style="height:280px"><canvas id="c3" role="img" aria-label="Beeswarm of midfielder creativity scores. La Liga extends to Pedri at 7.86. Prem peak Cairney at 4.55. Modric at 6.34 aged 39. D. Rice at 0.60."></canvas></div>
+      <p class="chart-caption">Every dot is a midfielder. Creativity = z-scored progressive passing received + progressive passes + pass completion, within position group.</p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-strip-item"><div class="stat-num ll">+6.34, aged 39</div><div class="stat-lbl">Luka Modric — third across both leagues</div></div>
+      <div class="stat-strip-item"><div class="stat-num ll">+7.86</div><div class="stat-lbl">Pedri — a different register entirely</div></div>
+      <div class="stat-strip-item"><div class="stat-num pr">+0.60</div><div class="stat-lbl">Declan Rice — £105m, median Premier League creativity</div></div>
+    </div>
+
+    <div class="prose">
+      <p>The same distribution contains Declan Rice at +0.60. Arsenal Player of the Season. £105 million. His score sits precisely at the Premier League median, which says less about Rice than it does about the metric — this composite does not capture defensive organisation, pressing intensity, or what he does to structure the team's shape off the ball. What it does capture is where creative output ends and defensive contribution begins. Rice is deep in the second category, which is a legitimate and valuable place to be. The gap is between that reality and how he tends to get discussed in England, where "best midfielder in the world" is a phrase used without much scrutiny. In La Liga, +0.60 is the median. The Premier League constructs reputations in ways the data does not always support, and this is one of the cleaner examples of that.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-legend">
+        <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+        <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+      </div>
+      <div class="chart-canvas-wrap" style="height:640px"><canvas id="c4" role="img" aria-label="Lollipop of top 18 complete midfielders. Pedri leads at 7.98. Top four all La Liga. Maddison first Prem entry at 5th."></canvas></div>
+      <p class="chart-caption">Top 18 midfielders by completeness — z-scored progressive passing + high defensive actions + progressive carrying, within position group.</p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-strip-item"><div class="stat-num ll">4 of 4</div><div class="stat-lbl">La Liga holds the top four spots</div></div>
+      <div class="stat-strip-item"><div class="stat-num pr">5th — Maddison</div><div class="stat-lbl">first Premier League entry</div></div>
+      <div class="stat-strip-item"><div class="stat-num pr">10th — Alex Scott</div><div class="stat-lbl">Bournemouth — the outlier in the list</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="prose">
+      <h2>Be yourself</h2>
+      <p>Tactical distance from the league average does not automatically produce results. The moderate middle of the uniqueness distribution is a performance graveyard. Southampton, Ipswich, and Leicester each sit far from their league's average tactical profile, but the distance reflects the limitations of their squads rather than any deliberate identity. Their statistical outlier status is a consequence of poor recruitment and results, not a cause of anything.</p>
+      <p>At the far ends of the distribution, the picture is different. The clubs that are most tactically distinct from their league average are either among the best or among the worst performers, and the direction they sit in tells the whole story.</p>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-legend">
+        <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+        <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+      </div>
+      <div class="chart-canvas-wrap" style="height:380px"><canvas id="c5" role="img" aria-label="Uniqueness vs xGDiff scatter. Most unique and best: Barcelona, Arsenal, Man City. Most unique and worst: Southampton, Leicester. Middle-uniqueness band shows mixed results."></canvas></div>
+      <p class="chart-caption">Tactical distance from each league's average profile vs xGDiff. Quadratic fit — moderate uniqueness carries no advantage.</p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-strip-item"><div class="stat-num">+9.4</div><div class="stat-lbl">Getafe press balance — highest in La Liga, mid-table</div></div>
+      <div class="stat-strip-item"><div class="stat-num ll">–4.23</div><div class="stat-lbl">Arambarri creativity — 2nd most defensive mid in dataset</div></div>
+      <div class="stat-strip-item"><div class="stat-num pr">–1.33</div><div class="stat-lbl">Southampton xGDiff — unique, but not by choice</div></div>
+    </div>
+
+    <div class="prose">
+      <p>Getafe are the most interesting team in this dataset. Their press balance is +9.4, higher than Barcelona and higher than Liverpool, from a club that finished mid-table in La Liga. Mauro Arambarri scores –4.23 on creativity, the second-most defensive midfielder across both leagues. Their system is genuinely alien to the rest of La Liga: relentless counter-press, almost zero creative midfield output, a compact and suffocating shape that concedes very little and generates just enough going forward. They have not won anything significant. They have stayed in the division every season in a league where mid-table clubs get swallowed up regularly. That is a deliberate, coherent, and sustained tactical identity.</p>
+      <p>Barcelona, Real Madrid, Arsenal, and Man City are all highly unique in their respective leagues and all among the best performers. The style differs entirely between them. What each has in common is a prior commitment to a specific identity, built around what their squads make possible, pursued consistently enough that the results follow.</p>
+
+      <p>Football is not converging. What looks like convergence at the top of the table is something more specific: clubs that have understood exactly what they are and built everything around it.</p>
+
+      <p>Barcelona can play the way they do because they have Pedri and Frenkie de Jong at the centre of everything, Lamine Yamal breaking lines on the right at 17, and a squad so positionally fluid that opposition defensive structures have no stable reference point to organise around. That is not a formula that transfers. It is a specific group of people at particular moments in their development, organised with clarity and conviction.</p>
+
+      <p>Getafe press the way they do because Arambarri and the defensive block around him make that the most coherent version of what they have available. The football is not entertaining. It is effective, and surviving in La Liga year after year is the evidence of that.</p>
+
+      <p>Newcastle sit somewhere between those two cases. Not a superclub, no historic claim to the elite, but a mid-budget club that has made positional flexibility a genuine organisational principle rather than an accident of squad assembly. The territory it buys them is real and it has not cost them a transfer record to get there.</p>
+
+      <p>The next step in this direction is not finding a new tactical idea — it is narrower than that. The clubs getting the most out of their squads are the ones who have stopped recruiting positions and started recruiting profiles. The difference between deciding a club needs a midfielder and identifying that it needs a player whose progressive passing received sits in the 90th percentile, who presses at 1.5 times the positional median, and who can arrive in the box from deep — someone closer to De Paul or Kovacic, whose completeness scores reflect genuine multi-dimensionality rather than specialisation in one dimension. The data is detailed enough to do that now. The constraint has never been the analysis. It is how precisely a club can translate what the numbers describe into what the recruitment actually delivers.</p>
+
+      <p>Every era of football produces a dominant idea that looks, for a while, like the answer. Total football. Tiki-taka. Gegenpressing. Each one shapes the game until the game adjusts around it. What 2024/25 shows is something different: football has never been more analytically understood and never more tactically diverse at the same time. The tools to understand what a club is have never been sharper. What gets built from that understanding is still the hard part, still entirely each club's own problem to solve — and still, clearly, unsolved by most of them.</p>
+
+      <p><a href="https://github.com/umairsay/sotf25" class="link-main">View code on GitHub ↗</a></p>
+    </div>
+  </div>
 
   <div id="site-footer"></div>
 
 </div>
 
-<div id="lightbox" onclick="closeLightbox()">
-  <img id="lb-img" src="" alt="" />
-</div>
-
-<script src="../includes.js"></script>
+<script src="/includes.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <script>
-  function openLightbox(src) {
-    document.getElementById('lb-img').src = src;
-    document.getElementById('lightbox').classList.add('open');
+Chart.register(ChartDataLabels);
+
+const LL='#9A6010',PR='#1A4A8A';
+const LLA='rgba(154,96,16,0.70)',PRA='rgba(26,74,138,0.70)';
+const GRID='rgba(216,212,204,0.6)',MUT='#6B6760',INK='#1C1A17';
+
+const teams=[
+  {t:"Barcelona",l:"La Liga",PC1:4.53,PC2:0.29,xGDiff:1.18,cd:4.59,label:true},
+  {t:"Real",l:"La Liga",PC1:2.88,PC2:0.39,xGDiff:0.93,cd:3.35,label:true},
+  {t:"Atletico",l:"La Liga",PC1:0.76,PC2:1.39,xGDiff:0.89,cd:2.21,label:true},
+  {t:"Villarreal",l:"La Liga",PC1:-0.07,PC2:0.74,xGDiff:0.50,cd:1.41,label:false},
+  {t:"Athletic",l:"La Liga",PC1:1.08,PC2:-0.39,xGDiff:0.27,cd:1.33,label:false},
+  {t:"Celta",l:"La Liga",PC1:0.89,PC2:0.72,xGDiff:0.25,cd:1.40,label:false},
+  {t:"Sociedad",l:"La Liga",PC1:0.50,PC2:0.03,xGDiff:0.19,cd:0.89,label:false},
+  {t:"Betis",l:"La Liga",PC1:0.52,PC2:0.38,xGDiff:0.08,cd:0.93,label:false},
+  {t:"Sevilla",l:"La Liga",PC1:-0.60,PC2:0.33,xGDiff:-0.07,cd:0.84,label:false},
+  {t:"Alaves",l:"La Liga",PC1:-0.48,PC2:-1.80,xGDiff:-0.12,cd:1.76,label:false},
+  {t:"Rayo",l:"La Liga",PC1:-0.10,PC2:-0.37,xGDiff:-0.21,cd:0.75,label:false},
+  {t:"Mallorca",l:"La Liga",PC1:-1.26,PC2:-0.24,xGDiff:-0.22,cd:1.36,label:false},
+  {t:"Valencia",l:"La Liga",PC1:-0.75,PC2:0.10,xGDiff:-0.24,cd:0.87,label:false},
+  {t:"Girona",l:"La Liga",PC1:0.93,PC2:0.51,xGDiff:-0.24,cd:1.73,label:false},
+  {t:"Getafe",l:"La Liga",PC1:-0.26,PC2:-3.29,xGDiff:-0.27,cd:3.36,label:true},
+  {t:"Osasuna",l:"La Liga",PC1:-0.32,PC2:-1.31,xGDiff:-0.31,cd:1.20,label:false},
+  {t:"Espanyol",l:"La Liga",PC1:-2.35,PC2:-0.66,xGDiff:-0.49,cd:2.50,label:false},
+  {t:"Leganes",l:"La Liga",PC1:-1.87,PC2:-1.27,xGDiff:-0.57,cd:2.22,label:false},
+  {t:"Las Palmas",l:"La Liga",PC1:-1.55,PC2:0.13,xGDiff:-0.71,cd:1.72,label:false},
+  {t:"Valladolid",l:"La Liga",PC1:-2.70,PC2:-0.11,xGDiff:-0.84,cd:2.91,label:true},
+  {t:"Wolves",l:"Prem",PC1:-1.48,PC2:0.80,xGDiff:-0.35,cd:1.60,label:false},
+  {t:"West Ham",l:"Prem",PC1:-1.54,PC2:0.75,xGDiff:-0.35,cd:1.66,label:false},
+  {t:"Spurs",l:"Prem",PC1:-0.18,PC2:1.38,xGDiff:-0.14,cd:1.39,label:false},
+  {t:"Southampton",l:"Prem",PC1:-2.10,PC2:0.80,xGDiff:-1.33,cd:2.85,label:true},
+  {t:"Nottm Forest",l:"Prem",PC1:-1.87,PC2:-1.06,xGDiff:-0.19,cd:2.66,label:true},
+  {t:"Newcastle",l:"Prem",PC1:0.92,PC2:0.09,xGDiff:0.31,cd:1.00,label:true},
+  {t:"Man Utd",l:"Prem",PC1:-0.71,PC2:1.45,xGDiff:-0.09,cd:1.62,label:false},
+  {t:"Man City",l:"Prem",PC1:4.12,PC2:-0.36,xGDiff:0.44,cd:4.36,label:true},
+  {t:"Liverpool",l:"Prem",PC1:2.81,PC2:0.22,xGDiff:1.19,cd:2.95,label:true},
+  {t:"Leicester",l:"Prem",PC1:-2.81,PC2:0.81,xGDiff:-1.13,cd:3.02,label:true},
+  {t:"Ipswich",l:"Prem",PC1:-2.35,PC2:0.19,xGDiff:-0.76,cd:2.44,label:true},
+  {t:"Fulham",l:"Prem",PC1:0.27,PC2:0.88,xGDiff:0.21,cd:0.94,label:false},
+  {t:"Everton",l:"Prem",PC1:-0.78,PC2:-1.41,xGDiff:-0.22,cd:1.99,label:false},
+  {t:"Chelsea",l:"Prem",PC1:1.71,PC2:0.53,xGDiff:0.35,cd:1.75,label:true},
+  {t:"C. Palace",l:"Prem",PC1:-1.70,PC2:0.47,xGDiff:0.25,cd:2.44,label:false},
+  {t:"Brighton",l:"Prem",PC1:1.63,PC2:-0.18,xGDiff:0.19,cd:1.74,label:true},
+  {t:"Brentford",l:"Prem",PC1:-0.52,PC2:0.06,xGDiff:0.14,cd:0.90,label:false},
+  {t:"Bournemouth",l:"Prem",PC1:0.63,PC2:-0.76,xGDiff:0.43,cd:1.55,label:true},
+  {t:"Aston Villa",l:"Prem",PC1:0.13,PC2:0.87,xGDiff:0.23,cd:0.75,label:false},
+  {t:"Arsenal",l:"Prem",PC1:4.02,PC2:-1.12,xGDiff:0.89,cd:4.29,label:true},
+];
+
+const fluidity=[
+  {t:"Alaves",l:"La Liga",fp:0,FTILT:50.61,label:true},
+  {t:"Arsenal",l:"Prem",fp:12.5,FTILT:65.07,label:true},
+  {t:"Aston Villa",l:"Prem",fp:12.5,FTILT:49.20,label:false},
+  {t:"Athletic",l:"La Liga",fp:25,FTILT:55.02,label:false},
+  {t:"Atletico",l:"La Liga",fp:25,FTILT:54.43,label:true},
+  {t:"Barcelona",l:"La Liga",fp:70.6,FTILT:72.29,label:true},
+  {t:"Betis",l:"La Liga",fp:25,FTILT:55.04,label:false},
+  {t:"Bournemouth",l:"Prem",fp:40,FTILT:52.13,label:true},
+  {t:"Brentford",l:"Prem",fp:28.6,FTILT:42.97,label:false},
+  {t:"Brighton",l:"Prem",fp:50,FTILT:58.61,label:true},
+  {t:"C. Palace",l:"Prem",fp:14.3,FTILT:41.29,label:false},
+  {t:"Celta",l:"La Liga",fp:30,FTILT:53.87,label:false},
+  {t:"Chelsea",l:"Prem",fp:31.3,FTILT:60.75,label:true},
+  {t:"Espanyol",l:"La Liga",fp:6.3,FTILT:35.44,label:false},
+  {t:"Everton",l:"Prem",fp:5.9,FTILT:42.60,label:false},
+  {t:"Fulham",l:"Prem",fp:18.8,FTILT:55.31,label:false},
+  {t:"Getafe",l:"La Liga",fp:22.2,FTILT:50.93,label:true},
+  {t:"Girona",l:"La Liga",fp:28.6,FTILT:53.83,label:false},
+  {t:"Ipswich",l:"Prem",fp:0,FTILT:36.69,label:true},
+  {t:"Las Palmas",l:"La Liga",fp:5.3,FTILT:45.66,label:false},
+  {t:"Leganes",l:"La Liga",fp:6.3,FTILT:36.30,label:false},
+  {t:"Leicester",l:"Prem",fp:5.3,FTILT:36.94,label:true},
+  {t:"Liverpool",l:"Prem",fp:60,FTILT:61.34,label:true},
+  {t:"Mallorca",l:"La Liga",fp:6.3,FTILT:42.53,label:false},
+  {t:"Man City",l:"Prem",fp:68.8,FTILT:71.55,label:true},
+  {t:"Man Utd",l:"Prem",fp:22.2,FTILT:52.05,label:false},
+  {t:"Newcastle",l:"Prem",fp:57.1,FTILT:53.54,label:true},
+  {t:"Nottm Forest",l:"Prem",fp:14.3,FTILT:42.06,label:false},
+  {t:"Osasuna",l:"La Liga",fp:12.5,FTILT:48.14,label:false},
+  {t:"Rayo",l:"La Liga",fp:22.2,FTILT:52.95,label:false},
+  {t:"Real",l:"La Liga",fp:44.4,FTILT:63.18,label:true},
+  {t:"Sevilla",l:"La Liga",fp:6.7,FTILT:48.42,label:false},
+  {t:"Sociedad",l:"La Liga",fp:35,FTILT:53.60,label:false},
+  {t:"Southampton",l:"Prem",fp:11.8,FTILT:41.16,label:true},
+  {t:"Spurs",l:"Prem",fp:35,FTILT:52.53,label:true},
+  {t:"Valencia",l:"La Liga",fp:18.8,FTILT:48.09,label:false},
+  {t:"Valladolid",l:"La Liga",fp:14.3,FTILT:34.00,label:false},
+  {t:"Villarreal",l:"La Liga",fp:18.8,FTILT:45.67,label:false},
+  {t:"West Ham",l:"Prem",fp:11.1,FTILT:40.83,label:false},
+  {t:"Wolves",l:"Prem",fp:11.8,FTILT:43.38,label:false},
+];
+
+const mids18=[
+  {p:"Pedri",t:"Barcelona",l:"La Liga",comp:7.98},
+  {p:"Frenkie de Jong",t:"Barcelona",l:"La Liga",comp:6.96},
+  {p:"Luka Modric",t:"Real",l:"La Liga",comp:6.74},
+  {p:"Dani Ceballos",t:"Real",l:"La Liga",comp:6.71},
+  {p:"James Maddison",t:"Spurs",l:"Prem",comp:6.17},
+  {p:"Rodrigo De Paul",t:"Atletico",l:"La Liga",comp:5.99},
+  {p:"Martin Ødegaard",t:"Arsenal",l:"Prem",comp:5.89},
+  {p:"Dejan Kulusevski",t:"Spurs",l:"Prem",comp:5.33},
+  {p:"Mateo Kovacic",t:"Man City",l:"Prem",comp:5.30},
+  {p:"Alex Scott",t:"Bournemouth",l:"Prem",comp:4.13},
+  {p:"Bruno Guimarães",t:"Newcastle",l:"Prem",comp:3.76},
+  {p:"Bernardo Silva",t:"Man City",l:"Prem",comp:3.54},
+  {p:"Ilkay Gündogan",t:"Man City",l:"Prem",comp:3.35},
+  {p:"Enzo Fernández",t:"Chelsea",l:"Prem",comp:3.24},
+  {p:"Alexis Mac Allister",t:"Liverpool",l:"Prem",comp:2.71},
+  {p:"Arthur",t:"Girona",l:"La Liga",comp:2.68},
+  {p:"Tom Cairney",t:"Fulham",l:"Prem",comp:2.30},
+  {p:"Phil Foden",t:"Man City",l:"Prem",comp:2.21},
+].reverse();
+
+const laMidsData = [
+  {s:-4.785,p:'Chuki',t:'Valladolid'},
+  {s:-4.229,p:'Mauro Arambarri',t:'Getafe'},
+  {s:-4.009,p:'Stefan Bajcetic',t:'Las Palmas'},
+  {s:-3.487,p:'Alex Král',t:'Espanyol'},
+  {s:-3.279,p:'Luis Milla',t:'Getafe'},
+  {s:-3.056,p:'Renato Tapia',t:'Leganés'},
+  {s:-3.01,p:'Urko González',t:'Espanyol'},
+  {s:-2.946,p:'Pablo Ibáñez',t:'Osasuna'},
+  {s:-2.579,p:'Gerard Gumbau',t:'Rayo'},
+  {s:-2.515,p:'Antonio Blanco',t:'Alavés'},
+  {s:-2.484,p:'Jon Moncayola',t:'Osasuna'},
+  {s:-2.439,p:'Ander Guevara',t:'Alavés'},
+  {s:-2.367,p:'Lucas Torró',t:'Osasuna'},
+  {s:-2.326,p:'Stanko Juric',t:'Valladolid'},
+  {s:-2.168,p:'Omar Mascarell',t:'Mallorca'},
+  {s:-2.142,p:'Selim Amallah',t:'Valladolid'},
+  {s:-1.822,p:'Óscar Valentín',t:'Rayo'},
+  {s:-1.697,p:'Tamás Nikitscher',t:'Valladolid'},
+  {s:-1.686,p:'Joan Jordán',t:'Alavés'},
+  {s:-1.67,p:'Pol Lozano',t:'Espanyol'},
+  {s:-1.562,p:'Beñat Prados',t:'Athletic'},
+  {s:-1.548,p:'Dário Essugo',t:'Las Palmas'},
+  {s:-1.365,p:'Mikel Jauregizar',t:'Athletic'},
+  {s:-1.297,p:'Seydouba Cissé',t:'Leganés'},
+  {s:-1.179,p:'Saúl Ñíguez',t:'Sevilla'},
+  {s:-1.164,p:'Pablo Marín',t:'Sociedad'},
+  {s:-1.12,p:'Kike Pérez',t:'Valladolid'},
+  {s:-1.046,p:'Yvan Neyou',t:'Leganés'},
+  {s:-1.017,p:'Johnny Cardoso',t:'Betis'},
+  {s:-0.885,p:'Pathé Ciss',t:'Rayo'},
+  {s:-0.869,p:'Samú Costa',t:'Mallorca'},
+  {s:-0.807,p:'Mario Martín',t:'Valladolid'},
+  {s:-0.722,p:'Pepelu',t:'Valencia'},
+  {s:-0.468,p:'Lucien Agoumé',t:'Sevilla'},
+  {s:-0.455,p:'Enzo Loiodice',t:'Las Palmas'},
+  {s:-0.421,p:'Javi Guerra',t:'Valencia'},
+  {s:-0.399,p:'Mikel Vesga',t:'Athletic'},
+  {s:-0.372,p:'Marc Roca',t:'Betis'},
+  {s:-0.299,p:'Jon Olasagasti',t:'Sociedad'},
+  {s:-0.204,p:'Martín Zubimendi',t:'Sociedad'},
+  {s:-0.151,p:'Pedro Díaz',t:'Rayo'},
+  {s:-0.08,p:'Enzo Barrenechea',t:'Valencia'},
+  {s:-0.077,p:'Moi Gómez',t:'Osasuna'},
+  {s:0.25,p:'Beñat Turrientes',t:'Sociedad'},
+  {s:0.386,p:'José Campaña',t:'Las Palmas'},
+  {s:0.391,p:'Luka Sucic',t:'Sociedad'},
+  {s:0.492,p:'Yangel Herrera',t:'Girona'},
+  {s:0.635,p:'Sergi Altimira',t:'Betis'},
+  {s:0.65,p:'Djibril Sow',t:'Sevilla'},
+  {s:0.692,p:'Manu Morlanes',t:'Mallorca'},
+  {s:0.697,p:'Fran Beltrán',t:'Celta'},
+  {s:0.72,p:'Aimar Oroz',t:'Osasuna'},
+  {s:0.794,p:'Pape Gueye',t:'Villarreal'},
+  {s:1.008,p:'Pablo Barrios',t:'Atletico'},
+  {s:1.111,p:'Unai López',t:'Rayo'},
+  {s:1.119,p:'Íñigo Ruíz de Galarreta',t:'Athletic'},
+  {s:1.135,p:'Dani Parejo',t:'Villarreal'},
+  {s:1.15,p:'Eduardo Camavinga',t:'Real Madrid'},
+  {s:1.151,p:'Oriol Romeu',t:'Girona'},
+  {s:1.196,p:'Pablo Fornals',t:'Betis'},
+  {s:1.273,p:'Santi Comesaña',t:'Villarreal'},
+  {s:1.322,p:'Brais Méndez',t:'Sociedad'},
+  {s:1.388,p:'Ilaix Moriba',t:'Celta'},
+  {s:1.595,p:'Albert Sambi Lokonga',t:'Sevilla'},
+  {s:1.821,p:'Koke',t:'Atletico'},
+  {s:2.002,p:'Kirian Rodríguez',t:'Las Palmas'},
+  {s:2.275,p:'Hugo Sotelo',t:'Celta'},
+  {s:2.47,p:'Damián Rodríguez',t:'Celta'},
+  {s:3.012,p:'Federico Valverde',t:'Real Madrid'},
+  {s:3.272,p:'Iván Martín',t:'Girona'},
+  {s:3.584,p:'Marc Casadó',t:'Barcelona'},
+  {s:3.73,p:'Arthur',t:'Girona'},
+  {s:4.016,p:'Rodrigo De Paul',t:'Atletico'},
+  {s:6.342,p:'Luka Modric',t:'Real Madrid'},
+  {s:6.531,p:'Dani Ceballos',t:'Real Madrid'},
+  {s:6.563,p:'Frenkie de Jong',t:'Barcelona'},
+  {s:7.859,p:'Pedri',t:'Barcelona'}
+];
+
+const prMidsData = [
+  {s:-3.686,p:'James Garner',t:'Everton'},
+  {s:-3.141,p:'Will Hughes',t:'C. Palace'},
+  {s:-3.022,p:'Lewis Cook',t:'Bournemouth'},
+  {s:-3.016,p:'Ryan Yates',t:'Nottm Forest'},
+  {s:-3.011,p:'Kalvin Phillips',t:'Ipswich'},
+  {s:-2.741,p:'Andreas Pereira',t:'Fulham'},
+  {s:-2.606,p:'Tomás Soucek',t:'West Ham'},
+  {s:-2.469,p:'Jefferson Lerma',t:'C. Palace'},
+  {s:-2.399,p:'Mario Lemina',t:'Wolves'},
+  {s:-2.211,p:'Jens Cajuste',t:'Ipswich'},
+  {s:-2.11,p:'Guido Rodríguez',t:'West Ham'},
+  {s:-1.812,p:'Tyler Adams',t:'Bournemouth'},
+  {s:-1.791,p:'Oliver Skipp',t:'Leicester'},
+  {s:-1.775,p:'Adam Wharton',t:'C. Palace'},
+  {s:-1.486,p:'Lesley Ugochukwu',t:'Southampton'},
+  {s:-1.293,p:'Manuel Ugarte',t:'Man Utd'},
+  {s:-1.076,p:'Vitaly Janelt',t:'Brentford'},
+  {s:-1.05,p:'Ryan Christie',t:'Bournemouth'},
+  {s:-1.028,p:'Sean Longstaff',t:'Newcastle'},
+  {s:-0.993,p:'Wilfred Ndidi',t:'Leicester'},
+  {s:-0.943,p:'Christian Nørgaard',t:'Brentford'},
+  {s:-0.914,p:'Orel Mangala',t:'Everton'},
+  {s:-0.901,p:'Daichi Kamada',t:'C. Palace'},
+  {s:-0.88,p:'Sandro Tonali',t:'Newcastle'},
+  {s:-0.644,p:'Nicolás Domínguez',t:'Nottm Forest'},
+  {s:-0.629,p:'Idrissa Gueye',t:'Everton'},
+  {s:-0.622,p:'Elliot Anderson',t:'Nottm Forest'},
+  {s:-0.489,p:'Carlos Baleba',t:'Brighton'},
+  {s:-0.484,p:'Jack Hinshelwood',t:'Brighton'},
+  {s:-0.472,p:'Mikel Merino',t:'Arsenal'},
+  {s:-0.403,p:'Boubacar Kamara',t:'Aston Villa'},
+  {s:-0.361,p:'Yasin Ayari',t:'Brighton'},
+  {s:-0.357,p:'Amadou Onana',t:'Aston Villa'},
+  {s:-0.342,p:'Jack Taylor',t:'Ipswich'},
+  {s:-0.289,p:'Edson Álvarez',t:'West Ham'},
+  {s:-0.285,p:'Sasa Lukic',t:'Fulham'},
+  {s:-0.284,p:'Yves Bissouma',t:'Spurs'},
+  {s:-0.277,p:'Yehor Yarmoliuk',t:'Brentford'},
+  {s:-0.208,p:'Flynn Downes',t:'Southampton'},
+  {s:-0.114,p:'João Gomes',t:'Wolves'},
+  {s:-0.106,p:'Sam Morsy',t:'Ipswich'},
+  {s:-0.072,p:'Sander Berge',t:'Fulham'},
+  {s:-0.001,p:'Lucas Bergvall',t:'Spurs'},
+  {s:0.021,p:'Boubakary Soumaré',t:'Leicester'},
+  {s:0.052,p:'André',t:'Wolves'},
+  {s:0.087,p:'Mathias Jensen',t:'Brentford'},
+  {s:0.096,p:'Pape Sarr',t:'Spurs'},
+  {s:0.183,p:'Christian Eriksen',t:'Man Utd'},
+  {s:0.215,p:'Dejan Kulusevski',t:'Spurs'},
+  {s:0.359,p:'Joelinton',t:'Newcastle'},
+  {s:0.532,p:'Casemiro',t:'Man Utd'},
+  {s:0.558,p:'Joe Aribo',t:'Southampton'},
+  {s:0.601,p:'Declan Rice',t:'Arsenal'},
+  {s:0.64,p:'Kobbie Mainoo',t:'Man Utd'},
+  {s:0.785,p:'Roméo Lavia',t:'Chelsea'},
+  {s:0.817,p:'Rodrigo Bentancur',t:'Spurs'},
+  {s:0.85,p:'Joe Willock',t:'Newcastle'},
+  {s:0.852,p:'Harry Winks',t:'Leicester'},
+  {s:1.037,p:'James Ward-Prowse',t:'West Ham'},
+  {s:1.124,p:'Alex Scott',t:'Bournemouth'},
+  {s:1.273,p:'Thomas Partey',t:'Arsenal'},
+  {s:1.442,p:'Youri Tielemans',t:'Aston Villa'},
+  {s:1.745,p:'Bernardo Silva',t:'Man City'},
+  {s:1.865,p:'Moisés Caicedo',t:'Chelsea'},
+  {s:1.887,p:'Lucas Paquetá',t:'West Ham'},
+  {s:1.925,p:'Alexis Mac Allister',t:'Liverpool'},
+  {s:2.138,p:'Ryan Gravenberch',t:'Liverpool'},
+  {s:2.239,p:'Bruno Guimarães',t:'Newcastle'},
+  {s:2.416,p:'Nico González',t:'Man City'},
+  {s:2.454,p:'Enzo Fernández',t:'Chelsea'},
+  {s:2.957,p:'Phil Foden',t:'Man City'},
+  {s:3.843,p:'Martin Ødegaard',t:'Arsenal'},
+  {s:4.079,p:'Mateo Kovacic',t:'Man City'},
+  {s:4.234,p:'James Maddison',t:'Spurs'},
+  {s:4.507,p:'Ilkay Gündogan',t:'Man City'},
+  {s:4.555,p:'Tom Cairney',t:'Fulham'}
+];
+
+function buildScatter(id,data,xKey,yKey,xLabel,yLabel){
+  const ll=data.filter(d=>d.l==="La Liga"),pr=data.filter(d=>d.l==="Prem");
+  return new Chart(document.getElementById(id),{
+    type:'scatter',
+    data:{datasets:[
+      {data:ll.filter(d=>!d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:LLA,borderColor:'transparent',pointRadius:5.5,pointHoverRadius:7,datalabels:{display:false}},
+      {data:pr.filter(d=>!d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:PRA,borderColor:'transparent',pointRadius:5.5,pointHoverRadius:7,datalabels:{display:false}},
+      {data:ll.filter(d=>d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:LLA,borderColor:LL,borderWidth:1.5,pointRadius:6,pointHoverRadius:8,
+        datalabels:{display:true,color:LL,font:{size:10,family:'Lora,serif'},
+          formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:5}},
+      {data:pr.filter(d=>d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:PRA,borderColor:PR,borderWidth:1.5,pointRadius:6,pointHoverRadius:8,
+        datalabels:{display:true,color:PR,font:{size:10,family:'Lora,serif'},
+          formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:5}},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:30,right:22,bottom:6,left:6}},
+      plugins:{legend:{display:false},datalabels:{clamp:true},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw.t}: (${ctx.raw.x.toFixed(2)}, ${ctx.raw.y.toFixed(2)})`}}},
+      scales:{
+        x:{title:{display:true,text:xLabel,font:{size:11,family:'DM Sans,sans-serif'},color:MUT},
+           grid:{color:GRID},ticks:{color:MUT,font:{size:10}},border:{color:GRID}},
+        y:{title:{display:true,text:yLabel,font:{size:11,family:'DM Sans,sans-serif'},color:MUT},
+           grid:{color:GRID},ticks:{color:MUT,font:{size:10}},border:{color:GRID}}
+      }
+    }
+  });
+}
+
+buildScatter('c1',teams,'PC1','PC2','PC1 — dominance axis (66% of variance) →','PC2 — press style →');
+buildScatter('c2',fluidity,'fp','FTILT','Squad fluidity % →','Field tilt →');
+
+function nameHash(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return Math.abs(h);}
+function jitter(name){return (nameHash(name)%1000)/1000*0.52-0.26;}
+
+new Chart(document.getElementById('c3'),{
+  type:'scatter',
+  data:{datasets:[
+    {data:laMidsData.map(d=>({x:d.s,y:1+jitter(d.p),p:d.p,t:d.t})),
+      backgroundColor:LLA,borderColor:'transparent',pointRadius:4,pointHoverRadius:6,datalabels:{display:false}},
+    {data:prMidsData.map(d=>({x:d.s,y:2+jitter(d.p),p:d.p,t:d.t})),
+      backgroundColor:PRA,borderColor:'transparent',pointRadius:4,pointHoverRadius:6,datalabels:{display:false}},
+    {data:[{x:7.859,y:1.22,p:'Pedri',t:'Barcelona'},{x:6.342,y:0.76,p:'Modric (39)',t:'Real Madrid'},{x:6.563,y:1.18,p:'FdJ',t:'Barcelona'},{x:-4.229,y:0.84,p:'Arambarri',t:'Getafe'},{x:4.555,y:2.24,p:'Cairney',t:'Fulham'},{x:3.843,y:1.80,p:'Ødegaard',t:'Arsenal'},{x:0.601,y:1.94,p:'D. Rice',t:'Arsenal'}],
+      backgroundColor:'transparent',borderColor:'transparent',pointRadius:0,
+      datalabels:{display:true,font:{size:9.5,family:'DM Mono,monospace'},
+        color:ctx=>[LL,LL,LL,LL,PR,PR,PR][ctx.dataIndex],
+        formatter:v=>v.p,align:'top',offset:3}}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:24,right:14,bottom:6,left:6}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.raw.p?`${ctx.raw.p} · ${ctx.raw.t}  (${ctx.raw.x.toFixed(2)})`:`${ctx.raw.x.toFixed(2)}`}}},
+    scales:{
+      x:{title:{display:true,text:'← more defensive  |  creativity (z)  |  more creative →',font:{size:11,family:'DM Sans,sans-serif'},color:MUT},
+         grid:{color:GRID},ticks:{color:MUT,font:{size:10}},min:-5.5,max:9.5,border:{color:GRID}},
+      y:{ticks:{callback:v=>v<1.5?'La Liga':v>1.5?'Prem':'',color:MUT,font:{size:10,family:'DM Mono,monospace'}},
+         min:0.2,max:2.8,grid:{color:'rgba(216,212,204,0.3)'},border:{color:GRID},
+         afterTickToLabelConversion:s=>s.ticks=s.ticks.filter(t=>t.value===1||t.value===2)}
+    }
   }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
+});
+
+new Chart(document.getElementById('c4'),{
+  type:'bar',
+  data:{
+    labels:mids18.map(d=>`${d.p}  ·  ${d.t}`),
+    datasets:[{
+      data:mids18.map(d=>d.comp),
+      backgroundColor:mids18.map(d=>d.l==='La Liga'?LLA:PRA),
+      borderColor:mids18.map(d=>d.l==='La Liga'?LL:PR),
+      borderWidth:1.2,borderRadius:2,barThickness:14,
+      datalabels:{display:ctx=>ctx.dataIndex>=14,anchor:'end',align:'end',
+        color:ctx=>mids18[ctx.dataIndex].l==='La Liga'?LL:PR,
+        font:{size:9.5,family:'DM Mono,monospace'},formatter:v=>v.toFixed(2)}
+    }]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{right:42,top:4,bottom:4}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`${mids18[ctx.dataIndex].t} (${mids18[ctx.dataIndex].l}): ${ctx.parsed.x.toFixed(2)}`}}},
+    scales:{
+      x:{title:{display:true,text:'Complete score (create + press + carry) →',font:{size:11,family:'DM Sans,sans-serif'},color:MUT},
+         grid:{color:GRID},ticks:{color:MUT,font:{size:10}},min:0,max:10,border:{color:GRID}},
+      y:{grid:{display:false},ticks:{color:INK,font:{size:10,family:'DM Mono,monospace'}},border:{color:GRID}}
+    }
   }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+});
+
+const xs=teams.map(d=>d.cd),ys=teams.map(d=>d.xGDiff);
+const n=xs.length,sx=xs.reduce((a,b)=>a+b),sy=ys.reduce((a,b)=>a+b);
+const sx2=xs.reduce((a,x)=>a+x*x),sxy=xs.reduce((a,x,i)=>a+x*ys[i]);
+const sxy2=xs.reduce((a,x,i)=>a+x*x*ys[i]),sx3=xs.reduce((a,x)=>a+x*x*x),sx4=xs.reduce((a,x)=>a+x*x*x*x);
+function solve3(A,b){const n=b.length,M=A.map((r,i)=>[...r,b[i]]);for(let c=0;c<n;c++){let mx=c;for(let r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[mx][c]))mx=r;[M[c],M[mx]]=[M[mx],M[c]];for(let r=c+1;r<n;r++){const f=M[r][c]/M[c][c];for(let k=c;k<=n;k++)M[r][k]-=f*M[c][k];}}const x=new Array(n).fill(0);for(let i=n-1;i>=0;i--){x[i]=M[i][n];for(let j=i+1;j<n;j++)x[i]-=M[i][j]*x[j];x[i]/=M[i][i];}return x;}
+const[c0,c1q,c2q]=solve3([[n,sx,sx2],[sx,sx2,sx3],[sx2,sx3,sx4]],[sy,sxy,sxy2]);
+const xmin=Math.min(...xs)-.1,xmax=Math.max(...xs)+.1;
+const curveX=Array.from({length:60},(_,i)=>xmin+(xmax-xmin)*i/59);
+const tLL=teams.filter(d=>d.l==='La Liga'),tPR=teams.filter(d=>d.l==='Prem');
+
+new Chart(document.getElementById('c5'),{
+  type:'scatter',
+  data:{datasets:[
+    {data:tLL.filter(d=>!d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:LLA,borderColor:'transparent',pointRadius:5.5,datalabels:{display:false}},
+    {data:tPR.filter(d=>!d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:PRA,borderColor:'transparent',pointRadius:5.5,datalabels:{display:false}},
+    {data:tLL.filter(d=>d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:LLA,borderColor:LL,borderWidth:1.5,pointRadius:6,
+      datalabels:{display:true,color:LL,font:{size:10,family:'Lora,serif'},
+        formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:5}},
+    {data:tPR.filter(d=>d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:PRA,borderColor:PR,borderWidth:1.5,pointRadius:6,
+      datalabels:{display:true,color:PR,font:{size:10,family:'Lora,serif'},
+        formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:5}},
+    {data:curveX.map((x,i)=>({x,y:c0+c1q*x+c2q*x*x})),
+      type:'line',borderColor:'rgba(107,103,96,0.4)',borderWidth:1.5,borderDash:[5,4],
+      pointRadius:0,tension:0.4,fill:false,datalabels:{display:false}},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:30,right:22,bottom:6,left:6}},
+    plugins:{legend:{display:false},datalabels:{clamp:true},
+      tooltip:{filter:i=>i.datasetIndex<4,callbacks:{label:ctx=>`${ctx.raw.t}: uniqueness ${ctx.raw.x.toFixed(2)}, xGDiff ${ctx.raw.y.toFixed(2)}`}}},
+    scales:{
+      x:{title:{display:true,text:'Tactical uniqueness →',font:{size:11,family:'DM Sans,sans-serif'},color:MUT},
+         grid:{color:GRID},ticks:{color:MUT,font:{size:10}},border:{color:GRID}},
+      y:{title:{display:true,text:'xGDiff →',font:{size:11,family:'DM Sans,sans-serif'},color:MUT},
+         grid:{color:GRID},ticks:{color:MUT,font:{size:10}},border:{color:GRID}}
+    }
+  }
+});
 </script>
 
+<!-- ── EXPLORE THE DATA ── -->
+<style>
+  .tab-bar {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: .63rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .55rem 1rem;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    color: var(--mid);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    border-bottom: none;
+  }
+  .tab-btn:hover { color: var(--ink); }
+  .tab-btn.active {
+    background: var(--card);
+    color: var(--accent);
+    border-color: var(--rule);
+    border-bottom: 1px solid var(--card);
+    position: relative;
+    z-index: 2;
+  }
+  .tab-panel {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    padding: 2rem 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .tab-panel.active { display: block; }
+  .explore-stats {
+    display: flex;
+    gap: 1px;
+    background: var(--rule);
+    margin-bottom: 1.4rem;
+  }
+  .explore-stat {
+    flex: 1;
+    background: var(--card);
+    padding: .9rem 1.1rem;
+  }
+  .explore-stat-num {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .explore-stat-num.ll { color: #9A6010; }
+  .explore-stat-num.pr { color: #1A4A8A; }
+  .explore-stat-lbl {
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--mid);
+    line-height: 1.4;
+  }
+  .explore-legend {
+    display: flex;
+    gap: 1.4rem;
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: .7rem;
+    align-items: center;
+  }
+  @media (max-width: 560px) {
+    .tab-btn { font-size: .58rem; padding: .5rem .7rem; }
+    .explore-stats { flex-direction: column; }
+  }
+</style>
+
+<div class="section">
+  <p class="section-label">Explore the data</p>
+  <div class="prose" style="margin-bottom:1.8rem">
+    <p>Five interactive charts — hover any point for exact values.</p>
+  </div>
+
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="d1">Tactical landscape</button>
+    <button class="tab-btn" data-tab="d2">Fluidity × territory</button>
+    <button class="tab-btn" data-tab="d3">Midfield creativity</button>
+    <button class="tab-btn" data-tab="d4">Complete midfielders</button>
+    <button class="tab-btn" data-tab="d5">Uniqueness × performance</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="tab-panel active" id="d1">
+    <div class="explore-stats">
+      <div class="explore-stat"><div class="explore-stat-num">66%</div><div class="explore-stat-lbl">variance on one axis</div></div>
+      <div class="explore-stat"><div class="explore-stat-num ll">15.1</div><div class="explore-stat-lbl">Arsenal danger turnovers</div></div>
+      <div class="explore-stat"><div class="explore-stat-num pr">4.12</div><div class="explore-stat-lbl">Man City PC1 score</div></div>
+    </div>
+    <div class="explore-legend">
+      <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+      <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+      <span>hover for values</span>
+    </div>
+    <div style="position:relative;height:400px"><canvas id="d1c"></canvas></div>
+    <p class="chart-caption" style="margin-top:.8rem">PC1 = dominance axis (66% of variance). PC2 = press style. Top-right cluster: the five elite teams.</p>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="tab-panel" id="d2">
+    <div class="explore-stats">
+      <div class="explore-stat"><div class="explore-stat-num ll">r = 0.771</div><div class="explore-stat-lbl">fluidity → territory</div></div>
+      <div class="explore-stat"><div class="explore-stat-num ll">70.6%</div><div class="explore-stat-lbl">Barcelona squad fluidity</div></div>
+      <div class="explore-stat"><div class="explore-stat-num pr">0%</div><div class="explore-stat-lbl">Ipswich &amp; Alaves</div></div>
+    </div>
+    <div class="explore-legend">
+      <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+      <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+    </div>
+    <div style="position:relative;height:380px"><canvas id="d2c"></canvas></div>
+    <p class="chart-caption" style="margin-top:.8rem">Squad fluidity % vs field tilt. Strongest relationship in the team-level dataset.</p>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="tab-panel" id="d3">
+    <div class="explore-stats">
+      <div class="explore-stat"><div class="explore-stat-num ll">+7.86</div><div class="explore-stat-lbl">Pedri</div></div>
+      <div class="explore-stat"><div class="explore-stat-num ll">+6.34</div><div class="explore-stat-lbl">Modric, aged 39</div></div>
+      <div class="explore-stat"><div class="explore-stat-num pr">+0.60</div><div class="explore-stat-lbl">Declan Rice</div></div>
+    </div>
+    <div class="explore-legend">
+      <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+      <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+    </div>
+    <div style="position:relative;height:320px"><canvas id="d3c"></canvas></div>
+    <p class="chart-caption" style="margin-top:.8rem">Every dot is a midfielder. Creativity z-score within position group.</p>
+  </div>
+
+  <!-- TAB 4 -->
+  <div class="tab-panel" id="d4">
+    <div class="explore-stats">
+      <div class="explore-stat"><div class="explore-stat-num ll">7.98</div><div class="explore-stat-lbl">Pedri — top score</div></div>
+      <div class="explore-stat"><div class="explore-stat-num ll">3rd — Modric</div><div class="explore-stat-lbl">aged 39</div></div>
+      <div class="explore-stat"><div class="explore-stat-num pr">5th — Maddison</div><div class="explore-stat-lbl">first Prem entry</div></div>
+    </div>
+    <div class="explore-legend">
+      <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+      <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+    </div>
+    <div style="position:relative;height:680px"><canvas id="d4c"></canvas></div>
+    <p class="chart-caption" style="margin-top:.8rem">Top 18 midfielders by completeness — create + press + carry, z-scored within position group.</p>
+  </div>
+
+  <!-- TAB 5 -->
+  <div class="tab-panel" id="d5">
+    <div class="explore-stats">
+      <div class="explore-stat"><div class="explore-stat-num ll">Barcelona</div><div class="explore-stat-lbl">most unique + best</div></div>
+      <div class="explore-stat"><div class="explore-stat-num pr">Arsenal</div><div class="explore-stat-lbl">highly unique + highly effective</div></div>
+      <div class="explore-stat"><div class="explore-stat-num">graveyard</div><div class="explore-stat-lbl">moderate uniqueness</div></div>
+    </div>
+    <div class="explore-legend">
+      <span><span class="legend-pip" style="background:#9A6010"></span>La Liga</span>
+      <span><span class="legend-pip" style="background:#1A4A8A"></span>Premier League</span>
+    </div>
+    <div style="position:relative;height:400px"><canvas id="d5c"></canvas></div>
+    <p class="chart-caption" style="margin-top:.8rem">Tactical distance from league average vs xGDiff. Quadratic fit.</p>
+  </div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──────────────────────────────────
+document.getElementById('tabBar').addEventListener('click', e => {
+  if (!e.target.matches('.tab-btn')) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(e.target.dataset.tab).classList.add('active');
+  // trigger resize so Chart.js redraws into now-visible canvas
+  window.dispatchEvent(new Event('resize'));
+});
+
+// ── SHARED REFS (data already defined above) ──────
+const _LL='#9A6010',_PR='#1A4A8A';
+const _LLA='rgba(154,96,16,0.70)',_PRA='rgba(26,74,138,0.70)';
+const _GRID='rgba(216,212,204,0.6)',_MUT='#6B6760',_INK='#1C1A17';
+
+function dScatter(id, data, xKey, yKey, xLabel, yLabel) {
+  const ll=data.filter(d=>d.l==="La Liga"), pr=data.filter(d=>d.l==="Prem");
+  new Chart(document.getElementById(id), {
+    type:'scatter',
+    data:{datasets:[
+      {data:ll.filter(d=>!d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:_LLA,borderColor:'transparent',pointRadius:5,pointHoverRadius:7,
+        datalabels:{display:false}},
+      {data:pr.filter(d=>!d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:_PRA,borderColor:'transparent',pointRadius:5,pointHoverRadius:7,
+        datalabels:{display:false}},
+      {data:ll.filter(d=>d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:_LLA,borderColor:_LL,borderWidth:1.5,pointRadius:6,pointHoverRadius:8,
+        datalabels:{display:true,color:_LL,font:{size:9.5,family:'Lora,serif'},
+          formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:4}},
+      {data:pr.filter(d=>d.label).map(d=>({x:d[xKey],y:d[yKey],t:d.t})),
+        backgroundColor:_PRA,borderColor:_PR,borderWidth:1.5,pointRadius:6,pointHoverRadius:8,
+        datalabels:{display:true,color:_PR,font:{size:9.5,family:'Lora,serif'},
+          formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:4}},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:28,right:20,bottom:4,left:4}},
+      plugins:{legend:{display:false},datalabels:{clamp:true},
+        tooltip:{callbacks:{label:ctx=>`${ctx.raw.t}: (${ctx.raw.x.toFixed(2)}, ${ctx.raw.y.toFixed(2)})`}}},
+      scales:{
+        x:{title:{display:true,text:xLabel,font:{size:11,family:'DM Sans,sans-serif'},color:_MUT},
+           grid:{color:_GRID},ticks:{color:_MUT,font:{size:10}},border:{color:_GRID}},
+        y:{title:{display:true,text:yLabel,font:{size:11,family:'DM Sans,sans-serif'},color:_MUT},
+           grid:{color:_GRID},ticks:{color:_MUT,font:{size:10}},border:{color:_GRID}}
+      }
+    }
+  });
+}
+
+dScatter('d1c', teams, 'PC1', 'PC2', 'PC1 — dominance axis →', 'PC2 — press style →');
+dScatter('d2c', fluidity, 'fp', 'FTILT', 'Squad fluidity % →', 'Field tilt →');
+
+// beeswarm
+new Chart(document.getElementById('d3c'), {
+  type:'scatter',
+  data:{datasets:[
+    {data:laMidsData.map(d=>({x:d.s,y:1+jitter(d.p),p:d.p,t:d.t})),
+      backgroundColor:_LLA,borderColor:'transparent',pointRadius:3.5,datalabels:{display:false}},
+    {data:prMidsData.map(d=>({x:d.s,y:2+jitter(d.p),p:d.p,t:d.t})),
+      backgroundColor:_PRA,borderColor:'transparent',pointRadius:3.5,datalabels:{display:false}},
+    {data:[{x:7.859,y:1.22,p:'Pedri',t:'Barcelona'},{x:6.342,y:0.76,p:'Modric (39)',t:'Real Madrid'},{x:6.563,y:1.18,p:'FdJ',t:'Barcelona'},{x:-4.229,y:0.84,p:'Arambarri',t:'Getafe'},{x:4.555,y:2.24,p:'Cairney',t:'Fulham'},{x:3.843,y:1.80,p:'Ødegaard',t:'Arsenal'},{x:0.601,y:1.94,p:'D. Rice',t:'Arsenal'}],
+      backgroundColor:'transparent',borderColor:'transparent',pointRadius:0,
+      datalabels:{display:true,font:{size:9,family:'DM Mono,monospace'},
+        color:ctx=>[_LL,_LL,_LL,_LL,_PR,_PR,_PR][ctx.dataIndex],
+        formatter:v=>v.p,align:'top',offset:2}}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:22,right:12,bottom:4,left:4}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.raw.p?`${ctx.raw.p} · ${ctx.raw.t}  (${ctx.raw.x.toFixed(2)})`:`${ctx.raw.x.toFixed(2)}`}}},
+    scales:{
+      x:{title:{display:true,text:'← defensive  |  creativity (z)  |  creative →',font:{size:11,family:'DM Sans,sans-serif'},color:_MUT},
+         grid:{color:_GRID},ticks:{color:_MUT,font:{size:10}},min:-5.5,max:9.5,border:{color:_GRID}},
+      y:{ticks:{callback:v=>v<1.5?'La Liga':v>1.5?'Prem':'',color:_MUT,font:{size:10,family:'DM Mono,monospace'}},
+         min:0.2,max:2.8,grid:{color:'rgba(216,212,204,0.3)'},border:{color:_GRID},
+         afterTickToLabelConversion:s=>s.ticks=s.ticks.filter(t=>t.value===1||t.value===2)}
+    }
+  }
+});
+
+// lollipop
+new Chart(document.getElementById('d4c'), {
+  type:'bar',
+  data:{
+    labels:mids18.map(d=>`${d.p}  ·  ${d.t}`),
+    datasets:[{
+      data:mids18.map(d=>d.comp),
+      backgroundColor:mids18.map(d=>d.l==='La Liga'?_LLA:_PRA),
+      borderColor:mids18.map(d=>d.l==='La Liga'?_LL:_PR),
+      borderWidth:1.2,borderRadius:2,barThickness:13,
+      datalabels:{display:ctx=>ctx.dataIndex>=14,anchor:'end',align:'end',
+        color:ctx=>mids18[ctx.dataIndex].l==='La Liga'?_LL:_PR,
+        font:{size:9,family:'DM Mono,monospace'},formatter:v=>v.toFixed(2)}
+    }]
+  },
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{right:40,top:4,bottom:4}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`${mids18[ctx.dataIndex].t} (${mids18[ctx.dataIndex].l}): ${ctx.parsed.x.toFixed(2)}`}}},
+    scales:{
+      x:{title:{display:true,text:'Complete score →',font:{size:11,family:'DM Sans,sans-serif'},color:_MUT},
+         grid:{color:_GRID},ticks:{color:_MUT,font:{size:10}},min:0,max:10,border:{color:_GRID}},
+      y:{grid:{display:false},ticks:{color:_INK,font:{size:10,family:'DM Mono,monospace'}},border:{color:_GRID}}
+    }
+  }
+});
+
+// uniqueness — reuse computed curve
+const _tLL=teams.filter(d=>d.l==='La Liga'), _tPR=teams.filter(d=>d.l==='Prem');
+new Chart(document.getElementById('d5c'), {
+  type:'scatter',
+  data:{datasets:[
+    {data:_tLL.filter(d=>!d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:_LLA,borderColor:'transparent',pointRadius:5,datalabels:{display:false}},
+    {data:_tPR.filter(d=>!d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:_PRA,borderColor:'transparent',pointRadius:5,datalabels:{display:false}},
+    {data:_tLL.filter(d=>d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:_LLA,borderColor:_LL,borderWidth:1.5,pointRadius:6,
+      datalabels:{display:true,color:_LL,font:{size:9.5,family:'Lora,serif'},
+        formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:4}},
+    {data:_tPR.filter(d=>d.label).map(d=>({x:d.cd,y:d.xGDiff,t:d.t})),
+      backgroundColor:_PRA,borderColor:_PR,borderWidth:1.5,pointRadius:6,
+      datalabels:{display:true,color:_PR,font:{size:9.5,family:'Lora,serif'},
+        formatter:(v,ctx)=>ctx.dataset.data[ctx.dataIndex].t,align:'top',offset:4}},
+    {data:curveX.map((x,i)=>({x,y:c0+c1q*x+c2q*x*x})),
+      type:'line',borderColor:'rgba(107,103,96,0.4)',borderWidth:1.5,borderDash:[5,4],
+      pointRadius:0,tension:0.4,fill:false,datalabels:{display:false}},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:28,right:20,bottom:4,left:4}},
+    plugins:{legend:{display:false},datalabels:{clamp:true},
+      tooltip:{filter:i=>i.datasetIndex<4,callbacks:{label:ctx=>`${ctx.raw.t}: uniqueness ${ctx.raw.x.toFixed(2)}, xGDiff ${ctx.raw.y.toFixed(2)}`}}},
+    scales:{
+      x:{title:{display:true,text:'Tactical uniqueness →',font:{size:11,family:'DM Sans,sans-serif'},color:_MUT},
+         grid:{color:_GRID},ticks:{color:_MUT,font:{size:10}},border:{color:_GRID}},
+      y:{title:{display:true,text:'xGDiff →',font:{size:11,family:'DM Sans,sans-serif'},color:_MUT},
+         grid:{color:_GRID},ticks:{color:_MUT,font:{size:10}},border:{color:_GRID}}
+    }
+  }
+});
+</script>
 </body>
 </html>
