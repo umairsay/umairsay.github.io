@@ -21,8 +21,9 @@
     const el = document.getElementById(id);
     if (!el) return;
     fetch(root + file)
-      .then(r => r.text())
+      .then(r => { if (!r.ok) return ''; return r.text(); })
       .then(html => {
+        if (!html) return;
         el.innerHTML = html;
         // Fix relative asset links based on depth
         if (root !== '/') {
