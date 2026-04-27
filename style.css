@@ -59,7 +59,7 @@ header {
   justify-content: space-between;
   align-items: flex-end;
   gap: 2rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .eyebrow {
