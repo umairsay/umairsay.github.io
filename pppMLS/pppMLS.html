@@ -355,8 +355,8 @@
         svg.append('g')
           .call(d3.axisLeft(ySc).tickValues(salaryTicks).tickSize(0)
             .tickFormat(d => {
-              const v = Math.exp(d);
-              return v >= 1e6 ? '$' + (v / 1e6) + 'M' : '$' + Math.round(v / 1e3) + 'K';
+              const v = Math.round(Math.exp(d));
+              return v >= 1e6 ? '$' + Math.round(v / 1e6) + 'M' : '$' + Math.round(v / 1e3) + 'K';
             }))
           .call(g => g.select('.domain').remove())
           .call(g => g.selectAll('text')
