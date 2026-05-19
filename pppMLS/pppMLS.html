@@ -334,25 +334,15 @@
 
         const sliderMin = document.createElement('input');
         sliderMin.type = 'range'; sliderMin.min = AGE_MIN; sliderMin.max = AGE_MAX; sliderMin.value = AGE_MIN;
-        sliderMin.style.cssText = 'width:70px;accent-color:#2E3A59;';
+        sliderMin.style.cssText = 'width:100px;accent-color:#2E3A59;';
 
-        const sliderMax = document.createElement('input');
-        sliderMax.type = 'range'; sliderMax.min = AGE_MIN; sliderMax.max = AGE_MAX; sliderMax.value = AGE_MAX;
-        sliderMax.style.cssText = 'width:70px;accent-color:#2E3A59;';
-
-        function updateAgeLabel() { ageLabel.textContent = `Age: ${ageMin}\u2013${ageMax}`; }
+        function updateAgeLabel() { ageLabel.textContent = `Age: ${ageMin}\u2013${AGE_MAX}`; }
         sliderMin.addEventListener('input', () => {
           ageMin = +sliderMin.value;
-          if (ageMin > ageMax) { ageMax = ageMin; sliderMax.value = ageMax; }
-          updateAgeLabel(); applyFilter();
-        });
-        sliderMax.addEventListener('input', () => {
-          ageMax = +sliderMax.value;
-          if (ageMax < ageMin) { ageMin = ageMax; sliderMin.value = ageMin; }
           updateAgeLabel(); applyFilter();
         });
 
-        ageWrap.append(ageLabel, sliderMin, sliderMax);
+        ageWrap.append(ageLabel, sliderMin);
         controls.append(posWrap, ageWrap);
         container.appendChild(controls);
 
