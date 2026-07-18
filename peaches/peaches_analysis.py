@@ -1,10 +1,8 @@
 """
 The Market for Peaches - analysis
 
-Two things happen in this script. First, I test the obvious story: does AI
-exposure predict which occupations are growing or shrinking? Second, once
-that's answered, I pull the numbers the piece actually reports - age,
-industry, the education/experience split, wages, and who's staffing what.
+does AI exposure predict which occupations are growing or shrinking? 
+age, industry, the education/experience split, wages, and who's staffing what.
 
 Files needed in the same folder, all from BLS Employment Projections
 2024-34, CPS Table 11b, and an occupation-level AI exposure dataset:
