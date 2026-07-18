@@ -207,6 +207,7 @@ nav a:hover { color: var(--ink); }
 }
 
 .project-summary {
+  font-family: var(--serif);
   font-size: .93rem;
   color: var(--mid);
   line-height: 1.75;
