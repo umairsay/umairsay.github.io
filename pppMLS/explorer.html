@@ -165,12 +165,7 @@
   <header class="project-hero">
     <a class="back-link" href="pppMLS.html">← Visible Value</a>
     <p class="eyebrow">An extension of the dissertation, live on 440 players</p>
-    <h1>Reweight <em>the</em> market</h1>
-    <div class="hero-meta">
-      <div class="hero-meta-item"><strong>Sample</strong>440 outfield players, 2024 season</div>
-      <div class="hero-meta-item"><strong>Model</strong>Table 3, M3 (levels, performance vector)</div>
-      <div class="hero-meta-item"><strong>Outcome</strong>2025 base salary</div>
-    </div>
+    <h1>Reweight the market</h1>
   </header>
 
   <div class="section">
@@ -498,7 +493,7 @@ function renderMovers(){
   function colHTML(title, list, up){
     const rowsHTML = list.length ? list.map(p=>`
       <div class="mover-row">
-        <div><span class="mover-name">${p.n}</span><br><span class="mover-meta">${p.c} · ${DESIG_SHORT[p.d]}</span></div>
+        <div><span class="mover-name">${p.n}</span><br><span class="mover-meta">${p.c} · ${p.p} · age ${p.age} · ${DESIG_SHORT[p.d]}</span></div>
         <div class="mover-delta ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(p.delta)}</div>
       </div>`).join('') : `<div class="mover-row"><span class="mover-meta">No movement from equal weights.</span></div>`;
     return `<div class="mover-col"><div class="mover-title">${title}</div>${rowsHTML}</div>`;
