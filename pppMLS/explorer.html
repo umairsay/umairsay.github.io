@@ -179,10 +179,10 @@
   <div class="section" id="board-section">
     <div class="chart-block">
       <h3>Set the weights</h3>
-      <p class="chart-note">Each fader is a semi-elasticity: how many log points of salary a one-SD improvement
-      in that domain is worth, holding the other four, club, and the usual controls fixed — the same language as
-      Table 3. Equal weights (0.2 each) reproduce the published overall score. The middle preset loads the actual
-      M3 estimates from the dissertation; the third is illustrative, not estimated.</p>
+      <p class="chart-note">Each fader controls how much one standard deviation of improvement in that area is worth in
+      salary, holding everything else fixed. Equal weights reproduce the overall score used in Visible Value. The
+      middle preset loads the actual coefficients estimated in the dissertation's wage regression; the third is
+      illustrative, not estimated.</p>
 
       <div class="board">
         <div class="faders" id="faders"></div>
@@ -254,13 +254,13 @@ const DOMAINS = [
 ];
 
 // EQUAL: reproduces the published overall_score (mean of the five z-scores).
-// M3: the actual coefficients on Attack/Creation/Progression/Dribbling/Defense
-//     from Table 3, column "Levels: perf vector" (log salary, club FE, clustered SE).
+// DISSERTATION: the actual estimated coefficients on Attack/Creation/Progression/
+//     Dribbling/Defense (log salary, club fixed effects, clustered standard errors).
 //     Attack and Progression are significant at p<0.05; the rest are not.
 // INVISIBLE: illustrative only — not estimated from the data.
 const PRESETS = [
   {name:'Equal weights', title:'Reproduces the published overall_score', w:{atk:0.2,cre:0.2,prg:0.2,drb:0.2,def:0.2}},
-  {name:'M3 estimate (dissertation)', title:'Actual Table 3 coefficients: attack 0.13, creation 0.01, progression 0.14, dribbling -0.07, defense -0.05', w:{atk:0.13,cre:0.01,prg:0.14,drb:-0.07,def:-0.05}},
+  {name:'Dissertation estimate', title:'Actual estimated coefficients: attack 0.13, creation 0.01, progression 0.14, dribbling -0.07, defense -0.05', w:{atk:0.13,cre:0.01,prg:0.14,drb:-0.07,def:-0.05}},
   {name:'Reward the invisible', title:'Illustrative, not estimated — a hypothetical tilt toward defense', w:{atk:-0.05,cre:0.05,prg:0.05,drb:0.05,def:0.30}},
 ];
 
@@ -291,7 +291,7 @@ function fmtWeight(v){
 }
 
 // Weighted sum of the five domain z-scores — the same functional form as the
-// M3 regression's performance-vector term, minus the intercept and controls.
+// dissertation's wage regression, minus the intercept and controls.
 function customScore(p, w){
   return p.atk*w.atk + p.cre*w.cre + p.prg*w.prg + p.drb*w.drb + p.def*w.def;
 }
