@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FIFA World Cup '26 — Team Identity Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../style.css" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F2EDE4; --ink:#1C1A17; --mid:#6B6760; --rule:#D8D4CC;
+  --accent:#2E3A59; --card:#EFECE6; --warm:#8A5A3A;
+  --serif:'Lora',serif; --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;
+  line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 2rem}
+.col{max-width:66ch}
+
+/* hero */
+.hero{padding:4.5rem 0 2.4rem;border-bottom:1px solid var(--rule)}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mid);text-decoration:none;display:inline-block;margin-bottom:2rem}
+.back:hover{color:var(--accent)}
+.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.8rem}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.85rem);font-weight:500;line-height:1.08;
+  letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--accent)}
+.subtitle{font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--mid);margin-top:.5rem}
+.lede{font-family:var(--serif);font-size:1rem;color:var(--mid);line-height:1.85;max-width:64ch;margin-top:1.4rem}
+
+/* sections */
+section{padding:3.2rem 0;border-bottom:1px solid var(--rule)}
+.slabel{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mid);margin-bottom:1.6rem;display:flex;align-items:center;gap:1.2rem}
+.slabel::after{content:'';flex:1;height:1px;background:var(--rule)}
+p.read{font-family:var(--serif);font-weight:400;font-size:.97rem;line-height:1.85;color:var(--mid);
+  max-width:66ch;margin-bottom:1rem}
+p.read em{font-style:italic;color:var(--ink)}
+
+/* controls */
+.ctl{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1.4rem}
+.ctl .lab{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mid);margin-right:.2rem}
+button.chip,select.chip,input.chip{font-family:var(--mono);font-size:.66rem;background:transparent;
+  border:1px solid var(--rule);color:var(--mid);padding:.32rem .65rem;border-radius:2px;cursor:pointer}
+input.chip{cursor:text;color:var(--ink);min-width:9rem}
+button.chip:hover,select.chip:hover{border-color:var(--accent);color:var(--accent)}
+button.chip[aria-pressed="true"]{background:rgba(46,58,89,.09);border-color:var(--accent);color:var(--accent)}
+select.chip{color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* atlas */
+.atlas{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.tcard{background:var(--card);border:1px solid var(--rule);padding:.8rem .85rem .65rem;cursor:pointer;
+  text-align:left;font:inherit;color:inherit;display:block;width:100%}
+.tcard:hover{border-color:var(--accent)}
+.tcard[aria-current="true"]{border-color:var(--accent);background:rgba(46,58,89,.07)}
+.tcard .top{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+.tcard .nm{font-family:var(--serif);font-size:.95rem;font-weight:500;line-height:1.2;letter-spacing:-.01em}
+.tcard .xg{font-family:var(--mono);font-size:.64rem;white-space:nowrap}
+.tcard .bot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.55rem;
+  color:var(--mid);margin-top:.45rem;padding-top:.4rem;border-top:1px solid var(--rule)}
+.fe{margin-right:.4rem}
+
+/* profile */
+.prof{display:grid;grid-template-columns:1.2fr 1fr;gap:2.4rem;align-items:start}
+.pnl{background:var(--card);border:1px solid var(--rule);padding:1.5rem}
+.pnl+.pnl{margin-top:1rem}
+.pnl h3{font-family:var(--serif);font-size:1.7rem;font-weight:500;letter-spacing:-.02em;line-height:1.05}
+.psub{font-family:var(--mono);font-size:.62rem;color:var(--mid);margin-top:.35rem}
+.phead{border-bottom:1px solid var(--rule);padding-bottom:.9rem;margin-bottom:1.2rem}
+.blk{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.7rem}
+.blk.sp{margin-top:1.8rem}
+.summary{font-family:var(--serif);font-size:.95rem;line-height:1.8}
+.outs{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem}
+.out{border-top:1px solid var(--rule);padding-top:.45rem}
+.out .k{font-family:var(--mono);font-size:.54rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--mid);display:block;min-height:2.2em}
+.out .v{font-family:var(--serif);font-size:1.2rem;font-weight:500;line-height:1.25}
+.pos{color:var(--accent)} .neg{color:var(--warm)}
+table.src{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.66rem}
+table.src th{text-align:left;font-size:.55rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mid);border-bottom:1px solid var(--ink);padding:0 .4rem .4rem 0}
+table.src td{padding:.5rem .4rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5}
+table.src td:first-child{padding-left:0;color:var(--ink)}
+table.src td.n{text-align:right;padding-right:0;white-space:nowrap}
+table.src .d{color:var(--mid);font-size:.58rem;display:block;margin-top:.1rem}
+
+svg{display:block;width:100%;height:auto}
+.fn{font-family:var(--serif);font-size:12px;fill:var(--ink);font-weight:500}
+.fv{font-family:var(--mono);font-size:10px;fill:var(--ink)}
+.lb{font-family:var(--mono);font-size:9px;fill:var(--mid);letter-spacing:.04em}
+.pl{font-family:var(--mono);font-size:8.5px;fill:var(--mid);letter-spacing:.12em;text-transform:uppercase}
+.sk{font-family:var(--mono);font-size:6.5px;fill:var(--mid)}
+.dn{font-family:var(--serif);font-size:15px;fill:var(--ink);font-weight:500}
+.dxg{font-family:var(--mono);font-size:13px;fill:var(--ink)}
+.dfoot{font-family:var(--mono);font-size:9px;fill:var(--ink)}
+
+footer{padding:2.6rem 0 5rem;font-family:var(--mono);font-size:.64rem;color:var(--mid);line-height:2}
+footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule)}
+
+@media (max-width:1040px){.atlas{grid-template-columns:repeat(3,1fr)}.prof{grid-template-columns:1fr;gap:1.8rem}}
+@media (max-width:760px){.atlas{grid-template-columns:repeat(2,1fr)}.wrap{padding:0 1.2rem}
+  section{padding:2.4rem 0}.outs{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="site-header"></div>
+
+  <header class="hero">
+    <a class="back" href="wc26.html">← Something Rotten in the States</a>
+    <div class="eyebrow">48 teams · 104 matches</div>
+    <h1>FIFA World Cup &rsquo;26 &mdash; <em>Team Identity Atlas</em></h1>
+    <p class="subtitle">Every team has a shape</p>
+    <p class="lede">
+      Four magnitude facets describe the football process each team produced: control, access,
+      line-breaking and chance threat. Two scales describe style &mdash; attacking, from transition to
+      possession, and defending, from deep block to front foot.
+    </p>
+  </header>
+
+  <section>
+    <p class="slabel">How to read it</p>
+    <div id="demo"></div>
+    <p class="read">
+      The four magnitude facets form a single closed ribbon. Its width at each of the four stations is
+      where that team ranked on that facet against the other 47 &mdash; a station at 90 means only about
+      four teams did more of it &mdash; so every team ends up with a silhouette of its own.
+    </p>
+    <p class="read">
+      The stations follow the attacking sequence. <em>Control</em> creates the platform, <em>access</em>
+      gets the team into advanced spaces, <em>line-breaking</em> penetrates the defensive structure, and
+      <em>chance threat</em> is the danger produced. Reading top to bottom follows an attack forward.
+      Teams skip stages, though, especially in transition. Across the 48, control and access move closely
+      together and both track chance threat, while line-breaking is close to independent of the other
+      three. A side can dominate the ball without ever going through a defensive line, and another can
+      break lines constantly without dominating anything.
+    </p>
+    <p class="read">
+      Each style scale is one composite minus another &mdash; possession-based build-up against transition
+      play, front-foot pressing against deep defending. That difference is then ranked across the 48, so
+      the marker shows which way a team leaned and the number shows how far relative to everyone else.
+    </p>
+    <p class="read">
+      Every facet was recalculated with each match dropped in turn. The pale halo around a ribbon, and the
+      pale band behind each style marker, span the lowest and highest percentile a team reached across
+      those refits. Read them as sensitivity, not statistical confidence.
+    </p>
+  </section>
+
+  <section>
+    <p class="slabel">Atlas</p>
+    <div class="ctl">
+      <input class="chip" id="q" type="search" placeholder="Search team" aria-label="Search team" />
+      <span class="lab" style="margin-left:.4rem">Sort</span>
+      <button class="chip" data-sort="xgd" aria-pressed="true">xG difference</button>
+      <button class="chip" data-sort="Control" aria-pressed="false">Control</button>
+      <button class="chip" data-sort="Access" aria-pressed="false">Access</button>
+      <button class="chip" data-sort="Line-breaking" aria-pressed="false">Line-breaking</button>
+      <button class="chip" data-sort="Chance threat" aria-pressed="false">Chance threat</button>
+      <button class="chip" data-sort="alpha" aria-pressed="false">A–Z</button>
+    </div>
+    <div class="atlas" id="atlas"></div>
+  </section>
+
+  <section id="profile">
+    <p class="slabel">Team profile &amp; comparison</p>
+    <div class="ctl">
+      <span class="lab">Team</span><select class="chip" id="selA" aria-label="Team"></select>
+      <span class="lab" style="margin-left:.6rem">Compare with</span>
+      <select class="chip" id="selB" aria-label="Comparison"></select>
+    </div>
+    <div class="prof">
+      <div>
+        <div class="pnl">
+          <div class="phead"><h3 id="pName"></h3><div class="psub" id="pSub"></div></div>
+          <div class="blk">Magnitude</div>
+          <div id="mag"></div>
+          <div class="blk sp">Style</div>
+          <div id="sty"></div>
+        </div>
+      </div>
+      <div>
+        <div class="pnl">
+          <div class="blk">Identity</div>
+          <p class="summary" id="pSummary"></p>
+        </div>
+        <div class="pnl">
+          <div class="blk">Outcomes</div>
+          <div class="outs" id="outs"></div>
+        </div>
+        <div class="pnl">
+          <div class="blk">Supporting inputs</div>
+          <table class="src">
+            <thead><tr><th>Facet</th><th>Headline inputs</th><th class="n">Pctl</th></tr></thead>
+            <tbody id="srcbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Built from FIFA&rsquo;s post-match report release for the 2026 World Cup, scraped and processed across
+    all 104 matches. Facet scores, percentiles and sensitivity ranges come from that analysis.<br>
+    <a href="https://github.com/umairsay/wc26">View the code on GitHub &rarr;</a>
+  </footer>
+</div>
+
+<script>const FP={"teams":[{"team":"Algeria","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.047,"gmx":0.067,"gpm":1.25,"xgf":1.183,"xga":1.23},"f":{"Control":{"p":100.0,"lo":93.8,"hi":100.0,"s":0.921,"w":6.2},"Access":{"p":91.7,"lo":70.8,"hi":93.8,"s":0.559,"w":22.9},"Line-breaking":{"p":33.3,"lo":4.2,"hi":41.7,"s":-0.453,"w":37.5},"Chance threat":{"p":56.2,"lo":41.7,"hi":66.7,"s":-0.109,"w":25.0},"Attacking approach":{"p":100.0,"lo":97.9,"hi":100.0,"s":1.864,"w":2.1},"Defensive approach":{"p":95.8,"lo":89.6,"hi":97.9,"s":1.227,"w":8.3}},"mw":17.0,"round":"Round of 32","flag_e":"🇩🇿","nn":"Korea Republic","blurb":"Organized shape and quick transition was the expectation; the tournament produced the highest control percentile of the 48 and the most possession-oriented attack in the field. Line-breaking 33 and a negative xG difference is what happens when a counter-attacking side is made to hold the ball."},{"team":"Argentina","m":8,"flag":"Moderate","out":{"xgd":1.092,"gmx":0.445,"gpm":2.375,"xgf":1.93,"xga":0.838},"f":{"Control":{"p":87.5,"lo":75.0,"hi":93.8,"s":0.55,"w":18.8},"Access":{"p":89.6,"lo":83.3,"hi":93.8,"s":0.529,"w":10.4},"Line-breaking":{"p":16.7,"lo":4.2,"hi":22.9,"s":-0.638,"w":18.8},"Chance threat":{"p":91.7,"lo":85.4,"hi":100.0,"s":0.759,"w":14.6},"Attacking approach":{"p":89.6,"lo":85.4,"hi":93.8,"s":1.116,"w":8.3},"Defensive approach":{"p":45.8,"lo":33.3,"hi":56.2,"s":-0.215,"w":22.9}},"mw":15.6,"round":"Runners-up","flag_e":"🇦🇷","nn":"Colombia","blurb":"The institutional knowledge of winning without playing well, rendered exactly: line-breaking 17, the lowest of any semi-finalist, and a final anyway. No team here converted less penetration into more."},{"team":"Australia","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.505,"gmx":0.065,"gpm":0.75,"xgf":0.685,"xga":1.19},"f":{"Control":{"p":20.8,"lo":6.2,"hi":31.2,"s":-0.753,"w":25.0},"Access":{"p":27.1,"lo":12.5,"hi":35.4,"s":-0.572,"w":22.9},"Line-breaking":{"p":83.3,"lo":56.2,"hi":91.7,"s":0.427,"w":35.4},"Chance threat":{"p":27.1,"lo":16.7,"hi":35.4,"s":-0.686,"w":18.8},"Attacking approach":{"p":16.7,"lo":6.2,"hi":22.9,"s":-1.443,"w":16.7},"Defensive approach":{"p":22.9,"lo":14.6,"hi":39.6,"s":-0.622,"w":25.0}},"mw":24.0,"round":"Round of 32","flag_e":"🇦🇺","nn":"Ghana","blurb":"Competing beyond their ranking through organization and defensive commitment, and here that meant line-breaking 83 from control 21 and a block at 23. They went through lines they had no right to reach and finished at chance threat 27."},{"team":"Austria","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.725,"gmx":0.532,"gpm":1.5,"xgf":0.968,"xga":1.692},"f":{"Control":{"p":45.8,"lo":37.5,"hi":52.1,"s":-0.098,"w":14.6},"Access":{"p":47.9,"lo":25.0,"hi":50.0,"s":-0.303,"w":25.0},"Line-breaking":{"p":70.8,"lo":56.2,"hi":87.5,"s":0.199,"w":31.2},"Chance threat":{"p":45.8,"lo":25.0,"hi":56.2,"s":-0.358,"w":31.2},"Attacking approach":{"p":43.8,"lo":39.6,"hi":50.0,"s":-0.218,"w":10.4},"Defensive approach":{"p":29.2,"lo":14.6,"hi":56.2,"s":-0.515,"w":41.7}},"mw":25.7,"round":"Round of 32","flag_e":"🇦🇹","nn":"Sweden","blurb":"Rangnick's pressing system was the billing; the defensive scale reads 29, which is deep rather than front-foot. Line-breaking 71 is the one thing that transferred."},{"team":"Belgium","m":6,"flag":"Sample-sensitive","out":{"xgd":0.747,"gmx":0.565,"gpm":2.333,"xgf":1.768,"xga":1.022},"f":{"Control":{"p":52.1,"lo":43.8,"hi":60.4,"s":0.037,"w":16.7},"Access":{"p":85.4,"lo":62.5,"hi":93.8,"s":0.515,"w":31.2},"Line-breaking":{"p":77.1,"lo":62.5,"hi":87.5,"s":0.335,"w":25.0},"Chance threat":{"p":81.2,"lo":64.6,"hi":91.7,"s":0.571,"w":27.1},"Attacking approach":{"p":47.9,"lo":39.6,"hi":58.3,"s":0.024,"w":18.8},"Defensive approach":{"p":33.3,"lo":18.8,"hi":43.8,"s":-0.445,"w":25.0}},"mw":24.0,"round":"Quarter-final","flag_e":"🇧🇪","nn":"Côte d'Ivoire","blurb":"An aged golden generation with genuine creative quality remaining, playing a defence that sat at 33 and an attack that reached access 85 from control 52. A quarter-final on efficiency rather than control."},{"team":"Bosnia and Herzegovina","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.818,"gmx":0.74,"gpm":1.25,"xgf":0.51,"xga":1.327},"f":{"Control":{"p":33.3,"lo":27.1,"hi":45.8,"s":-0.44,"w":18.8},"Access":{"p":12.5,"lo":4.2,"hi":25.0,"s":-0.821,"w":20.8},"Line-breaking":{"p":14.6,"lo":12.5,"hi":27.1,"s":-0.641,"w":14.6},"Chance threat":{"p":8.3,"lo":4.2,"hi":16.7,"s":-0.889,"w":12.5},"Attacking approach":{"p":31.2,"lo":8.3,"hi":50.0,"s":-0.902,"w":41.7},"Defensive approach":{"p":35.4,"lo":22.9,"hi":50.0,"s":-0.381,"w":27.1}},"mw":22.6,"round":"Round of 32","flag_e":"🇧🇦","nn":"Haiti","blurb":"Through the playoffs at the end of a generation, and it looked like it: chance threat 8, second-lowest of the 48. Only 0.74 goals a match above xG kept the scorelines respectable."},{"team":"Brazil","m":5,"flag":"Sample-sensitive","out":{"xgd":1.386,"gmx":-0.176,"gpm":2.0,"xgf":2.176,"xga":0.79},"f":{"Control":{"p":70.8,"lo":54.2,"hi":87.5,"s":0.334,"w":33.3},"Access":{"p":81.2,"lo":56.2,"hi":91.7,"s":0.398,"w":35.4},"Line-breaking":{"p":75.0,"lo":50.0,"hi":85.4,"s":0.231,"w":35.4},"Chance threat":{"p":97.9,"lo":81.2,"hi":100.0,"s":1.045,"w":18.8},"Attacking approach":{"p":64.6,"lo":47.9,"hi":85.4,"s":0.428,"w":37.5},"Defensive approach":{"p":68.8,"lo":50.0,"hi":79.2,"s":0.173,"w":29.2}},"mw":31.6,"round":"Round of 16","flag_e":"🇧🇷","nn":"Senegal","blurb":"Twenty-four years of pressure to play with freedom, and the freedom arrived without the platform: chance threat 98 on control 71. Danger without dominance, gone in the Round of 16."},{"team":"Cabo Verde","m":4,"flag":"Sample-sensitive","out":{"xgd":-1.252,"gmx":0.36,"gpm":1.0,"xgf":0.64,"xga":1.893},"f":{"Control":{"p":25.0,"lo":10.4,"hi":33.3,"s":-0.69,"w":22.9},"Access":{"p":25.0,"lo":8.3,"hi":41.7,"s":-0.608,"w":33.3},"Line-breaking":{"p":4.2,"lo":0.0,"hi":12.5,"s":-0.931,"w":12.5},"Chance threat":{"p":25.0,"lo":2.1,"hi":35.4,"s":-0.738,"w":33.3},"Attacking approach":{"p":14.6,"lo":8.3,"hi":22.9,"s":-1.45,"w":14.6},"Defensive approach":{"p":2.1,"lo":0.0,"hi":4.2,"s":-1.53,"w":4.2}},"mw":20.1,"round":"Round of 32","flag_e":"🇨🇻","nn":"Curaçao","blurb":"Half a million people at a World Cup, defending from the deepest block in the field with line-breaking 4. They got out of the group, which the shape does not explain."},{"team":"Canada","m":5,"flag":"Sample-sensitive","out":{"xgd":1.072,"gmx":-0.002,"gpm":1.8,"xgf":1.802,"xga":0.73},"f":{"Control":{"p":37.5,"lo":27.1,"hi":47.9,"s":-0.252,"w":20.8},"Access":{"p":72.9,"lo":50.0,"hi":87.5,"s":0.328,"w":37.5},"Line-breaking":{"p":91.7,"lo":89.6,"hi":95.8,"s":0.964,"w":6.2},"Chance threat":{"p":83.3,"lo":60.4,"hi":91.7,"s":0.61,"w":31.2},"Attacking approach":{"p":37.5,"lo":20.8,"hi":41.7,"s":-0.568,"w":20.8},"Defensive approach":{"p":100.0,"lo":95.8,"hi":100.0,"s":1.644,"w":4.2}},"mw":20.1,"round":"Round of 16","flag_e":"🇨🇦","nn":"Uruguay","blurb":"No historical identity, this generation building one, and what they built is legible: the most front-foot defence in the tournament and line-breaking 92 on control 38. Pressure rather than possession, and a Round of 16."},{"team":"Colombia","m":5,"flag":"Sample-sensitive","out":{"xgd":0.796,"gmx":-0.464,"gpm":1.0,"xgf":1.464,"xga":0.668},"f":{"Control":{"p":81.2,"lo":72.9,"hi":89.6,"s":0.502,"w":16.7},"Access":{"p":75.0,"lo":66.7,"hi":83.3,"s":0.335,"w":16.7},"Line-breaking":{"p":22.9,"lo":6.2,"hi":39.6,"s":-0.575,"w":33.3},"Chance threat":{"p":68.8,"lo":64.6,"hi":72.9,"s":0.218,"w":8.3},"Attacking approach":{"p":91.7,"lo":85.4,"hi":93.8,"s":1.181,"w":8.3},"Defensive approach":{"p":58.3,"lo":50.0,"hi":66.7,"s":0.043,"w":16.7}},"mw":16.7,"round":"Round of 16","flag_e":"🇨🇴","nn":"Morocco","blurb":"Dangerous wide attacking quality, and they held the ball to find it — the most possession-oriented South American side here. But line-breaking 23 and 0.46 goals a match below xG is a lot of territory for very little."},{"team":"Congo DR","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.077,"gmx":0.323,"gpm":1.25,"xgf":0.927,"xga":1.005},"f":{"Control":{"p":29.2,"lo":14.6,"hi":33.3,"s":-0.608,"w":18.7},"Access":{"p":39.6,"lo":18.8,"hi":50.0,"s":-0.365,"w":31.2},"Line-breaking":{"p":39.6,"lo":27.1,"hi":43.8,"s":-0.337,"w":16.7},"Chance threat":{"p":43.8,"lo":8.3,"hi":47.9,"s":-0.405,"w":39.6},"Attacking approach":{"p":20.8,"lo":8.3,"hi":31.2,"s":-1.242,"w":22.9},"Defensive approach":{"p":43.8,"lo":27.1,"hi":56.2,"s":-0.237,"w":29.2}},"mw":26.4,"round":"Round of 32","flag_e":"🇨🇩","nn":"Panama","blurb":"Fifty-two years away, and the return was uniformly modest without ever collapsing: below median on all four, no station under 29. Out in the Round of 32 without being outclassed."},{"team":"Croatia","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.847,"gmx":0.677,"gpm":1.5,"xgf":0.823,"xga":1.67},"f":{"Control":{"p":66.7,"lo":56.2,"hi":77.1,"s":0.305,"w":20.8},"Access":{"p":43.8,"lo":33.3,"hi":50.0,"s":-0.324,"w":16.7},"Line-breaking":{"p":54.2,"lo":35.4,"hi":66.7,"s":-0.02,"w":31.2},"Chance threat":{"p":39.6,"lo":29.2,"hi":43.8,"s":-0.527,"w":14.6},"Attacking approach":{"p":68.8,"lo":50.0,"hi":85.4,"s":0.517,"w":35.4},"Defensive approach":{"p":75.0,"lo":43.8,"hi":83.3,"s":0.308,"w":39.6}},"mw":26.4,"round":"Round of 32","flag_e":"🇭🇷","nn":"Egypt","blurb":"Endurance rather than dominance, an ageing squad and an unchanged identity, and the numbers land there: control 67, front-foot 75, chance threat 40. Harder to eliminate than to fear, until the Round of 32."},{"team":"Curaçao","m":3,"flag":"Sample-sensitive","out":{"xgd":-2.057,"gmx":-0.23,"gpm":0.333,"xgf":0.563,"xga":2.62},"f":{"Control":{"p":10.4,"lo":6.2,"hi":29.2,"s":-1.011,"w":22.9},"Access":{"p":8.3,"lo":4.2,"hi":8.3,"s":-0.996,"w":4.2},"Line-breaking":{"p":25.0,"lo":2.1,"hi":54.2,"s":-0.565,"w":52.1},"Chance threat":{"p":12.5,"lo":8.3,"hi":25.0,"s":-0.827,"w":16.7},"Attacking approach":{"p":6.2,"lo":4.2,"hi":35.4,"s":-2.038,"w":31.3},"Defensive approach":{"p":10.4,"lo":4.2,"hi":12.5,"s":-1.092,"w":8.3}},"mw":22.6,"round":"Group stage","flag_e":"🇨🇼","nn":"Paraguay","blurb":"The smallest nation ever to qualify, with no station above 25. The narrowest profile in the tournament, which is what qualification alone being the story looks like in data."},{"team":"Czechia","m":3,"flag":"Sample-sensitive","out":{"xgd":-0.923,"gmx":-0.147,"gpm":0.667,"xgf":0.813,"xga":1.737},"f":{"Control":{"p":12.5,"lo":6.2,"hi":22.9,"s":-0.881,"w":16.7},"Access":{"p":14.6,"lo":8.3,"hi":18.8,"s":-0.805,"w":10.4},"Line-breaking":{"p":29.2,"lo":18.8,"hi":33.3,"s":-0.519,"w":14.6},"Chance threat":{"p":37.5,"lo":10.4,"hi":45.8,"s":-0.537,"w":35.4},"Attacking approach":{"p":33.3,"lo":16.7,"hi":43.8,"s":-0.672,"w":27.1},"Defensive approach":{"p":62.5,"lo":41.7,"hi":77.1,"s":0.067,"w":35.4}},"mw":23.3,"round":"Group stage","flag_e":"🇨🇿","nn":"Panama","blurb":"Defensive structure, set pieces, aerial dominance, and territory conceded by design — control 13, access 15, defensive scale 63. Hard to beat once, not three times."},{"team":"Côte d'Ivoire","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.32,"gmx":-0.127,"gpm":1.25,"xgf":1.377,"xga":1.698},"f":{"Control":{"p":56.2,"lo":45.8,"hi":64.6,"s":0.173,"w":18.8},"Access":{"p":50.0,"lo":37.5,"hi":50.0,"s":-0.297,"w":12.5},"Line-breaking":{"p":79.2,"lo":43.8,"hi":89.6,"s":0.38,"w":45.8},"Chance threat":{"p":66.7,"lo":56.2,"hi":72.9,"s":0.118,"w":16.7},"Attacking approach":{"p":45.8,"lo":35.4,"hi":50.0,"s":-0.085,"w":14.6},"Defensive approach":{"p":52.1,"lo":33.3,"hi":79.2,"s":-0.069,"w":45.8}},"mw":25.7,"round":"Round of 32","flag_e":"🇨🇮","nn":"Egypt","blurb":"A tradition of direct, creative attacking play, and only line-breaking at 79 carries it; every other station sits within eight points of median. The directness survived, the rest averaged out."},{"team":"Ecuador","m":4,"flag":"Sample-sensitive","out":{"xgd":0.193,"gmx":-0.97,"gpm":0.5,"xgf":1.47,"xga":1.278},"f":{"Control":{"p":75.0,"lo":52.1,"hi":91.7,"s":0.392,"w":39.6},"Access":{"p":54.2,"lo":33.3,"hi":64.6,"s":0.025,"w":31.3},"Line-breaking":{"p":50.0,"lo":33.3,"hi":58.3,"s":-0.082,"w":25.0},"Chance threat":{"p":70.8,"lo":45.8,"hi":83.3,"s":0.225,"w":37.5},"Attacking approach":{"p":70.8,"lo":50.0,"hi":93.8,"s":0.58,"w":43.8},"Defensive approach":{"p":66.7,"lo":47.9,"hi":79.2,"s":0.098,"w":31.2}},"mw":34.7,"round":"Round of 32","flag_e":"🇪🇨","nn":"Switzerland","blurb":"CONMEBOL-hardened and organized, with control 75 to show for it, and then the worst finishing of the tournament at 0.97 goals a match below xG. The process was fine; nothing went in."},{"team":"Egypt","m":5,"flag":"Sample-sensitive","out":{"xgd":-0.33,"gmx":0.452,"gpm":1.6,"xgf":1.148,"xga":1.478},"f":{"Control":{"p":72.9,"lo":56.2,"hi":87.5,"s":0.352,"w":31.2},"Access":{"p":56.2,"lo":50.0,"hi":68.8,"s":0.05,"w":18.8},"Line-breaking":{"p":62.5,"lo":50.0,"hi":77.1,"s":0.085,"w":27.1},"Chance threat":{"p":52.1,"lo":41.7,"hi":58.3,"s":-0.149,"w":16.7},"Attacking approach":{"p":62.5,"lo":50.0,"hi":75.0,"s":0.419,"w":25.0},"Defensive approach":{"p":47.9,"lo":31.2,"hi":66.7,"s":-0.196,"w":35.4}},"mw":25.7,"round":"Round of 16","flag_e":"🇪🇬","nn":"Netherlands","blurb":"Attacking quality concentrated at the top with nothing behind it, and the shape tapers accordingly, control 73 down to chance threat 52. A Round of 16 on a negative xG difference."},{"team":"England","m":8,"flag":"Moderate","out":{"xgd":0.646,"gmx":0.621,"gpm":2.5,"xgf":1.879,"xga":1.232},"f":{"Control":{"p":77.1,"lo":62.5,"hi":89.6,"s":0.444,"w":27.1},"Access":{"p":83.3,"lo":66.7,"hi":91.7,"s":0.399,"w":25.0},"Line-breaking":{"p":97.9,"lo":93.8,"hi":100.0,"s":1.44,"w":6.2},"Chance threat":{"p":89.6,"lo":79.2,"hi":91.7,"s":0.7,"w":12.5},"Attacking approach":{"p":77.1,"lo":58.3,"hi":85.4,"s":0.735,"w":27.1},"Defensive approach":{"p":72.9,"lo":56.2,"hi":81.2,"s":0.231,"w":25.0}},"mw":20.5,"round":"Third-place play-off","flag_e":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","nn":"Senegal","blurb":"Attacking depth among the best in the tournament, and the penetration to use it: line-breaking 98, the highest of any semi-finalist. Third place, with 0.62 goals a match above xG doing some of the work."},{"team":"France","m":8,"flag":"Moderate","out":{"xgd":1.087,"gmx":0.401,"gpm":2.5,"xgf":2.099,"xga":1.011},"f":{"Control":{"p":83.3,"lo":70.8,"hi":89.6,"s":0.511,"w":18.8},"Access":{"p":77.1,"lo":70.8,"hi":83.3,"s":0.378,"w":12.5},"Line-breaking":{"p":89.6,"lo":79.2,"hi":89.6,"s":0.562,"w":10.4},"Chance threat":{"p":93.8,"lo":89.6,"hi":100.0,"s":0.955,"w":10.4},"Attacking approach":{"p":72.9,"lo":58.3,"hi":75.0,"s":0.584,"w":16.7},"Defensive approach":{"p":89.6,"lo":81.2,"hi":89.6,"s":0.833,"w":8.3}},"mw":12.8,"round":"Third-place play-off","flag_e":"🇫🇷","nn":"Senegal","blurb":"The deepest attacking squad, deploying collective talent rather than leaning on one figure, and no station falls below 77. The most balanced profile of the 48, which is what depth actually looks like."},{"team":"Germany","m":4,"flag":"Sample-sensitive","out":{"xgd":1.265,"gmx":0.592,"gpm":2.75,"xgf":2.158,"xga":0.892},"f":{"Control":{"p":93.8,"lo":89.6,"hi":93.8,"s":0.745,"w":4.2},"Access":{"p":95.8,"lo":93.8,"hi":95.8,"s":1.014,"w":2.1},"Line-breaking":{"p":35.4,"lo":8.3,"hi":50.0,"s":-0.387,"w":41.7},"Chance threat":{"p":95.8,"lo":70.8,"hi":100.0,"s":1.023,"w":29.2},"Attacking approach":{"p":93.8,"lo":89.6,"hi":93.8,"s":1.322,"w":4.2},"Defensive approach":{"p":85.4,"lo":79.2,"hi":93.8,"s":0.756,"w":14.6}},"mw":16.0,"round":"Round of 32","flag_e":"🇩🇪","nn":"Algeria","blurb":"Rebuilt around gegenpressing with the transition vulnerability unresolved, and the shape shows the front half of that rebuild working — control 94, access 96. Line-breaking 35 is where it stopped, and so did the tournament."},{"team":"Ghana","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.625,"gmx":-0.083,"gpm":0.5,"xgf":0.583,"xga":1.208},"f":{"Control":{"p":27.1,"lo":10.4,"hi":37.5,"s":-0.67,"w":27.1},"Access":{"p":6.2,"lo":2.1,"hi":8.3,"s":-1.061,"w":6.2},"Line-breaking":{"p":60.4,"lo":37.5,"hi":87.5,"s":0.077,"w":50.0},"Chance threat":{"p":16.7,"lo":4.2,"hi":27.1,"s":-0.805,"w":22.9},"Attacking approach":{"p":18.8,"lo":4.2,"hi":43.8,"s":-1.362,"w":39.6},"Defensive approach":{"p":20.8,"lo":12.5,"hi":50.0,"s":-0.667,"w":37.5}},"mw":30.6,"round":"Round of 32","flag_e":"🇬🇭","nn":"Iraq","blurb":"Key injuries and a manager appointed weeks out, and the cost lands on access at the 6th percentile, third-lowest in the tournament. Chance threat 17 follows from never getting there."},{"team":"Haiti","m":3,"flag":"Sample-sensitive","out":{"xgd":-0.947,"gmx":0.13,"gpm":0.667,"xgf":0.537,"xga":1.483},"f":{"Control":{"p":41.7,"lo":33.3,"hi":54.2,"s":-0.16,"w":20.8},"Access":{"p":31.2,"lo":8.3,"hi":50.0,"s":-0.535,"w":41.7},"Line-breaking":{"p":27.1,"lo":2.1,"hi":41.7,"s":-0.555,"w":39.6},"Chance threat":{"p":10.4,"lo":4.2,"hi":25.0,"s":-0.858,"w":20.8},"Attacking approach":{"p":39.6,"lo":29.2,"hi":50.0,"s":-0.532,"w":20.8},"Defensive approach":{"p":39.6,"lo":18.8,"hi":56.2,"s":-0.322,"w":37.5}},"mw":30.2,"round":"Group stage","flag_e":"🇭🇹","nn":"Bosnia and Herzegovina","blurb":"Qualified under extreme conditions with most supporters unable to travel, and chance threat 10 is the fourth-lowest in the field. Being here was the achievement, as expected."},{"team":"IR Iran","m":3,"flag":"Sample-sensitive","out":{"xgd":0.233,"gmx":-0.523,"gpm":1.0,"xgf":1.523,"xga":1.29},"f":{"Control":{"p":14.6,"lo":10.4,"hi":27.1,"s":-0.876,"w":16.7},"Access":{"p":18.8,"lo":6.2,"hi":31.2,"s":-0.777,"w":25.0},"Line-breaking":{"p":52.1,"lo":4.2,"hi":87.5,"s":-0.026,"w":83.3},"Chance threat":{"p":72.9,"lo":54.2,"hi":91.7,"s":0.287,"w":37.5},"Attacking approach":{"p":12.5,"lo":10.4,"hi":18.8,"s":-1.461,"w":8.3},"Defensive approach":{"p":12.5,"lo":4.2,"hi":16.7,"s":-1.041,"w":12.5}},"mw":30.6,"round":"Group stage","flag_e":"🇮🇷","nn":"Iraq","blurb":"Defensively organized and hard to score against across multiple campaigns, and this was the purest version yet: the second-deepest block in the field, the lowest control, chance threat 73. A positive xG difference and still out in the group."},{"team":"Iraq","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.767,"gmx":-0.37,"gpm":0.333,"xgf":0.703,"xga":2.47},"f":{"Control":{"p":22.9,"lo":6.2,"hi":33.3,"s":-0.72,"w":27.1},"Access":{"p":29.2,"lo":8.3,"hi":50.0,"s":-0.556,"w":41.7},"Line-breaking":{"p":47.9,"lo":8.3,"hi":75.0,"s":-0.125,"w":66.7},"Chance threat":{"p":29.2,"lo":4.2,"hi":43.8,"s":-0.665,"w":39.6},"Attacking approach":{"p":25.0,"lo":4.2,"hi":39.6,"s":-1.06,"w":35.4},"Defensive approach":{"p":6.2,"lo":0.0,"hi":16.7,"s":-1.216,"w":16.7}},"mw":37.8,"round":"Group stage","flag_e":"🇮🇶","nn":"Ghana","blurb":"Forty years away, returning with the second-deepest block of the 48 and line-breaking 48. Everything else below 30, and out in the group."},{"team":"Japan","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.037,"gmx":1.205,"gpm":2.0,"xgf":0.795,"xga":0.833},"f":{"Control":{"p":50.0,"lo":35.4,"hi":56.2,"s":0.015,"w":20.8},"Access":{"p":62.5,"lo":52.1,"hi":83.3,"s":0.185,"w":31.3},"Line-breaking":{"p":58.3,"lo":29.2,"hi":75.0,"s":0.048,"w":45.8},"Chance threat":{"p":35.4,"lo":16.7,"hi":45.8,"s":-0.559,"w":29.2},"Attacking approach":{"p":50.0,"lo":39.6,"hi":68.8,"s":0.123,"w":29.2},"Defensive approach":{"p":25.0,"lo":14.6,"hi":50.0,"s":-0.563,"w":35.4}},"mw":31.9,"round":"Round of 32","flag_e":"🇯🇵","nn":"Austria","blurb":"Two decades building organized pressing and vertical transition, and this squad defended at 25 — deep, not pressing. Chance threat 35 and 1.21 goals a match above xG carried a team playing against its own identity."},{"team":"Jordan","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.543,"gmx":0.377,"gpm":1.0,"xgf":0.623,"xga":2.167},"f":{"Control":{"p":4.2,"lo":2.1,"hi":6.2,"s":-1.372,"w":4.2},"Access":{"p":10.4,"lo":6.2,"hi":18.8,"s":-0.829,"w":12.5},"Line-breaking":{"p":93.8,"lo":77.1,"hi":100.0,"s":1.074,"w":22.9},"Chance threat":{"p":20.8,"lo":4.2,"hi":31.2,"s":-0.758,"w":27.1},"Attacking approach":{"p":4.2,"lo":0.0,"hi":4.2,"s":-3.085,"w":4.2},"Defensive approach":{"p":41.7,"lo":22.9,"hi":56.2,"s":-0.287,"w":33.3}},"mw":17.4,"round":"Group stage","flag_e":"🇯🇴","nn":"Australia","blurb":"A first World Cup in the nation's history, and they broke lines at 94 from control 4 — a 90-point gap, the widest between any two stations in the field. Almost no ball, and they went through you with what little they had."},{"team":"Korea Republic","m":3,"flag":"Sample-sensitive","out":{"xgd":0.503,"gmx":-0.46,"gpm":0.667,"xgf":1.127,"xga":0.623},"f":{"Control":{"p":95.8,"lo":85.4,"hi":100.0,"s":0.846,"w":14.6},"Access":{"p":68.8,"lo":50.0,"hi":87.5,"s":0.277,"w":37.5},"Line-breaking":{"p":56.2,"lo":35.4,"hi":75.0,"s":-0.003,"w":39.6},"Chance threat":{"p":50.0,"lo":35.4,"hi":64.6,"s":-0.174,"w":29.2},"Attacking approach":{"p":95.8,"lo":91.7,"hi":97.9,"s":1.465,"w":6.2},"Defensive approach":{"p":93.8,"lo":87.5,"hi":97.9,"s":1.113,"w":10.4}},"mw":22.9,"round":"Group stage","flag_e":"🇰🇷","nn":"Portugal","blurb":"Collective discipline, high pressing, direct attacking play, and two of three land: control 96, pressing 94. Access 69 falling to chance threat 50 is where the directness was supposed to be."},{"team":"Mexico","m":5,"flag":"Sample-sensitive","out":{"xgd":0.818,"gmx":0.382,"gpm":2.0,"xgf":1.618,"xga":0.8},"f":{"Control":{"p":54.2,"lo":45.8,"hi":72.9,"s":0.148,"w":27.1},"Access":{"p":64.6,"lo":52.1,"hi":75.0,"s":0.203,"w":22.9},"Line-breaking":{"p":41.7,"lo":12.5,"hi":50.0,"s":-0.297,"w":37.5},"Chance threat":{"p":77.1,"lo":70.8,"hi":91.7,"s":0.397,"w":20.8},"Attacking approach":{"p":60.4,"lo":45.8,"hi":85.4,"s":0.416,"w":39.6},"Defensive approach":{"p":77.1,"lo":56.2,"hi":81.2,"s":0.309,"w":25.0}},"mw":28.8,"round":"Round of 16","flag_e":"🇲🇽","nn":"Switzerland","blurb":"A quarter-final ceiling never broken, competitive in matches without sustaining it across a tournament, and the shape is the flat version of that. Nothing above 77, nothing below 42, out in the Round of 16 again."},{"team":"Morocco","m":6,"flag":"Sample-sensitive","out":{"xgd":-0.058,"gmx":0.573,"gpm":1.667,"xgf":1.093,"xga":1.152},"f":{"Control":{"p":91.7,"lo":87.5,"hi":93.8,"s":0.694,"w":6.2},"Access":{"p":66.7,"lo":56.2,"hi":83.3,"s":0.235,"w":27.1},"Line-breaking":{"p":31.2,"lo":4.2,"hi":39.6,"s":-0.463,"w":35.4},"Chance threat":{"p":47.9,"lo":41.7,"hi":62.5,"s":-0.212,"w":20.8},"Attacking approach":{"p":85.4,"lo":68.8,"hi":87.5,"s":0.878,"w":18.8},"Defensive approach":{"p":64.6,"lo":41.7,"hi":77.1,"s":0.084,"w":35.4}},"mw":24.0,"round":"Quarter-final","flag_e":"🇲🇦","nn":"Colombia","blurb":"The manager who built the mid-block identity gone three months out, the foundation supposedly intact, and the shape splits exactly there: control 92 down to chance threat 48. A quarter-final on territory, with the clinical transition missing."},{"team":"Netherlands","m":4,"flag":"Sample-sensitive","out":{"xgd":0.325,"gmx":1.5,"gpm":2.75,"xgf":1.25,"xga":0.925},"f":{"Control":{"p":62.5,"lo":39.6,"hi":93.8,"s":0.273,"w":54.2},"Access":{"p":58.3,"lo":50.0,"hi":83.3,"s":0.117,"w":33.3},"Line-breaking":{"p":72.9,"lo":47.9,"hi":89.6,"s":0.204,"w":41.7},"Chance threat":{"p":58.3,"lo":41.7,"hi":72.9,"s":-0.03,"w":31.2},"Attacking approach":{"p":79.2,"lo":50.0,"hi":95.8,"s":0.77,"w":45.8},"Defensive approach":{"p":37.5,"lo":20.8,"hi":50.0,"s":-0.369,"w":29.2}},"mw":39.2,"round":"Round of 32","flag_e":"🇳🇱","nn":"Egypt","blurb":"The chronic missing centre-forward, and for four matches the problem inverted — 1.50 goals a match above xG, the largest overperformance of the 48. Nothing about that was repeatable, and the Round of 32 arrived on schedule."},{"team":"New Zealand","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.82,"gmx":0.507,"gpm":1.333,"xgf":0.827,"xga":2.647},"f":{"Control":{"p":35.4,"lo":27.1,"hi":43.8,"s":-0.324,"w":16.7},"Access":{"p":45.8,"lo":33.3,"hi":50.0,"s":-0.314,"w":16.7},"Line-breaking":{"p":2.1,"lo":0.0,"hi":2.1,"s":-1.193,"w":2.1},"Chance threat":{"p":41.7,"lo":4.2,"hi":45.8,"s":-0.522,"w":41.7},"Attacking approach":{"p":41.7,"lo":37.5,"hi":47.9,"s":-0.283,"w":10.4},"Defensive approach":{"p":14.6,"lo":6.2,"hi":22.9,"s":-0.955,"w":16.7}},"mw":17.4,"round":"Group stage","flag_e":"🇳🇿","nn":"Cabo Verde","blurb":"The tournament's lowest-ranked side, organized and capable across ninety minutes, reaching access 46 and then line-breaking 2, the lowest in the field. They got to advanced areas and had no way in."},{"team":"Norway","m":6,"flag":"Sample-sensitive","out":{"xgd":0.0,"gmx":0.51,"gpm":2.167,"xgf":1.657,"xga":1.657},"f":{"Control":{"p":68.8,"lo":52.1,"hi":83.3,"s":0.321,"w":31.3},"Access":{"p":52.1,"lo":50.0,"hi":54.2,"s":-0.054,"w":4.2},"Line-breaking":{"p":8.3,"lo":2.1,"hi":16.7,"s":-0.786,"w":14.6},"Chance threat":{"p":79.2,"lo":70.8,"hi":85.4,"s":0.442,"w":14.6},"Attacking approach":{"p":75.0,"lo":56.2,"hi":89.6,"s":0.65,"w":33.3},"Defensive approach":{"p":27.1,"lo":16.7,"hi":33.3,"s":-0.533,"w":16.7}},"mw":19.1,"round":"Quarter-final","flag_e":"🇳🇴","nn":"Colombia","blurb":"Extraordinary quality at the top and no creative depth around it, which produces line-breaking 8 alongside chance threat 79. Threat arriving from nowhere in particular, and a quarter-final out of it."},{"team":"Panama","m":3,"flag":"Sample-sensitive","out":{"xgd":-0.41,"gmx":-0.727,"gpm":0.0,"xgf":0.727,"xga":1.137},"f":{"Control":{"p":31.2,"lo":6.2,"hi":45.8,"s":-0.531,"w":39.6},"Access":{"p":22.9,"lo":8.3,"hi":41.7,"s":-0.623,"w":33.3},"Line-breaking":{"p":45.8,"lo":20.8,"hi":66.7,"s":-0.129,"w":45.8},"Chance threat":{"p":31.2,"lo":29.2,"hi":31.2,"s":-0.638,"w":2.1},"Attacking approach":{"p":29.2,"lo":4.2,"hi":43.8,"s":-0.948,"w":39.6},"Defensive approach":{"p":54.2,"lo":41.7,"hi":72.9,"s":-0.067,"w":31.2}},"mw":31.9,"round":"Group stage","flag_e":"🇵🇦","nn":"Congo DR","blurb":"A second World Cup and a CONCACAF qualification, with line-breaking 46 the only station near median. Then 0.73 goals a match below xG closed it out."},{"team":"Paraguay","m":5,"flag":"Moderate","out":{"xgd":-1.18,"gmx":0.202,"gpm":0.6,"xgf":0.398,"xga":1.578},"f":{"Control":{"p":2.1,"lo":0.0,"hi":2.1,"s":-2.107,"w":2.1},"Access":{"p":2.1,"lo":0.0,"hi":2.1,"s":-1.409,"w":2.1},"Line-breaking":{"p":18.8,"lo":4.2,"hi":33.3,"s":-0.62,"w":29.2},"Chance threat":{"p":4.2,"lo":0.0,"hi":4.2,"s":-1.019,"w":4.2},"Attacking approach":{"p":2.1,"lo":0.0,"hi":2.1,"s":-3.747,"w":2.1},"Defensive approach":{"p":8.3,"lo":0.0,"hi":14.6,"s":-1.194,"w":14.6}},"mw":9.0,"round":"Round of 16","flag_e":"🇵🇾","nn":"Curaçao","blurb":"Physically imposing, defensively organized, CONMEBOL-hardened, and statistically the most extreme underdog of the tournament: bottom five on every station and the most transition-leaning attack of the 48. Reached the Round of 16 anyway, which no other profile here comes close to explaining."},{"team":"Portugal","m":5,"flag":"Sample-sensitive","out":{"xgd":0.134,"gmx":0.322,"gpm":1.6,"xgf":1.278,"xga":1.144},"f":{"Control":{"p":85.4,"lo":68.8,"hi":93.8,"s":0.543,"w":25.0},"Access":{"p":79.2,"lo":60.4,"hi":91.7,"s":0.395,"w":31.2},"Line-breaking":{"p":68.8,"lo":56.2,"hi":87.5,"s":0.197,"w":31.2},"Chance threat":{"p":62.5,"lo":45.8,"hi":66.7,"s":0.002,"w":20.8},"Attacking approach":{"p":87.5,"lo":72.9,"hi":95.8,"s":1.067,"w":22.9},"Defensive approach":{"p":87.5,"lo":81.2,"hi":89.6,"s":0.8,"w":8.3}},"mw":23.3,"round":"Round of 16","flag_e":"🇵🇹","nn":"Korea Republic","blurb":"A framework built around an ageing figurehead constraining the quality around it, and the taper is right there: control 85 and access 79 down to chance threat 63. The talent reaches the final third and stops."},{"team":"Qatar","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.973,"gmx":0.037,"gpm":0.667,"xgf":0.63,"xga":2.603},"f":{"Control":{"p":6.2,"lo":2.1,"hi":18.8,"s":-1.319,"w":16.7},"Access":{"p":4.2,"lo":0.0,"hi":18.8,"s":-1.098,"w":18.8},"Line-breaking":{"p":43.8,"lo":4.2,"hi":81.2,"s":-0.205,"w":77.1},"Chance threat":{"p":22.9,"lo":0.0,"hi":41.7,"s":-0.75,"w":41.7},"Attacking approach":{"p":8.3,"lo":4.2,"hi":18.8,"s":-1.873,"w":14.6},"Defensive approach":{"p":4.2,"lo":0.0,"hi":20.8,"s":-1.429,"w":20.8}},"mw":31.6,"round":"Group stage","flag_e":"🇶🇦","nn":"Curaçao","blurb":"The worst-performing host in history, back on merit and playing the same way: control 6, access 4, one of the deepest blocks of the 48. Nothing about the 2022 experience changed the shape."},{"team":"Saudi Arabia","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.517,"gmx":-0.173,"gpm":0.333,"xgf":0.507,"xga":2.023},"f":{"Control":{"p":8.3,"lo":2.1,"hi":29.2,"s":-1.036,"w":27.1},"Access":{"p":16.7,"lo":8.3,"hi":18.8,"s":-0.789,"w":10.4},"Line-breaking":{"p":37.5,"lo":12.5,"hi":58.3,"s":-0.356,"w":45.8},"Chance threat":{"p":6.2,"lo":0.0,"hi":29.2,"s":-0.893,"w":29.2},"Attacking approach":{"p":10.4,"lo":4.2,"hi":27.1,"s":-1.605,"w":22.9},"Defensive approach":{"p":50.0,"lo":14.6,"hi":72.9,"s":-0.173,"w":58.3}},"mw":32.3,"round":"Group stage","flag_e":"🇸🇦","nn":"Uzbekistan","blurb":"The pressing identity that beat Argentina in 2022 left with the manager two months out, and nothing replaced it: control 8, chance threat 6. The clearest before-and-after of the tournament."},{"team":"Scotland","m":3,"flag":"Moderate","out":{"xgd":-0.98,"gmx":-0.447,"gpm":0.333,"xgf":0.78,"xga":1.76},"f":{"Control":{"p":43.8,"lo":37.5,"hi":45.8,"s":-0.132,"w":8.3},"Access":{"p":41.7,"lo":33.3,"hi":43.8,"s":-0.363,"w":10.4},"Line-breaking":{"p":10.4,"lo":4.2,"hi":12.5,"s":-0.763,"w":8.3},"Chance threat":{"p":33.3,"lo":29.2,"hi":39.6,"s":-0.576,"w":10.4},"Attacking approach":{"p":83.3,"lo":66.7,"hi":89.6,"s":0.853,"w":22.9},"Defensive approach":{"p":18.8,"lo":14.6,"hi":33.3,"s":-0.687,"w":18.7}},"mw":13.2,"round":"Group stage","flag_e":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","nn":"New Zealand","blurb":"The best Scottish squad in the modern era, playing possession-oriented at 83 from a block at 19 with line-breaking 10. The ball without the ground, and a tenth group-stage exit in ten attempts."},{"team":"Senegal","m":4,"flag":"Moderate","out":{"xgd":0.54,"gmx":0.692,"gpm":2.5,"xgf":1.808,"xga":1.268},"f":{"Control":{"p":79.2,"lo":75.0,"hi":87.5,"s":0.488,"w":12.5},"Access":{"p":87.5,"lo":75.0,"hi":93.8,"s":0.52,"w":18.8},"Line-breaking":{"p":85.4,"lo":75.0,"hi":89.6,"s":0.439,"w":14.6},"Chance threat":{"p":85.4,"lo":70.8,"hi":100.0,"s":0.617,"w":29.2},"Attacking approach":{"p":81.2,"lo":68.8,"hi":85.4,"s":0.778,"w":16.7},"Defensive approach":{"p":81.2,"lo":77.1,"hi":81.2,"s":0.448,"w":4.2}},"mw":16.0,"round":"Round of 32","flag_e":"🇸🇳","nn":"England","blurb":"Physical, high-pressing, wide overloads, and the data agrees on every count — front-foot 81, every station 79 or above. The most complete profile to go out in the Round of 32."},{"team":"South Africa","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.68,"gmx":-0.122,"gpm":0.5,"xgf":0.623,"xga":1.302},"f":{"Control":{"p":47.9,"lo":33.3,"hi":66.7,"s":-0.048,"w":33.3},"Access":{"p":33.3,"lo":8.3,"hi":50.0,"s":-0.506,"w":41.7},"Line-breaking":{"p":6.2,"lo":2.1,"hi":20.8,"s":-0.813,"w":18.8},"Chance threat":{"p":18.8,"lo":2.1,"hi":35.4,"s":-0.759,"w":33.3},"Attacking approach":{"p":52.1,"lo":43.8,"hi":85.4,"s":0.323,"w":41.7},"Defensive approach":{"p":60.4,"lo":33.3,"hi":81.2,"s":0.066,"w":47.9}},"mw":36.1,"round":"Round of 32","flag_e":"🇿🇦","nn":"Haiti","blurb":"Back for the first time since hosting in 2010, holding the ball adequately at control 48 and doing nothing with it: line-breaking 6, chance threat 19. Present without threatening."},{"team":"Spain","m":8,"flag":"Stable","out":{"xgd":1.871,"gmx":-0.435,"gpm":1.75,"xgf":2.185,"xga":0.314},"f":{"Control":{"p":97.9,"lo":95.8,"hi":100.0,"s":0.908,"w":4.2},"Access":{"p":100.0,"lo":95.8,"hi":100.0,"s":1.486,"w":4.2},"Line-breaking":{"p":81.2,"lo":75.0,"hi":87.5,"s":0.384,"w":12.5},"Chance threat":{"p":100.0,"lo":91.7,"hi":100.0,"s":1.055,"w":8.3},"Attacking approach":{"p":97.9,"lo":95.8,"hi":97.9,"s":1.622,"w":2.1},"Defensive approach":{"p":97.9,"lo":95.8,"hi":100.0,"s":1.494,"w":4.2}},"mw":5.9,"round":"Winners","flag_e":"🇪🇸","nn":"Senegal","blurb":"The possession philosophy that shaped modern football, now with direct wide movement, and the shape confirms it completely: at or near the ceiling on all four stations. They won it while finishing 0.43 goals a match below xG, which means the title understates them."},{"team":"Sweden","m":4,"flag":"Sample-sensitive","out":{"xgd":-0.512,"gmx":0.585,"gpm":1.75,"xgf":1.165,"xga":1.677},"f":{"Control":{"p":39.6,"lo":35.4,"hi":43.8,"s":-0.193,"w":8.3},"Access":{"p":37.5,"lo":27.1,"hi":43.8,"s":-0.398,"w":16.7},"Line-breaking":{"p":66.7,"lo":35.4,"hi":89.6,"s":0.144,"w":54.2},"Chance threat":{"p":54.2,"lo":41.7,"hi":64.6,"s":-0.129,"w":22.9},"Attacking approach":{"p":35.4,"lo":27.1,"hi":43.8,"s":-0.645,"w":16.7},"Defensive approach":{"p":31.2,"lo":16.7,"hi":50.0,"s":-0.484,"w":33.3}},"mw":25.3,"round":"Round of 32","flag_e":"🇸🇪","nn":"Austria","blurb":"Elite attacking quality at the top and thin depth around it, and the shape is unremarkable except line-breaking 67. The 0.58 goals a match above xG is the elite part showing up."},{"team":"Switzerland","m":6,"flag":"Moderate","out":{"xgd":0.578,"gmx":0.068,"gpm":1.667,"xgf":1.598,"xga":1.02},"f":{"Control":{"p":60.4,"lo":47.9,"hi":72.9,"s":0.219,"w":25.0},"Access":{"p":60.4,"lo":52.1,"hi":75.0,"s":0.158,"w":22.9},"Line-breaking":{"p":64.6,"lo":50.0,"hi":75.0,"s":0.131,"w":25.0},"Chance threat":{"p":75.0,"lo":62.5,"hi":85.4,"s":0.374,"w":22.9},"Attacking approach":{"p":56.2,"lo":45.8,"hi":75.0,"s":0.366,"w":29.2},"Defensive approach":{"p":79.2,"lo":56.2,"hi":81.2,"s":0.336,"w":25.0}},"mw":25.0,"round":"Quarter-final","flag_e":"🇨🇭","nn":"Mexico","blurb":"Consistently competitive at major tournaments without ever threatening to win one, and the shape is that sentence: nothing above 75, nothing below 60. The least distinctive profile of the 48 and a quarter-final, which is the whole Swiss argument."},{"team":"Tunisia","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.373,"gmx":0.293,"gpm":0.667,"xgf":0.373,"xga":1.747},"f":{"Control":{"p":18.8,"lo":6.2,"hi":31.2,"s":-0.851,"w":25.0},"Access":{"p":35.4,"lo":25.0,"hi":50.0,"s":-0.421,"w":25.0},"Line-breaking":{"p":20.8,"lo":12.5,"hi":29.2,"s":-0.586,"w":16.7},"Chance threat":{"p":2.1,"lo":0.0,"hi":10.4,"s":-1.048,"w":10.4},"Attacking approach":{"p":27.1,"lo":8.3,"hi":43.8,"s":-1.008,"w":35.4},"Defensive approach":{"p":16.7,"lo":2.1,"hi":45.8,"s":-0.787,"w":43.7}},"mw":26.0,"round":"Group stage","flag_e":"🇹🇳","nn":"Bosnia and Herzegovina","blurb":"Compact and disciplined was the description, and compact is accurate; chance threat 2 is the lowest of the 48. The discipline held and nothing else came."},{"team":"Türkiye","m":3,"flag":"Sample-sensitive","out":{"xgd":0.79,"gmx":-0.833,"gpm":1.0,"xgf":1.833,"xga":1.043},"f":{"Control":{"p":89.6,"lo":52.1,"hi":100.0,"s":0.594,"w":47.9},"Access":{"p":97.9,"lo":93.8,"hi":100.0,"s":1.417,"w":6.2},"Line-breaking":{"p":87.5,"lo":75.0,"hi":89.6,"s":0.456,"w":14.6},"Chance threat":{"p":87.5,"lo":79.2,"hi":89.6,"s":0.647,"w":10.4},"Attacking approach":{"p":58.3,"lo":39.6,"hi":97.9,"s":0.374,"w":58.3},"Defensive approach":{"p":70.8,"lo":50.0,"hi":81.2,"s":0.223,"w":31.2}},"mw":28.1,"round":"Group stage","flag_e":"🇹🇷","nn":"England","blurb":"A fluid attacking system without a reliable finisher, and the tournament proved it in three matches: top ten on all four stations, second-largest finishing shortfall of the 48, eliminated in the group. Everything worked except the last touch."},{"team":"USA","m":5,"flag":"Moderate","out":{"xgd":0.31,"gmx":0.926,"gpm":2.2,"xgf":1.274,"xga":0.964},"f":{"Control":{"p":64.6,"lo":60.4,"hi":75.0,"s":0.296,"w":14.6},"Access":{"p":70.8,"lo":56.2,"hi":83.3,"s":0.304,"w":27.1},"Line-breaking":{"p":95.8,"lo":89.6,"hi":95.8,"s":1.189,"w":6.2},"Chance threat":{"p":60.4,"lo":47.9,"hi":70.8,"s":-0.003,"w":22.9},"Attacking approach":{"p":66.7,"lo":54.2,"hi":72.9,"s":0.473,"w":18.7},"Defensive approach":{"p":83.3,"lo":79.2,"hi":89.6,"s":0.712,"w":10.4}},"mw":16.7,"round":"Round of 16","flag_e":"🇺🇸","nn":"Uruguay","blurb":"A clear collective structure playing at home, and the structure delivered penetration without payoff: line-breaking 96, chance threat 60. The 0.93 goals a match above xG covered the gap as far as the Round of 16."},{"team":"Uruguay","m":3,"flag":"Sample-sensitive","out":{"xgd":0.41,"gmx":-0.317,"gpm":1.0,"xgf":1.317,"xga":0.907},"f":{"Control":{"p":58.3,"lo":33.3,"hi":97.9,"s":0.218,"w":64.6},"Access":{"p":93.8,"lo":70.8,"hi":95.8,"s":0.681,"w":25.0},"Line-breaking":{"p":100.0,"lo":89.6,"hi":100.0,"s":1.525,"w":10.4},"Chance threat":{"p":64.6,"lo":41.7,"hi":87.5,"s":0.047,"w":45.8},"Attacking approach":{"p":54.2,"lo":31.2,"hi":93.8,"s":0.334,"w":62.5},"Defensive approach":{"p":91.7,"lo":81.2,"hi":95.8,"s":1.11,"w":14.6}},"mw":37.2,"round":"Group stage","flag_e":"🇺🇾","nn":"USA","blurb":"Bielsa's pressing and vertical directness grafted onto a century of collective toughness, and it worked: line-breaking 100, the highest in the tournament, access 94, pressing 92. Out in the group stage, which is the strangest result here."},{"team":"Uzbekistan","m":3,"flag":"Sample-sensitive","out":{"xgd":-1.197,"gmx":0.097,"gpm":0.667,"xgf":0.57,"xga":1.767},"f":{"Control":{"p":16.7,"lo":10.4,"hi":20.8,"s":-0.858,"w":10.4},"Access":{"p":20.8,"lo":18.8,"hi":25.0,"s":-0.648,"w":6.2},"Line-breaking":{"p":12.5,"lo":2.1,"hi":29.2,"s":-0.749,"w":27.1},"Chance threat":{"p":14.6,"lo":0.0,"hi":31.2,"s":-0.82,"w":31.2},"Attacking approach":{"p":22.9,"lo":18.8,"hi":27.1,"s":-1.137,"w":8.3},"Defensive approach":{"p":56.2,"lo":54.2,"hi":56.2,"s":-0.032,"w":2.1}},"mw":14.2,"round":"Group stage","flag_e":"🇺🇿","nn":"Bosnia and Herzegovina","blurb":"A first World Cup with most of the squad in the domestic league, and no station above 21. The narrowest spread of any bottom-tier side, which is its own kind of coherence."}],"defs":[{"facet":"Control","type":"Magnitude","headline_inputs":"Possession %; Pass completion %","direction":"Higher = more ball dominance and circulation security"},{"facet":"Access","type":"Magnitude","headline_inputs":"Final-third receptions; Final-third offers; Offers inside opposition shape","direction":"Higher = more advanced availability and reception"},{"facet":"Line-breaking","type":"Magnitude","headline_inputs":"Defensive-line breaks per 100 passes","direction":"Higher = more deep penetration through the defensive line"},{"facet":"Chance threat","type":"Magnitude","headline_inputs":"xG per match","direction":"Higher = greater underlying chance threat"},{"facet":"Attacking approach","type":"Bipolar style axis","headline_inputs":"Control composite minus transition-attack composite","direction":"Higher = more control-oriented; lower = more transition-oriented"},{"facet":"Defensive approach","type":"Bipolar style axis","headline_inputs":"Front-foot pressing/high-block composite minus deep-block composite","direction":"Higher = more front-foot; lower = more deep-block oriented"}]};</script>
+<script>
+(function(){
+const T=FP.teams, DEFS=FP.defs, by=Object.fromEntries(T.map(t=>[t.team,t]));
+const MAG=["Control","Access","Line-breaking","Chance threat"];
+const INIT={"Control":"C","Access":"A","Line-breaking":"L","Chance threat":"T"};
+const STY=[["Attacking approach","Transition","Possession","A"],["Defensive approach","Deep block","Front foot","D"]];
+const DEF=Object.fromEntries(DEFS.map(d=>[d.facet,d]));
+const sgn=v=>(v>=0?"+":"\u2212")+Math.abs(v).toFixed(2);
+const ord=n=>{const s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])};
+const rank=Object.fromEntries([...T].sort((a,b)=>b.out.xgd-a.out.xgd).map((t,i)=>[t.team,i+1]));
+
+/* ---------------- ribbon geometry ---------------- */
+function smooth(p){
+  let d=`M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for(let i=0;i<p.length-1;i++){
+    const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||p[i+1];
+    d+=`C${(b[0]+(c[0]-a[0])/6).toFixed(1)},${(b[1]+(c[1]-a[1])/6).toFixed(1)} `
+     + `${(c[0]-(e[0]-b[0])/6).toFixed(1)},${(c[1]-(e[1]-b[1])/6).toFixed(1)} `
+     + `${c[0].toFixed(1)},${c[1].toFixed(1)}`;
+  }
+  return d;
+}
+function ribbonPath(halves,cx,ys,capT,capB){
+  const R=[[cx,capT]].concat(ys.map((y,i)=>[cx+halves[i],y]),[[cx,capB]]);
+  const L=[[cx,capB]].concat(ys.slice().reverse().map((y,i)=>[cx-halves[ys.length-1-i],y]),[[cx,capT]]);
+  return smooth(R)+" "+smooth(L).replace(/^M[\d.,-]+/,"L"+cx.toFixed(1)+","+capB.toFixed(1))+" Z";
+}
+/* geom(cfg) -> svg string. cfg fully specifies the box so nothing is implicit. */
+function ribbonSVG(t,cmp,cfg){
+  const {W,H,cx,top,bot,maxH,cap,labels}=cfg;
+  const step=(bot-top)/(MAG.length-1), ys=MAG.map((_,i)=>top+i*step);
+  const hw=p=>cfg.minH+(p/100)*(maxH-cfg.minH);
+  const cur=MAG.map(k=>hw(t.f[k].p)), lo=MAG.map(k=>hw(t.f[k].lo)), hi=MAG.map(k=>hw(t.f[k].hi));
+  let s="";
+  s+=`<path d="${ribbonPath(hi,cx,ys,top-cap,bot+cap)}" fill="var(--accent)" opacity=".13"/>`;
+  s+=`<path d="${ribbonPath(lo,cx,ys,top-cap,bot+cap)}" fill="var(--bg)" opacity=".92"/>`;
+  s+=`<path d="${ribbonPath(cur,cx,ys,top-cap,bot+cap)}" fill="var(--accent)" fill-opacity=".2" stroke="var(--accent)" stroke-width="${labels?1.3:.9}"/>`;
+  s+=`<line x1="${cx}" y1="${top-cap}" x2="${cx}" y2="${bot+cap}" stroke="var(--accent)" stroke-width=".6" opacity=".35"/>`;
+  MAG.forEach((k,i)=>{
+    const y=ys[i], f=t.f[k];
+    if(labels){
+      s+=`<line x1="${cx-maxH-8}" y1="${y}" x2="${cx+maxH+8}" y2="${y}" stroke="var(--rule)" stroke-width=".6"/>`;
+      s+=`<circle cx="${cx+cur[i]}" cy="${y}" r="2.6" fill="var(--accent)"/>`;
+      s+=`<circle cx="${cx-cur[i]}" cy="${y}" r="2.6" fill="var(--accent)"/>`;
+      s+=`<text class="fn" x="${cx-maxH-16}" y="${y+1}" text-anchor="end">${k}</text>`;
+      s+=`<text class="lb" x="${cx-maxH-16}" y="${y+14}" text-anchor="end">${f.lo.toFixed(0)}\u2013${f.hi.toFixed(0)}</text>`;
+      s+=`<text class="fv" x="${cx+maxH+16}" y="${y+3.5}">${Math.round(f.p)}</text>`;
+    } else {
+      s+=`<line x1="${cx-2.5}" y1="${y}" x2="${cx+2.5}" y2="${y}" stroke="var(--accent)" stroke-width=".8" opacity=".8"/>`;
+      s+=`<text class="sk" x="1" y="${y+2.2}">${INIT[k]}</text>`;
+    }
+  });
+  if(cmp){
+    const ch=MAG.map(k=>hw(cmp.f[k].p));
+    s+=`<path d="${ribbonPath(ch,cx,ys,top-cap,bot+cap)}" fill="none" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3" opacity=".6"/>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${t.team}: ${MAG.map(k=>k+" "+Math.round(t.f[k].p)).join(", ")}">${s}</svg>`;
+}
+function scalesSVG(t,cmp,cfg){
+  const {W,H,x0,x1,rows,labels}=cfg, rw=x1-x0;
+  let s="";
+  STY.forEach(([k,loL,hiL,ini],i)=>{
+    const y=rows[i], f=t.f[k], x=x0+rw*f.p/100, mid=x0+rw/2;
+    if(labels) s+=`<text class="fn" x="${x0}" y="${y-16}">${k}</text>`;
+    else s+=`<text class="sk" x="1" y="${y+2.2}">${ini}</text>`;
+    s+=`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="var(--rule)" stroke-width="1"/>`;
+    s+=`<line x1="${mid}" y1="${y-5}" x2="${mid}" y2="${y+5}" stroke="var(--mid)" stroke-width="1"/>`;
+    s+=`<rect x="${x0+rw*f.lo/100}" y="${y-3}" width="${Math.max(rw*(f.hi-f.lo)/100,1.5)}" height="6" fill="var(--accent)" opacity=".18"/>`;
+    s+=`<polygon points="${x},${y-6} ${x+5},${y} ${x},${y+6} ${x-5},${y}" fill="var(--accent)"/>`;
+    if(cmp){const c=x0+rw*cmp.f[k].p/100;
+      s+=`<polygon points="${c},${y-6} ${c+5},${y} ${c},${y+6} ${c-5},${y}" fill="none" stroke="var(--ink)" stroke-width="1.1"/>`;}
+    if(labels){
+      s+=`<text class="pl" x="${x0}" y="${y+19}">${loL}</text>`;
+      s+=`<text class="pl" x="${x1}" y="${y+19}" text-anchor="end">${hiL}</text>`;
+      s+=`<text class="fv" x="${x}" y="${y-11}" text-anchor="middle">${Math.round(f.p)}</text>`;
+    }
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${t.team} style scales">${s}</svg>`;
+}
+const CARD_RIB={W:130,H:78,cx:65,top:12,bot:62,maxH:36,cap:6,minH:1.2,labels:false};
+const CARD_SCL={W:130,H:34,x0:12,x1:130,rows:[11,27],labels:false};
+const BIG_RIB ={W:560,H:340,cx:280,top:56,bot:284,maxH:150,cap:16,minH:3,labels:true};
+const BIG_SCL ={W:560,H:130,x0:0,x1:560,rows:[42,102],labels:true};
+
+/* ---------------- annotated example ---------------- */
+(function(){
+  const ex={"Control":{p:82,lo:74,hi:90},"Access":{p:64,lo:48,hi:78},
+            "Line-breaking":{p:30,lo:18,hi:44},"Chance threat":{p:70,lo:60,hi:80},
+            "Attacking approach":{p:76,lo:66,hi:86},"Defensive approach":{p:28,lo:18,hi:40}};
+  const fake={team:"Example",f:ex};
+  const CW=330, CX=44, CY=26, CH=470;             // mock card box
+  const rib={W:0,H:0,cx:CX+CW/2,top:CY+96,bot:CY+286,maxH:118,cap:14,minH:3,labels:false};
+  const step=(rib.bot-rib.top)/3, ys=[0,1,2,3].map(i=>rib.top+i*step);
+  const hw=p=>rib.minH+(p/100)*(rib.maxH-rib.minH);
+  const cur=MAG.map(k=>hw(ex[k].p)), lo=MAG.map(k=>hw(ex[k].lo)), hi=MAG.map(k=>hw(ex[k].hi));
+  const sRows=[CY+352,CY+404], sx0=CX+26, sx1=CX+CW-26, srw=sx1-sx0;
+  let s="";
+  s+=`<rect x="${CX}" y="${CY}" width="${CW}" height="${CH}" fill="var(--card)" stroke="var(--rule)"/>`;
+  s+=`<text class="dn" x="${CX+20}" y="${CY+38}">Example</text>`;
+  s+=`<text class="dxg" x="${CX+CW-20}" y="${CY+38}" text-anchor="end">+1.87</text>`;
+  s+=`<path d="${ribbonPath(hi,rib.cx,ys,rib.top-rib.cap,rib.bot+rib.cap)}" fill="var(--accent)" opacity=".13"/>`;
+  s+=`<path d="${ribbonPath(lo,rib.cx,ys,rib.top-rib.cap,rib.bot+rib.cap)}" fill="var(--card)" opacity=".95"/>`;
+  s+=`<path d="${ribbonPath(cur,rib.cx,ys,rib.top-rib.cap,rib.bot+rib.cap)}" fill="var(--accent)" fill-opacity=".2" stroke="var(--accent)" stroke-width="1.3"/>`;
+  s+=`<line x1="${rib.cx}" y1="${rib.top-rib.cap}" x2="${rib.cx}" y2="${rib.bot+rib.cap}" stroke="var(--accent)" stroke-width=".6" opacity=".35"/>`;
+  MAG.forEach((k,i)=>{
+    s+=`<line x1="${rib.cx-4}" y1="${ys[i]}" x2="${rib.cx+4}" y2="${ys[i]}" stroke="var(--accent)" stroke-width="1"/>`;
+    s+=`<text class="lb" x="${CX+16}" y="${ys[i]+3}">${INIT[k]}</text>`;
+  });
+  STY.forEach(([k,loL,hiL,ini],i)=>{
+    const y=sRows[i], f=ex[k], x=sx0+srw*f.p/100, mid=sx0+srw/2;
+    s+=`<text class="lb" x="${CX+16}" y="${y+3}">${ini}</text>`;
+    s+=`<line x1="${sx0}" y1="${y}" x2="${sx1}" y2="${y}" stroke="var(--rule)" stroke-width="1"/>`;
+    s+=`<line x1="${mid}" y1="${y-5}" x2="${mid}" y2="${y+5}" stroke="var(--mid)" stroke-width="1"/>`;
+    s+=`<rect x="${sx0+srw*f.lo/100}" y="${y-3}" width="${srw*(f.hi-f.lo)/100}" height="6" fill="var(--accent)" opacity=".18"/>`;
+    s+=`<polygon points="${x},${y-6} ${x+5},${y} ${x},${y+6} ${x-5},${y}" fill="var(--accent)"/>`;
+    s+=`<text class="fv" x="${x}" y="${y-11}" text-anchor="middle">${f.p}</text>`;
+    s+=`<text class="pl" x="${sx0}" y="${y+19}">${loL}</text>`;
+    s+=`<text class="pl" x="${sx1}" y="${y+19}" text-anchor="end">${hiL}</text>`;
+  });
+  const fy=CY+CH-26;
+  s+=`<line x1="${CX+20}" y1="${fy-14}" x2="${CX+CW-20}" y2="${fy-14}" stroke="var(--rule)"/>`;
+  s+=`<text class="dfoot" x="${CX+20}" y="${fy}">5 matches</text>`;
+  s+=`<text class="dfoot" x="${CX+CW-20}" y="${fy}" text-anchor="end">Round of 16</text>`;
+
+  const LX=CX+CW+56;
+  const lead=(y,tx)=>`<path d="M${LX-40},${y} L${tx},${y}" stroke="var(--mid)" stroke-width=".8"/>`
+                    +`<circle cx="${tx}" cy="${y}" r="2" fill="var(--mid)"/>`;
+  const note=(y,txt)=>`<text class="lb" x="${LX}" y="${y+3}">${txt}</text>`;
+  [[CY+34, CX+CW-8, "xG difference, averaged per match"],
+   [ys[0], rib.cx+cur[0], "ribbon width = rank against the other 47"],
+   [ys[1], rib.cx+hi[1],  "pale halo = range if any one match is dropped"],
+   [ys[2], CX+24,         "C A L T mark the four stations"],
+   [fy-4, CX+CW-8, "matches played, and how far the team went"]
+  ].forEach(([y,tx,txt])=>{ s+=lead(y,tx)+note(y,txt); });
+
+  document.getElementById("demo").innerHTML=
+    `<svg viewBox="0 0 900 530" role="img" aria-label="Annotated example of a team card">${s}</svg>`;
+})();
+
+/* ---------------- atlas ---------------- */
+let sortKey="xgd", cur="Spain", cmp="__none", query="";
+function drawAtlas(){
+  const list=T.filter(t=>t.team.toLowerCase().includes(query))
+    .sort((a,b)=> sortKey==="alpha"?a.team.localeCompare(b.team)
+                : sortKey==="xgd"?b.out.xgd-a.out.xgd
+                : b.f[sortKey].p-a.f[sortKey].p);
+  document.getElementById("atlas").innerHTML = list.length ? list.map(t=>`
+    <button class="tcard" data-team="${t.team}" aria-current="${t.team===cur}">
+      <div class="top"><span class="nm"><span class="fe">${t.flag_e}</span>${t.team}</span>
+        <span class="xg ${t.out.xgd>=0?"pos":"neg"}">${sgn(t.out.xgd)}</span></div>
+      <div style="margin-top:.5rem">${ribbonSVG(t,null,CARD_RIB)}</div>
+      <div style="margin-top:.25rem">${scalesSVG(t,null,CARD_SCL)}</div>
+      <div class="bot"><span>${t.m} matches</span><span>${t.round}</span></div>
+    </button>`).join("")
+    : `<p class="read" style="grid-column:1/-1">No team matches that search.</p>`;
+  document.querySelectorAll(".tcard").forEach(c=>c.addEventListener("click",()=>select(c.dataset.team,true)));
+}
+document.querySelectorAll("[data-sort]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("[data-sort]").forEach(x=>x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true"); sortKey=b.dataset.sort; drawAtlas();
+}));
+document.getElementById("q").addEventListener("input",e=>{query=e.target.value.toLowerCase().trim(); drawAtlas();});
+
+/* ---------------- profile ---------------- */
+function draw(){
+  const t=by[cur], c=cmp==="__none"?null:by[cmp];
+  document.getElementById("pName").innerHTML=`<span class="fe">${t.flag_e}</span>${t.team}`;
+  document.getElementById("pSub").textContent=
+    `${t.m} matches · ${t.round}` + (c?` · dashed outline: ${c.team}`:"");
+  document.getElementById("mag").innerHTML=ribbonSVG(t,c,BIG_RIB);
+  document.getElementById("sty").innerHTML=scalesSVG(t,c,BIG_SCL);
+  document.getElementById("pSummary").textContent=t.blurb;
+  const O=[["Reached",t.round,null],["Matches",t.m,null],["Rank by xG diff",rank[t.team],null],
+           ["xG diff / match",sgn(t.out.xgd),t.out.xgd>=0],
+           ["Goals minus xG / match",sgn(t.out.gmx),t.out.gmx>=0],
+           ["Goals / match",t.out.gpm.toFixed(2),null],
+           ["xG for / match",t.out.xgf.toFixed(2),null],
+           ["xG against / match",t.out.xga.toFixed(2),null]];
+  document.getElementById("outs").innerHTML=O.map(([k,v,p])=>
+    `<div class="out"><span class="k">${k}</span><span class="v ${p===null?"":p?"pos":"neg"}">${v}</span></div>`).join("");
+  document.getElementById("srcbody").innerHTML=[...MAG,"Attacking approach","Defensive approach"].map(k=>{
+    const d=DEF[k]||{};
+    return `<tr><td>${k}<span class="d">${d.type||""}</span></td>
+      <td style="color:var(--mid)">${(d.headline_inputs||"").replace(/;/g," ·")}</td>
+      <td class="n">${Math.round(t.f[k].p)}<span class="d">\u00b1${(t.f[k].w/2).toFixed(0)}</span></td></tr>`;
+  }).join("");
+  document.querySelectorAll(".tcard").forEach(el=>el.setAttribute("aria-current", el.dataset.team===cur));
+  document.getElementById("selA").value=cur; document.getElementById("selB").value=cmp;
+}
+function select(n,scroll){ cur=n; if(cmp===cur) cmp="__none"; draw();
+  if(scroll) document.getElementById("profile").scrollIntoView({block:"start"}); }
+const names=T.map(t=>t.team).sort((a,b)=>a.localeCompare(b));
+document.getElementById("selA").innerHTML=names.map(n=>`<option${n===cur?" selected":""}>${n}</option>`).join("");
+document.getElementById("selB").innerHTML=`<option value="__none" selected>None</option>`
+  +names.map(n=>`<option value="${n}">${n}</option>`).join("");
+document.getElementById("selA").addEventListener("change",e=>select(e.target.value,false));
+document.getElementById("selB").addEventListener("change",e=>{cmp=e.target.value; draw();});
+
+drawAtlas(); draw();
+})();
+</script>
+<script src="../includes.js"></script>
+</body>
+</html>
