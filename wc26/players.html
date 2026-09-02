@@ -96,6 +96,22 @@ select.chip{color:var(--ink);max-width:12rem}
 .head h2{font-family:var(--serif);font-size:1.9rem;font-weight:500;letter-spacing:-.02em;line-height:1.1}
 .head .meta{font-family:var(--mono);font-size:.6rem;color:var(--mid);margin-top:.45rem;line-height:1.9}
 .postag{letter-spacing:.06em;opacity:.75}
+.vs{color:var(--ink)}
+.cmpbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-top:1.2rem;
+  padding-top:1rem;border-top:1px solid var(--rule)}
+.vsgrid{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:start}
+.vsgrid .head{margin-bottom:.9rem}
+.vsgrid .head h2{font-size:1.5rem}
+.prof.stacked{grid-template-columns:1fr;max-width:640px;margin-top:1.4rem}
+.cmpbar select{max-width:15rem}
+details.dd>summary .val2{font-family:var(--mono);font-size:.66rem;color:var(--ink);opacity:.65}
+details.dd>summary .val2::before{content:'vs ';opacity:.5}
+table.src th{text-align:left;font-size:.54rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mid);border-bottom:1px solid var(--rule);padding:0 .4rem .3rem 0}
+table.src td.c2{color:var(--ink);opacity:.7}
+.vsbtn{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;background:none;
+  border:1px solid var(--rule);color:var(--mid);padding:.1rem .32rem;border-radius:2px;cursor:pointer}
+.vsbtn:hover{border-color:var(--sys);color:var(--sys)}
 .posfilter{font:inherit;color:var(--mid);background:none;border:0;border-bottom:1px dotted var(--rule);
   padding:0 0 .05rem;cursor:pointer}
 .posfilter:hover{color:var(--sys);border-bottom-color:var(--sys)}
@@ -149,6 +165,7 @@ footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--
 @media (max-width:1040px){
   .atlas{grid-template-columns:repeat(3,1fr)}
   .prof{grid-template-columns:1fr;gap:1.6rem}
+  .vsgrid{gap:1.6rem}
   .gwrap{grid-template-columns:1fr 340px;gap:1.6rem}
   .acards{grid-template-columns:repeat(2,1fr)}
 }
@@ -157,6 +174,7 @@ footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--
   .wrap{padding:0 1.2rem}
   .hero{padding:2.6rem 0 1.4rem}
   .gwrap{grid-template-columns:1fr;gap:1.2rem}
+  .vsgrid{grid-template-columns:1fr;gap:2rem}
   .gwrap>div:last-child{max-width:400px;margin:0 auto;width:100%}
   .acards{grid-template-columns:1fr}
   .bar{padding:1rem 0 1.2rem}
@@ -338,7 +356,7 @@ function arcPath(cx, cy, r, a0, a1){
   return "M" + x0.toFixed(1) + "," + y0.toFixed(1)
        + "A" + r.toFixed(1) + "," + r.toFixed(1) + " 0 " + big + " 1 " + x1.toFixed(1) + "," + y1.toFixed(1);
 }
-function labelAt(S, mid, lines, value, out){
+function labelAt(S, mid, lines, value, cmpValue){
   const [lx, ly] = polar(S.cx, S.cy, S.lab, mid);
   const anchor = Math.abs(lx - S.cx) < 4 ? "middle" : (lx > S.cx ? "start" : "end");
   const y0 = ly - (lines.length - 1) * 5;
@@ -349,6 +367,10 @@ function labelAt(S, mid, lines, value, out){
   });
   s += '<text class="fv" x="' + lx.toFixed(1) + '" y="' + (y0 + (lines.length - 1) * 10 + 15).toFixed(1)
      + '" text-anchor="' + anchor + '">' + Math.round(value) + '</text>';
+  if (cmpValue !== null && cmpValue !== undefined){
+    s += '<text class="fvc" x="' + lx.toFixed(1) + '" y="' + (y0 + (lines.length - 1) * 10 + 27).toFixed(1)
+       + '" text-anchor="' + anchor + '">' + Math.round(cmpValue) + '</text>';
+  }
   return s;
 }
 
@@ -382,7 +404,9 @@ function ring(vals, opts){
   s += '<circle cx="' + S.cx + '" cy="' + S.cy + '" r="' + CR(vals[CORE]).toFixed(1)
      + '" fill="var(--sys)" fill-opacity="' + (opts.band ? ".3" : ".45") + '" stroke="var(--sys)" stroke-width=".7"/>';
   if (big){
-    RING.forEach((f, i) => { s += labelAt(S, i * 60 + 30, RLABEL[i], vals[f]); });
+    RING.forEach((f, i) => {
+      s += labelAt(S, i * 60 + 30, RLABEL[i], vals[f]);
+    });
     s += '<text class="fcore" x="' + S.cx + '" y="' + (S.cy - 36) + '" text-anchor="middle">Physical</text>';
     s += '<text class="fv" x="' + S.cx + '" y="' + (S.cy + 44) + '" text-anchor="middle">'
        + Math.round(vals[CORE]) + '</text>';
@@ -418,7 +442,9 @@ function halfRing(vals, opts){
   s += '<line x1="' + (S.cx - S.ro - 10) + '" y1="' + S.cy + '" x2="' + (S.cx + S.ro + 10) + '" y2="' + S.cy
      + '" stroke="var(--mid)" stroke-width="' + (big ? 1 : .7) + '" opacity=".5"/>';
   if (big){
-    GRING.forEach((f, i) => { s += labelAt(S, 270 + i * step + step / 2, GLABEL[i], vals[f]); });
+    GRING.forEach((f, i) => {
+      s += labelAt(S, 270 + i * step + step / 2, GLABEL[i], vals[f]);
+    });
     s += '<text class="fcore" x="' + S.cx + '" y="' + (S.cy - cr - 7) + '" text-anchor="middle">Physical '
        + Math.round(vals[GCORE]) + '</text>';
   }
@@ -476,7 +502,8 @@ const OUT = D.P, GK = D.G, ARCH = D.A, GA = D.GA;
 OUT.forEach((p, i) => { p.i = i; });
 GK.forEach((k, i) => { k.i = i; });
 
-let sys = "out", view = "grid", archSel = null, cur = null, q = "", fNat = "", fPos = "", sortBy = "m";
+let sys = "out", view = "grid", archSel = null, cur = null, cmpP = null, cmpAny = false,
+    q = "", fNat = "", fPos = "", sortBy = "m";
 
 const BANDS = [
   {n:"Defense", homes:["Defense", "Defense into Midfield"]},
@@ -601,30 +628,70 @@ function vSearch(){
        : '<p class="empty">No player by that name. Try a surname or a nation.</p>');
 }
 
-function ddRows(p, met, kind){
+function ddRows(p, met, kind, c){
   const M = kind === "gk" ? GMET : MET;
-  return '<table class="src"><tbody>' + met.map(i =>
-    '<tr><td>' + M[i][0] + '</td><td class="n">' + fmt(p.v[i], M[i][1]) + '</td></tr>').join("") + '</tbody></table>';
+  const last = o => name(o).split(" ").slice(-1)[0];
+  const head = c ? '<thead><tr><th></th><th class="n">' + esc(last(p)) + '</th>'
+                 + '<th class="n">' + esc(last(c)) + '</th></tr></thead>' : "";
+  return '<table class="src">' + head + '<tbody>' + met.map(i =>
+    '<tr><td>' + M[i][0] + '</td><td class="n">' + fmt(p.v[i], M[i][1]) + '</td>'
+    + (c ? '<td class="n c2">' + fmt(c.v[i], M[i][1]) + '</td>' : "") + '</tr>').join("")
+    + '</tbody></table>';
+}
+
+/* who can be compared with the current player */
+function cmpPool(){
+  const pool = sys === "gk" ? GK : OUT;
+  return pool.filter(o => o.n !== cur.n && (sys === "gk" || cmpAny || o.p === cur.p))
+    .sort((a, b) => name(a).localeCompare(name(b)));
+}
+function compareBar(){
+  const opts = cmpPool().map(o => '<option value="' + o.i + '"' + (cmpP && o.i === cmpP.i ? " selected" : "") + '>'
+    + esc(name(o)) + " \u00b7 " + esc(D.teams[o.t]) + '</option>').join("");
+  return '<div class="cmpbar">'
+    + '<span class="flab">Compare with</span>'
+    + '<select class="chip" id="cmpSel" aria-label="Compare with another player">'
+    + '<option value="">\u2014 nobody \u2014</option>' + opts + '</select>'
+    + (sys === "gk" ? "" : '<button class="chip" id="cmpAny" aria-pressed="' + cmpAny + '">Any position</button>')
+    + (cmpP ? '<button class="chip" id="cmpClear">Clear</button>' : "")
+    + '</div>';
 }
 
 function vPlayer(){
   const p = cur;
   const gk = sys === "gk";
+  const c = cmpP;
   const back = archSel !== null
     ? '<button class="chip" data-back="arch">&larr; ' + esc((gk ? GA : ARCH)[archSel].n) + '</button>'
     : '<button class="chip" data-back="grid">&larr; All roles</button>';
 
-  const head = '<div class="head"><h2>' + esc(name(p)) + '</h2><div class="meta">'
-    + team(p.t) + (p.no ? " \u00b7 #" + p.no : "")
-    + " \u00b7 " + esc(gk ? D.garch[p.a] : D.arch[p.a])
-    + ' <span class="postag">(' + POSTAG[gk ? "GK" : D.pos[p.p]] + ')</span>'
-    + '<br>' + p.m + " minutes \u00b7 " + p.mt + (p.mt === 1 ? " match" : " matches")
-    + (!gk && p.g ? " \u00b7 " + p.g + (p.g === 1 ? " goal" : " goals") : "")
-    + (gk ? " \u00b7 " + fmt(p.v[6], F_P90) + " attempts faced" : "") + '</div></div>';
+  const identity = o => team(o.t) + (o.no ? " \u00b7 #" + o.no : "")
+    + " \u00b7 " + esc(gk ? D.garch[o.a] : D.arch[o.a])
+    + ' <span class="postag">(' + POSTAG[gk ? "GK" : D.pos[o.p]] + ')</span>'
+    + '<br>' + o.m + " minutes \u00b7 " + o.mt + (o.mt === 1 ? " match" : " matches")
+    + (!gk && o.g ? " \u00b7 " + o.g + (o.g === 1 ? " goal" : " goals") : "")
+    + (gk ? " \u00b7 " + fmt(o.v[6], F_P90) + " attempts faced" : "");
 
-  const shape = (gk ? halfRing(p.h, {size: "big"}) : ring(p.h, {size: "big"}))
-    + '<p class="note">Percentiles against the '
-    + (gk ? "48 goalkeepers" : POSCOUNT[D.pos[p.p]] + " " + POSP[D.pos[p.p]]) + ' in the sample.</p>';
+  const mark = o => gk ? halfRing(o.h, {size: "big", alt: name(o)}) : ring(o.h, {size: "big", alt: name(o)});
+  const pool = o => gk ? "48 goalkeepers" : POSCOUNT[D.pos[o.p]] + " " + POSP[D.pos[o.p]];
+
+  const head = '<div class="head"><h2>' + esc(name(p)) + '</h2>'
+    + '<div class="meta">' + identity(p) + '</div></div>';
+
+  const shape = c
+    ? '<div class="vsgrid">'
+      + '<div><div class="head"><h2>' + esc(name(p)) + '</h2><div class="meta">' + identity(p) + '</div></div>'
+      + mark(p) + '<p class="note">Against the ' + pool(p) + '.</p></div>'
+      + '<div><div class="head"><h2>' + esc(name(c)) + '</h2><div class="meta">' + identity(c) + '</div></div>'
+      + mark(c) + '<p class="note">Against the ' + pool(c) + '.</p></div>'
+      + '</div>'
+      + (!gk && c.p !== p.p
+          ? '<p class="note">Their percentiles come from different position groups, so the two shapes answer different questions.</p>'
+          : "")
+      + compareBar()
+    : head + mark(p)
+      + '<p class="note">Percentiles against the ' + pool(p) + ' in the sample.</p>'
+      + compareBar();
 
   const FS = gk ? GFACETS : FACETS;
   const order = gk ? GRING.concat([GCORE]) : RING.concat([CORE]);
@@ -636,9 +703,11 @@ function vPlayer(){
           : fa.sub.map(x => '<span>' + x[1] + ' <b>' + Math.round(p.s[x[0]]) + '</b></span>').join("")) + '</div>'
       : "";
     return '<details class="dd"><summary><span class="lbl">' + fa.n + '</span>'
-      + '<span class="val">' + Math.round(p.h[f]) + '</span></summary>'
+      + '<span class="val">' + Math.round(p.h[f]) + '</span>'
+      + (c ? '<span class="val2">' + Math.round(c.h[f]) + '</span>' : "")
+      + '</summary>'
       + '<div class="in">' + subs + '<p class="note" style="margin:0 0 .6rem">' + fa.note + '</p>'
-      + ddRows(p, fa.met, gk ? "gk" : "out") + '</div></details>';
+      + ddRows(p, fa.met, gk ? "gk" : "out", c) + '</div></details>';
   }).join("");
 
   let side = '<div class="blk">The seven measures</div>';
@@ -649,7 +718,9 @@ function vPlayer(){
     const sim = arr => '<ol class="sim">' + arr.slice(0, 5).map(x => {
       const o = OUT[x[0]];
       return '<li><button data-jump="' + o.i + '">' + esc(name(o)) + '</button>'
-        + '<span class="mt">' + team(o.t) + ' \u00b7 ' + D.pos[o.p] + '</span></li>';
+        + '<span class="mt">' + team(o.t) + ' \u00b7 ' + D.pos[o.p] + '</span>'
+        + '<button class="vsbtn" data-vs="' + o.i + '" title="Compare with ' + esc(name(o)) + '">vs</button>'
+        + '</li>';
     }).join("") + '</ol>';
     side += '<div class="blk" style="margin-top:1.8rem">Most similar</div>' + sim(p.sp)
       + '<details class="dd" style="margin-top:.9rem"><summary><span class="lbl">Across other positions</span></summary>'
@@ -684,7 +755,8 @@ function vPlayer(){
     + '</p><button class="chip" data-' + (gk ? "garch" : "arch") + '="' + p.a + '">See the role</button></div></details>';
 
   return '<div class="bar" style="padding-top:0">' + back + '</div>'
-    + '<div class="prof"><div>' + head + shape + '</div><div>' + side + '</div></div>'
+    + (c ? shape + '<div class="prof stacked"><div>' + side + '</div></div>'
+         : '<div class="prof"><div>' + shape + '</div><div>' + side + '</div></div>')
     + '<div class="bar bottom">' + back + '</div>';
 }
 
@@ -717,14 +789,33 @@ function render(){
   app.querySelectorAll("[data-back]").forEach(b => b.onclick = () => {
     view = b.dataset.back === "arch" ? "arch" : "grid";
     if (b.dataset.back !== "arch"){ archSel = null; fNat = fPos = ""; q = ""; $("#q").value = ""; }
-    cur = null; render(); toTop();
+    cur = null; cmpP = null; render(); toTop();
   });
   app.querySelectorAll("[data-i]").forEach(b => b.onclick = () => {
-    cur = (sys === "out" ? OUT : GK)[+b.dataset.i]; view = "player"; render(); toTop();
+    cur = (sys === "out" ? OUT : GK)[+b.dataset.i]; cmpP = null; view = "player"; render(); toTop();
   });
   app.querySelectorAll("[data-jump]").forEach(b => b.onclick = () => {
-    cur = OUT[+b.dataset.jump]; archSel = cur.a; view = "player"; render(); toTop();
+    cur = OUT[+b.dataset.jump]; archSel = cur.a; cmpP = null; view = "player"; render(); toTop();
   });
+  app.querySelectorAll("[data-vs]").forEach(b => b.onclick = () => {
+    const o = OUT[+b.dataset.vs];
+    cmpP = (cmpP && cmpP.i === o.i) ? null : o;
+    if (cmpP && cmpP.p !== cur.p) cmpAny = true;
+    render();
+  });
+  const cs = app.querySelector("#cmpSel");
+  if (cs) cs.onchange = e => {
+    cmpP = e.target.value === "" ? null : (sys === "gk" ? GK : OUT)[+e.target.value];
+    render();
+  };
+  const ca = app.querySelector("#cmpAny");
+  if (ca) ca.onclick = () => {
+    cmpAny = !cmpAny;
+    if (!cmpAny && cmpP && cmpP.p !== cur.p) cmpP = null;
+    render();
+  };
+  const cc = app.querySelector("#cmpClear");
+  if (cc) cc.onclick = () => { cmpP = null; render(); };
 }
 function toTop(){ if ($("#app").scrollIntoView) $("#app").scrollIntoView({behavior: "smooth", block: "start"}); }
 
@@ -732,7 +823,8 @@ function toTop(){ if ($("#app").scrollIntoView) $("#app").scrollIntoView({behavi
 const slug = t => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 function currentHash(){
-  if (view === "player" && cur) return "#" + (sys === "gk" ? "gk/" : "") + "player/" + slug(name(cur));
+  if (view === "player" && cur) return "#" + (sys === "gk" ? "gk/" : "") + "player/" + slug(name(cur))
+    + (cmpP ? "/vs/" + slug(name(cmpP)) : "");
   if (view === "arch" && archSel !== null)
     return "#" + (sys === "gk" ? "gk/" : "") + "role/" + slug((sys === "gk" ? GA : ARCH)[archSel].n);
   return sys === "gk" ? "#gk" : "#";
@@ -750,21 +842,27 @@ function readHash(){
   const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
   sys = parts[0] === "gk" ? "gk" : "out";
   const rest = parts[0] === "gk" ? parts.slice(1) : parts;
-  view = "grid"; archSel = null; cur = null;
+  view = "grid"; archSel = null; cur = null; cmpP = null;
   if (rest[0] === "role"){
     const i = (sys === "gk" ? GA : ARCH).findIndex(a => slug(a.n) === rest[1]);
     if (i >= 0){ archSel = i; view = "arch"; }
   } else if (rest[0] === "player"){
     const pool = sys === "gk" ? GK : OUT;
     const p = pool.find(x => slug(name(x)) === rest[1]);
-    if (p){ cur = p; archSel = p.a; view = "player"; }
+    if (p){
+      cur = p; archSel = p.a; view = "player";
+      if (rest[2] === "vs" && rest[3]){
+        const o = pool.find(x => slug(name(x)) === rest[3]);
+        if (o && o.n !== p.n){ cmpP = o; if (o.p !== p.p) cmpAny = true; }
+      }
+    }
   }
 }
 window.addEventListener("hashchange", () => { if (!syncing){ readHash(); render(); } });
 
 document.querySelectorAll("button[data-sys]").forEach(b => b.onclick = () => {
   if (sys === b.dataset.sys) return;
-  sys = b.dataset.sys; view = "grid"; archSel = null; cur = null; q = ""; $("#q").value = "";
+  sys = b.dataset.sys; view = "grid"; archSel = null; cur = null; cmpP = null; q = ""; $("#q").value = "";
   fNat = fPos = ""; sortBy = "m";
   render(); toTop();
 });
