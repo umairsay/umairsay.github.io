@@ -77,6 +77,10 @@ select.chip{color:var(--ink)}
 .prof{display:grid;grid-template-columns:1.2fr 1fr;gap:2.4rem;align-items:start}
 .pnl{background:var(--card);border:1px solid var(--rule);padding:1.5rem}
 .pnl+.pnl{margin-top:1rem}
+.sbs{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;align-items:start}
+.sbsn{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule)}
+@media (max-width:640px){.sbs{grid-template-columns:1fr;gap:2rem}}
 .pnl h3{font-family:var(--serif);font-size:1.7rem;font-weight:500;letter-spacing:-.02em;line-height:1.05}
 .psub{font-family:var(--mono);font-size:.62rem;color:var(--mid);margin-top:.35rem}
 .phead{border-bottom:1px solid var(--rule);padding-bottom:.9rem;margin-bottom:1.2rem}
@@ -89,6 +93,10 @@ select.chip{color:var(--ink)}
 .out .k{font-family:var(--mono);font-size:.54rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--mid);display:block;min-height:2.2em}
 .out .v{font-family:var(--serif);font-size:1.2rem;font-weight:500;line-height:1.25}
+.out .cv{font-family:var(--mono);font-size:.62rem;color:var(--mid);margin-left:.45rem}
+.summary .who{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+.summary .who.two{margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--rule)}
 .pos{color:var(--accent)} .neg{color:var(--warm)}
 table.src{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.66rem}
 table.src th{text-align:left;font-size:.55rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;
@@ -97,9 +105,12 @@ table.src td{padding:.5rem .4rem;border-bottom:1px solid var(--rule);vertical-al
 table.src td:first-child{padding-left:0;color:var(--ink)}
 table.src td.n{text-align:right;padding-right:0;white-space:nowrap}
 table.src .d{color:var(--mid);font-size:.58rem;display:block;margin-top:.1rem}
+table.src .cn{color:var(--mid);font-size:.62rem;margin-left:.4rem}
 
 svg{display:block;width:100%;height:auto}
 .fn{font-family:var(--serif);font-size:12px;fill:var(--ink);font-weight:500}
+.sbs .fn{font-size:10.5px}
+.sbs .lb,.sbs .pl{font-size:8px}
 .fv{font-family:var(--mono);font-size:10px;fill:var(--ink)}
 .lb{font-family:var(--mono);font-size:9px;fill:var(--mid);letter-spacing:.04em}
 .pl{font-family:var(--mono);font-size:8.5px;fill:var(--mid);letter-spacing:.12em;text-transform:uppercase}
@@ -214,10 +225,6 @@ footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--
     </div>
   </section>
 
-  
-    <p class="read"><a href="players.html" class="link-main">See the Player Archetype Atlas &rarr;</a></p>
-
-
   <footer>
     Built from FIFA&rsquo;s post-match report release for the 2026 World Cup, scraped and processed across
     all 104 matches. Facet scores, percentiles and sensitivity ranges come from that analysis.<br>
@@ -309,6 +316,8 @@ const CARD_RIB={W:130,H:78,cx:65,top:12,bot:62,maxH:36,cap:6,minH:1.2,labels:fal
 const CARD_SCL={W:130,H:34,x0:12,x1:130,rows:[11,27],labels:false};
 const BIG_RIB ={W:560,H:340,cx:280,top:56,bot:284,maxH:150,cap:16,minH:3,labels:true};
 const BIG_SCL ={W:560,H:130,x0:0,x1:560,rows:[42,102],labels:true};
+const SBS_RIB ={W:300,H:330,cx:168,top:52,bot:272,maxH:74,cap:12,minH:2.5,labels:true};
+const SBS_SCL ={W:300,H:126,x0:0,x1:300,rows:[40,98],labels:true};
 
 /* ---------------- annotated example ---------------- */
 (function(){
@@ -394,23 +403,38 @@ function draw(){
   const t=by[cur], c=cmp==="__none"?null:by[cmp];
   document.getElementById("pName").innerHTML=`<span class="fe">${t.flag_e}</span>${t.team}`;
   document.getElementById("pSub").textContent=
-    `${t.m} matches · ${t.round}` + (c?` · dashed outline: ${c.team}`:"");
-  document.getElementById("mag").innerHTML=ribbonSVG(t,c,BIG_RIB);
-  document.getElementById("sty").innerHTML=scalesSVG(t,c,BIG_SCL);
-  document.getElementById("pSummary").textContent=t.blurb;
-  const O=[["Reached",t.round,null],["Matches",t.m,null],["Rank by xG diff",rank[t.team],null],
-           ["xG diff / match",sgn(t.out.xgd),t.out.xgd>=0],
-           ["Goals minus xG / match",sgn(t.out.gmx),t.out.gmx>=0],
-           ["Goals / match",t.out.gpm.toFixed(2),null],
-           ["xG for / match",t.out.xgf.toFixed(2),null],
-           ["xG against / match",t.out.xga.toFixed(2),null]];
-  document.getElementById("outs").innerHTML=O.map(([k,v,p])=>
-    `<div class="out"><span class="k">${k}</span><span class="v ${p===null?"":p?"pos":"neg"}">${v}</span></div>`).join("");
+    `${t.m} matches · ${t.round}` + (c?` · compared with ${c.team}`:"");
+  const magEl=document.getElementById("mag"), styEl=document.getElementById("sty");
+  if(c){
+    magEl.innerHTML=`<div class="sbs">`
+      +`<div><div class="sbsn">${t.flag_e} ${t.team}</div>${ribbonSVG(t,null,SBS_RIB)}</div>`
+      +`<div><div class="sbsn">${c.flag_e} ${c.team}</div>${ribbonSVG(c,null,SBS_RIB)}</div></div>`;
+    styEl.innerHTML=`<div class="sbs">`
+      +`<div><div class="sbsn">${t.flag_e} ${t.team}</div>${scalesSVG(t,null,SBS_SCL)}</div>`
+      +`<div><div class="sbsn">${c.flag_e} ${c.team}</div>${scalesSVG(c,null,SBS_SCL)}</div></div>`;
+  } else {
+    magEl.innerHTML=ribbonSVG(t,null,BIG_RIB);
+    styEl.innerHTML=scalesSVG(t,null,BIG_SCL);
+  }
+  const sum=document.getElementById("pSummary");
+  if(c){ sum.innerHTML=`<span class="who">${t.team}</span>${t.blurb}`
+        +`<span class="who two">${c.team}</span>${c.blurb}`; }
+  else { sum.textContent=t.blurb; }
+  const row=x=>[["Reached",x.round,null],["Matches",x.m,null],["Rank by xG diff",rank[x.team],null],
+           ["xG diff / match",sgn(x.out.xgd),x.out.xgd>=0],
+           ["Goals minus xG / match",sgn(x.out.gmx),x.out.gmx>=0],
+           ["Goals / match",x.out.gpm.toFixed(2),null],
+           ["xG for / match",x.out.xgf.toFixed(2),null],
+           ["xG against / match",x.out.xga.toFixed(2),null]];
+  const O=row(t), C=c?row(c):null;
+  document.getElementById("outs").innerHTML=O.map(([k,v,p],i)=>
+    `<div class="out"><span class="k">${k}</span><span class="v ${p===null?"":p?"pos":"neg"}">${v}`
+    +(C?`<span class="cv">${c.team} ${C[i][1]}</span>`:"")+`</span></div>`).join("");
   document.getElementById("srcbody").innerHTML=[...MAG,"Attacking approach","Defensive approach"].map(k=>{
     const d=DEF[k]||{};
     return `<tr><td>${k}<span class="d">${d.type||""}</span></td>
       <td style="color:var(--mid)">${(d.headline_inputs||"").replace(/;/g," ·")}</td>
-      <td class="n">${Math.round(t.f[k].p)}<span class="d">\u00b1${(t.f[k].w/2).toFixed(0)}</span></td></tr>`;
+      <td class="n">${Math.round(t.f[k].p)}${c?`<span class="cn">${c.team} ${Math.round(c.f[k].p)}</span>`:`<span class="d">\u00b1${(t.f[k].w/2).toFixed(0)}</span>`}</td></tr>`;
   }).join("");
   document.querySelectorAll(".tcard").forEach(el=>el.setAttribute("aria-current", el.dataset.team===cur));
   document.getElementById("selA").value=cur; document.getElementById("selB").value=cmp;
