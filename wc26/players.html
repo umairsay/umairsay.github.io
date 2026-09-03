@@ -103,7 +103,15 @@ select.chip{color:var(--ink);max-width:12rem}
 .vsgrid .head{margin-bottom:.9rem}
 .vsgrid .head h2{font-size:1.5rem}
 .prof.stacked{grid-template-columns:1fr;max-width:640px;margin-top:1.4rem}
-.cmpbar select{max-width:15rem}
+.cmpwrap{position:relative;display:inline-block}
+.cmpwrap input{min-width:14rem}
+.cmplist{list-style:none;position:absolute;z-index:20;left:0;right:0;top:calc(100% + 3px);
+  max-height:16rem;overflow:auto;background:var(--card);border:1px solid var(--sys);padding:.2rem 0}
+.cmpopt{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+  font-family:var(--serif);font-size:.85rem;color:var(--ink);padding:.3rem .6rem;line-height:1.35}
+.cmpopt:hover,.cmpopt:focus-visible{background:rgba(46,58,89,.09)}
+.cmpopt .mt{font-family:var(--mono);font-size:.55rem;color:var(--mid);margin-left:.5rem}
+.cmpnone{font-family:var(--serif);font-style:italic;font-size:.8rem;color:var(--mid);margin-top:.4rem}
 details.dd>summary .val2{font-family:var(--mono);font-size:.66rem;color:var(--ink);opacity:.65}
 details.dd>summary .val2::before{content:'vs ';opacity:.5}
 table.src th{text-align:left;font-size:.54rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;
@@ -502,7 +510,7 @@ const OUT = D.P, GK = D.G, ARCH = D.A, GA = D.GA;
 OUT.forEach((p, i) => { p.i = i; });
 GK.forEach((k, i) => { k.i = i; });
 
-let sys = "out", view = "grid", archSel = null, cur = null, cmpP = null, cmpAny = false,
+let sys = "out", view = "grid", archSel = null, cur = null, cmpP = null,
     q = "", fNat = "", fPos = "", sortBy = "m";
 
 const BANDS = [
@@ -642,17 +650,25 @@ function ddRows(p, met, kind, c){
 /* who can be compared with the current player */
 function cmpPool(){
   const pool = sys === "gk" ? GK : OUT;
-  return pool.filter(o => o.n !== cur.n && (sys === "gk" || cmpAny || o.p === cur.p))
+  return pool.filter(o => o.n !== cur.n)
     .sort((a, b) => name(a).localeCompare(name(b)));
 }
 function compareBar(){
-  const opts = cmpPool().map(o => '<option value="' + o.i + '"' + (cmpP && o.i === cmpP.i ? " selected" : "") + '>'
-    + esc(name(o)) + " \u00b7 " + esc(D.teams[o.t]) + '</option>').join("");
+  const list = cmpPool().map(o =>
+    '<li><button class="cmpopt" data-pick="' + o.i + '" data-k="'
+    + esc((name(o) + " " + D.teams[o.t]).toLowerCase()) + '">'
+    + '<span class="flag">' + D.flags[o.t] + '</span>' + esc(name(o))
+    + '<span class="mt">' + esc(D.teams[o.t]) + ' \u00b7 ' + (sys === "gk" ? "GK" : D.pos[o.p])
+    + '</span></button></li>').join("");
   return '<div class="cmpbar">'
     + '<span class="flab">Compare with</span>'
-    + '<select class="chip" id="cmpSel" aria-label="Compare with another player">'
-    + '<option value="">\u2014 nobody \u2014</option>' + opts + '</select>'
-    + (sys === "gk" ? "" : '<button class="chip" id="cmpAny" aria-pressed="' + cmpAny + '">Any position</button>')
+    + '<span class="cmpwrap">'
+    + '<input class="chip" id="cmpQ" type="search" autocomplete="off" placeholder="Type any name"'
+    + ' aria-label="Search for a player to compare with" />'
+    + '<ul class="cmplist" id="cmpList" hidden>' + list + '</ul>'
+    + '<p class="cmpnone" id="cmpNone" hidden>No player by that name'
+    + (sys === "gk" ? "" : ' in this position group') + '.</p>'
+    + '</span>'
     + (cmpP ? '<button class="chip" id="cmpClear">Clear</button>' : "")
     + '</div>';
 }
@@ -800,20 +816,37 @@ function render(){
   app.querySelectorAll("[data-vs]").forEach(b => b.onclick = () => {
     const o = OUT[+b.dataset.vs];
     cmpP = (cmpP && cmpP.i === o.i) ? null : o;
-    if (cmpP && cmpP.p !== cur.p) cmpAny = true;
     render();
   });
-  const cs = app.querySelector("#cmpSel");
-  if (cs) cs.onchange = e => {
-    cmpP = e.target.value === "" ? null : (sys === "gk" ? GK : OUT)[+e.target.value];
-    render();
-  };
-  const ca = app.querySelector("#cmpAny");
-  if (ca) ca.onclick = () => {
-    cmpAny = !cmpAny;
-    if (!cmpAny && cmpP && cmpP.p !== cur.p) cmpP = null;
-    render();
-  };
+  const cq = app.querySelector("#cmpQ");
+  if (cq){
+    const list = app.querySelector("#cmpList"), none = app.querySelector("#cmpNone");
+    const items = [...list.querySelectorAll(".cmpopt")];
+    // filter in place: re-rendering on every keystroke would steal focus
+    cq.oninput = () => {
+      const t = cq.value.trim().toLowerCase();
+      if (!t){ list.hidden = true; none.hidden = true; items.forEach(b => b.parentNode.hidden = false); return; }
+      let shown = 0;
+      items.forEach(b => {
+        const hit = shown < 40 && b.dataset.k.includes(t);
+        b.parentNode.hidden = !hit;
+        if (hit) shown++;
+      });
+      list.hidden = shown === 0;
+      none.hidden = shown !== 0;
+    };
+    cq.onkeydown = e => {
+      if (e.key === "Escape"){ cq.value = ""; cq.oninput(); }
+      if (e.key === "Enter"){
+        const first = items.find(b => !b.parentNode.hidden && b.dataset.k.includes(cq.value.trim().toLowerCase()));
+        if (first) first.click();
+      }
+    };
+    items.forEach(b => b.onclick = () => {
+      cmpP = (sys === "gk" ? GK : OUT)[+b.dataset.pick];
+      render(); toTop();
+    });
+  }
   const cc = app.querySelector("#cmpClear");
   if (cc) cc.onclick = () => { cmpP = null; render(); };
 }
@@ -853,7 +886,7 @@ function readHash(){
       cur = p; archSel = p.a; view = "player";
       if (rest[2] === "vs" && rest[3]){
         const o = pool.find(x => slug(name(x)) === rest[3]);
-        if (o && o.n !== p.n){ cmpP = o; if (o.p !== p.p) cmpAny = true; }
+        if (o && o.n !== p.n) cmpP = o;
       }
     }
   }
